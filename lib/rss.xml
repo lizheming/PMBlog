@@ -1,0 +1,18 @@
+<rss version="2.0">
+<channel>
+<title>{{site.title}}</title>
+<link>{{site.url}}</link>
+<description>Powered By <a href="http://lizheming.gitcafe.com">PMBlog</a></description>
+<language>zh-cn</language>
+<ttl>10</ttl>
+{% for post in posts %}
+<item>
+<title><![CDATA[{{post.title|e}}]]></title>
+<description><![CDATA[{{post.content|e}}]]></description>
+<pubDate>{{post.date|date('c')}}</pubDate>
+<guid>{{post.url}}</guid>
+<link>{{post.url}}</link>
+</item>
+{% endfor %}
+</channel>
+</rss>
