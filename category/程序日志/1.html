@@ -1,0 +1,127 @@
+<!DOCTYPE html >
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title></title>
+	<script type="text/javascript" src="http://lib.sinaapp.com/js/jquery/1.9.1/jquery-1.9.1.min.js"></script>
+	<style type="text/css">
+	html {width:100%;background:url('http://lizheming.github.io/PMBlog/theme/image/bg.png');}
+	body {margin:10px auto 0;padding:0;width:1000px;font-family:'Lucida Grande','Lucida Sans Unicode','Lucida Sans','DejaVu Sans Condensed',Tahoma, Arial,sans-serif;font-size:12px;}
+	a {color:#111;outline:none;text-decoration:none;}
+	a:hover {color:#111;text-decoration:none;}
+	.cf {width:940px;padding-left:30px;padding-right:30px;}
+	#header {padding-top:30px;padding-bottom:80px;background-color:rgb(61,61,61);}
+	#header .logo {float:left;}
+	#header .main-nav {float:right;margin-top:10px;}
+	#header .main-nav a {color:#A7A7A7;padding:8px 10px;font-size:14px;}
+	#header .main-nav a:hover {color:#FFF;background:#000;}
+	#header .menu li {float:left;display:inline;}
+	#main {background-color:#FFF;padding-top:20px;}
+	#main .top p {line-height:2em;text-indent:1em;}
+	.button {display:inline-block;margin-top:35px;vertical-align: baseline;}
+	.button a {padding:10px 20px;font-size:20px;margin:0 20px;}
+	.button a:hover {background:#AAA;color:#FFF;}
+	#main .title {font-size: 22px;color: #7d7d7d;padding: 12px 0 12px 0;margin: 0 0 30px 0;border-bottom: 1px dotted #D1D1D1;width: 940px;}
+	#main .content {font-size: 12px;line-height: 20px;color: #7d7d7d;padding-bottom: 20px;width:600px;float:left;}
+	#main .sidebar {float:right;width:280px;}
+	#main .sidebar a {color:#7D7D7D;}
+	#main .sidebar ul {padding:0;}
+	#main .sidebar li {list-style-type:none;border-bottom:1px dotted #DDD;padding:6px 0 5px 5px;}
+	#main .bottom {padding-top:50px;}
+	#main .bottom div {width:25.2%;height:150px;float:left;padding:0 4%;}
+	#main .bottom ul {padding:0;}
+	#main .bottom li {list-style-type:none;}
+	#footer {color:#DDD;}
+	#footer a{color:#AAA;}
+	#slide_box ul {position: relative;list-style:none;list-style-type: none;overflow: hidden;padding: 0;margin: 0;}
+	#slide_box ul li {-webkit-backface-visibility: hidden;  position: absolute;  display: none;  left: 0;  top: 0;  list-style-type:none;}
+	#slide_box ul li:first-child {  position: relative;  display: block;  float: left;  }
+	#slide_box ul img {  display: block;  height: auto;  float: left;  border: 0;  border:1px solid #000;  }
+	</style>
+</head>
+<body>
+	<header id="header" class="cf">
+	    <div class="logo">
+	    	<a href="http://lizheming.github.io/PMBlog">
+	    		<img src="http://lizheming.github.io/PMBlog/theme/image/logo.png" />
+	    	</a>
+	    </div>
+	    <nav class="main-nav">
+	        <ul class="menu">
+	        	<li><a href="http://lizheming.github.io/PMBlog">Home</a></li>
+	        		        	<li><a href="https://github.com/lizheming/PMBlog/wiki" title="">Documentation</a></li>
+					        	<li><a href="http://lizheming.github.io/PMBlog/page/theme.html" title="">Theme</a></li>
+					        	<li><a href="https://github.com/lizheming/PMBlog/" title="">Download</a></li>
+					        	<li><a href="http://lizheming.github.io/PMBlog/page/forum.html" title="">Forum</a></li>
+					        </ul>
+	    </nav>
+	</header>
+	<div id="main" class="cf">
+				<div class="top" style="height:300px;">
+			<span class="content" style="float:left;display:inline-block;width:40%;">
+				<h3 style="font-size:30px;">PMBlog</h3>
+				<p>PMBlog是一款基于PHP的静态化网站（博客）生成程序，与Jekyll类似，提供了模板功能。</p>
+				<p>程序开源托管在Github上。</p>
+				<span class="button">
+					<a href="https://github.com/lizheming/PMBlog/archive/master.zip" target="_blank">Download</a>
+					<a href="https://github.com/lizheming/PMBlog" target="_blank">Github</a>
+				</span>
+			</span>
+			<div class="slide" id="slide_box">
+				<span>
+					<ul>
+						<li><img src="http://lizheming.github.io/PMBlog/theme/image/slide1.png" /></li>
+						<li><img src="http://lizheming.github.io/PMBlog/theme/image/slide2.png" /></li>
+					</ul>
+				</span>
+			</div>
+			<script type="text/javascript" src="http://responsiveslides.com/responsiveslides.min.js"></script>
+			<script>$(function() {$('#slide_box ul').responsiveSlides()});</script>
+		</div>
+		<div class="bottom" style="height:200px;">
+			<div class="left">
+				<h3>Recent Status</h3>
+				<ul>
+											<li><a href="http://lizheming.github.io/PMBlog/post/hello-world.html">Hello World!</a></li>
+									</ul>
+			</div>
+			<div class="middle" style="border-left:1px dotted #AAA;border-right:1px dotted #AAA;">
+				<h3>Commits Status</h3>
+				<ul id="commit">
+				</ul>
+				<script type="text/javascript">
+				/*
+				https://api.github.com/repos/lizheming/pmblog/commits
+				*/
+				$(function() {
+				$.ajax({
+					url: 'https://api.github.com/repos/lizheming/pmblog/commits',
+					type: 'GET',
+					dataType: 'jsonp',
+					success: function(d) {
+						$.each(d.data, function(i, cm){
+							$('#commit').append('<li><a href="'+cm.html_url+'">'+cm.commit.message+'</a></li>');
+						});
+					}
+				});
+				});
+				</script>
+			</div>
+			<div class="right">
+				<h3>Site Show</h3>
+				<ul>
+										<li><a href="http://lizheming.gitcafe.com" title="PMBlog官方博客">PMBlog - http://lizheming.gitcafe.com</a></li>
+										<li><a href="http://blog.imnerd.org" title="怡红公子">怡红院落 - http://blog.imnerd.org</a></li>
+									</ul>
+			</div>
+		</div>
+			</div>
+	<footer id="footer">
+		<div class="copyright">
+			Powered By
+			<a target="_blank" href="http://lizheming.gitcafe.com">PMBlog</a>
+			©2013-2015 Austin Lee Inc. Theme by <a href="http://zh.eming.li">CMS Template</a> .
+		</div>
+	</footer>
+</body>
+</html>

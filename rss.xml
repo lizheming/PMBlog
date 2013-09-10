@@ -1,0 +1,45 @@
+<rss version="2.0">
+<channel>
+<title>PMBlog</title>
+<link>http://lizheming.github.io/PMBlog</link>
+<description>Powered By <a href="http://lizheming.gitcafe.com">PMBlog</a></description>
+<language>zh-cn</language>
+<ttl>10</ttl>
+<item>
+<title><![CDATA[Hello World!]]></title>
+<description><![CDATA[&lt;p&gt;欢迎加入PMBlog家族。&lt;/p&gt;
+
+&lt;h2&gt;自定义内容&lt;/h2&gt;
+
+&lt;p&gt;config.php页面支持自定义多种内容，包括博客名，博客地址，文章时间输出格式，博客模板，markdown文件存放位置，输出静态页面存放位置，导航页每页显示文章数，以及社会化评论等。&lt;/p&gt;
+
+&lt;!--more--&gt;
+
+&lt;h2&gt;书写规则&lt;/h2&gt;
+
+&lt;p&gt;默认文件名是输出的静态页面的文件名，即&#039;hello-world.md&#039;将会生成&#039;hello-world.html&#039;。另外不推荐使用中文名作为文件名。&lt;/p&gt;
+
+&lt;p&gt;markdown(以下简称md）文件支持一些自定义字段。&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;文件中输入&quot;title: Hello World&quot;即可自定义文章标题为&quot;Hello World&quot;（单独一行）&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&quot;date: 2013年2月11日&quot;即可自定义文章发布时间，如果不定义此字段程序会返回文件的创建时间为文章发布时间（可选字段）&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&quot;type: page&quot;即可自定义本篇文章为页面，此字段只接受page/post两个参数，不定义此字段默认返回为post（可选字段）&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&quot;status: draft&quot;即可自定义本篇文章为草稿，定义为草稿的文章将不被程序输出。此字段只接受draft一个参数，非该参数无效。不定义此字段则默认该文章为发布状态（可选字段）&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&quot;tags：tag1, tag2&quot;即可自定义该文章的关键词，各个关键词之间使用半角逗号分开（可选字段）&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;也就是说目前最简单的写法就是只要定义一个&quot;title:&quot;字段然后开始正文就好了。&lt;/p&gt;
+
+&lt;h2&gt;尾言&lt;/h2&gt;
+
+&lt;p&gt;如果你对程序有什么疑问或者建议，请电邮告诉我。最后，感谢你的使用。&lt;/p&gt;
+
+&lt;p&gt;--以上--&lt;/p&gt;
+]]></description>
+<pubDate>2013-03-15T19:35:50+08:00</pubDate>
+<guid>http://lizheming.github.io/PMBlog/post/hello-world.html</guid>
+<link>http://lizheming.github.io/PMBlog/post/hello-world.html</link>
+</item>
+</channel>
+</rss>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[PMBlog]]></title>
+  <link href="http://lizheming.github.io/PMBlog/atom.xml" rel="self"/>
+  <link href="http://lizheming.github.io/PMBlog/"/>
+  <updated>2013-09-10T13:17:43+08:00</updated>
+  <id>http://lizheming.github.io/PMBlog/</id>
+  <generator uri="http://gitcafe.com/lizheming/pmblog">PMBlog</generator>
+
+    <entry>
+    <title type="html"><![CDATA[Hello World!]]></title>
+    <link href="http://lizheming.github.io/PMBlog/post/hello-world.html"/>
+    <id>http://lizheming.github.io/PMBlog/post/hello-world.html</id>
+    <updated>2013-03-15T19:35:50+08:00</updated>
+    <content type="html"><![CDATA[<p>欢迎加入PMBlog家族。</p>
+
+<h2>自定义内容</h2>
+
+<p>config.php页面支持自定义多种内容，包括博客名，博客地址，文章时间输出格式，博客模板，markdown文件存放位置，输出静态页面存放位置，导航页每页显示文章数，以及社会化评论等。</p>
+
+<!--more-->
+
+<h2>书写规则</h2>
+
+<p>默认文件名是输出的静态页面的文件名，即'hello-world.md'将会生成'hello-world.html'。另外不推荐使用中文名作为文件名。</p>
+
+<p>markdown(以下简称md）文件支持一些自定义字段。</p>
+
+<ul>
+<li><p>文件中输入"title: Hello World"即可自定义文章标题为"Hello World"（单独一行）</p></li>
+<li><p>"date: 2013年2月11日"即可自定义文章发布时间，如果不定义此字段程序会返回文件的创建时间为文章发布时间（可选字段）</p></li>
+<li><p>"type: page"即可自定义本篇文章为页面，此字段只接受page/post两个参数，不定义此字段默认返回为post（可选字段）</p></li>
+<li><p>"status: draft"即可自定义本篇文章为草稿，定义为草稿的文章将不被程序输出。此字段只接受draft一个参数，非该参数无效。不定义此字段则默认该文章为发布状态（可选字段）</p></li>
+<li><p>"tags：tag1, tag2"即可自定义该文章的关键词，各个关键词之间使用半角逗号分开（可选字段）</p></li>
+</ul>
+
+<p>也就是说目前最简单的写法就是只要定义一个"title:"字段然后开始正文就好了。</p>
+
+<h2>尾言</h2>
+
+<p>如果你对程序有什么疑问或者建议，请电邮告诉我。最后，感谢你的使用。</p>
+
+<p>--以上--</p>
+]]></content>
+  </entry>
+  </feed>
