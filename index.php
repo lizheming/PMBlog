@@ -216,7 +216,8 @@ window.onload = function() {
 //recent post
 $RecentPost = array();
 for($i=0;$i<10;$i++) {
-	$RecentPost[$i] = $data['post'][$i];
+	if(isset($data['post'][$i])) $RecentPost[$i] = $data['post'][$i];
+	else break;
 	unset($RecentPost[$i]['abstract']);
 	unset($RecentPost[$i]['content']);
 }
@@ -250,6 +251,7 @@ $loader = new Twig_loader_filesystem($dir['tmp']);
 $twig = new Twig_Environment($loader, array('autoescape'=>false));
 
 //The Page HTML Output
+if(!empty($data['page'])):
 foreach($data['page'] as $key => $post):
 	$file = $post['template'];
 	if(!file_exists($file))	$file = 'page.html';
@@ -264,8 +266,10 @@ foreach($data['page'] as $key => $post):
 	  <lastmod>".date('c', strtotime($post['date']))."</lastmod>
 	 </url>";
 endforeach;
+endif;
 
 //The Post HTML Output
+if(!empty($data['post'])):
 foreach($data['post'] as $key => $post):
 	//preg from template
 	if(isset($data['post'][$key+1])) {
@@ -291,6 +295,7 @@ foreach($data['post'] as $key => $post):
 	  <lastmod>".date('c', strtotime($post['date']))."</lastmod>
 	 </url>";
 endforeach;
+endif;
 
 //index
 for($i=0,$l=ceil(count($data['post'])/$site['config']['posts_per_page']);$i<$l;$i++) {

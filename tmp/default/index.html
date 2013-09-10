@@ -1,0 +1,35 @@
+{% include 'header.html' %}
+<div id="content">
+	<div id="content_box">
+	{% for post in posts %}
+        <div class="post">
+            <h2 class="title"><a href="{{post.url}}">{{post.title}}</a></h2>
+            <div class="post_body">{{post.content}}</div>
+            <span class="date">{{post.date}}</span>
+            <div style="clear:both;"></div>
+            <div class="tags" style="float:left;">{{post.tags | join(', ')}}</div>
+            <!--<div class="ds-thread-count" data-thread-key="{{post.filename}}" style="float:right;line-height:2.5em;"></div>-->
+        </div>
+	{% endfor %}
+    </div>
+    <div class="pager">
+        <a class="round pre" id="pre" href="">上一页</a>
+        <a class="round next" id="next" href="">下一页</a>
+    </div>
+    <script>
+	//navigator
+    var pre = document.getElementById('pre'), next = document.getElementById('next');
+    var l = window.location.href.split('/').slice(-1)[0].split('.')[0];
+    if(l == '' || l == 'index') l=1,pre.style.display = 'none';
+    else r=Number(l)-1, pre.href = ((r==1) ? 'index' : r)+'.html';
+    next.href = (Number(l)+1)+'.html';
+	//duoshuo
+	var d = $('.ds-thread'), c = $('.ds-thread-count');
+	$.each(c, function(i, item) {
+		k = item.attributes[1].nodeValue;
+		item.attributes[1].nodeValue = k.split('/').slice(-1)[0].split('.')[0];
+	});
+    </script>
+
+</div>
+{% include 'footer.html' %}
