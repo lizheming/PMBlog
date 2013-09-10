@@ -18,10 +18,10 @@ PMBlog是一个类似Jekyll的PHP版静态博客生成程序，当然没有Jekyl
 
 ## WIKI ##
 
-[[写作规则]]
+[写作规则](https://github.com/lizheming/PMBlog/wiki/%E5%86%99%E4%BD%9C%E8%A7%84%E5%88%99)
 
-[[如何自定义模板/主题]]
+[如何自定义模板/主题](https://github.com/lizheming/PMBlog/wiki/%E5%A6%82%E4%BD%95%E8%87%AA%E5%AE%9A%E4%B9%89%E6%A8%A1%E6%9D%BF)
 
-[[默认变量]]
+[默认变量](https://github.com/lizheming/PMBlog/wiki/%E9%BB%98%E8%AE%A4%E5%8F%98%E9%87%8F)
 
-[[数据类型及字段]]
+[数据类型及字段](https://github.com/lizheming/PMBlog/wiki/%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E5%8F%8A%E5%AD%97%E6%AE%B5)
