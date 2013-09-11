@@ -383,7 +383,7 @@ function cal() {
 	_t.innerHTML = t-1;
 }
 function skip() {
-	//window.location.href = '<?php echo $dir['html']; ?>';
+	window.location.href = '<?php echo $dir['html']; ?>';
 }
 window.onload = function() {
 	window.setInterval('cal()', 1000);
