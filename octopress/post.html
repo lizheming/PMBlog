@@ -1,0 +1,41 @@
+{% include 'header.html' %}
+<div>
+    <article class="hentry" role="article">
+        <header>
+            <h1 class="entry-title">{{post.title}}</h1>
+            <p class="meta">
+                <small>{{post.date}}</small>
+            </p>
+        </header>
+		<div class="entry-content" id="postcondiv">
+         {{post.content}}
+        </div>
+        <footer>
+            <p class="meta grey">
+                <span class="categories greyhref">
+                	标签: 	
+                	{% if post.tags %}
+					没有标签
+					{% else %}
+					{{post.tags | join(',')}}
+					{% endif %}
+                </span>
+            </p>
+            
+            
+            <div class="topline greyhref grey">
+            {% set prev = post.prev %}
+            {% set next = post.next %}
+            Newer &rsaquo; <a href="{{prev.url}}">{{prev.title}}</a>
+            <br/> 
+            
+            Older &rsaquo; <a href="{{next.url}}">{{next.title}}</a>
+            </div>
+            
+        </footer>
+        
+    	{{comment}}
+    </article>
+</div>
+{% include 'sidebar.html' %}
+{% include 'footer.html' %}

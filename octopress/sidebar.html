@@ -1,0 +1,32 @@
+<aside role=sidebar>
+    <section>
+        <h1>最近文章</h1>
+        <ul>
+        {% for post in RecentPost %}
+        <li><a href="{{post.url}}">{{post.title}}</a></li>
+       	{% endfor %}
+       	</ul>
+    </section>
+    <section>
+		<div id="recentcomments" class="dsq-widget">
+			<h2 class="dsq-widget-title">最近评论</h2>
+			<style type="text/css">
+				p.dsq-widget-meta {	display:none; !important}
+				span.dsq-widget-comment a {	display:inline; !important}
+			</style>
+			<script type="text/javascript" src="http://imnerd.disqus.com/recent_comments_widget.js?num_items=5&hide_avatars=0&avatar_size=32&excerpt_length=200&hide_mods=0"></script>
+		</div>
+    </section>
+    <section>
+		<h1>我最近在听</h1>
+		<ul><embed src="http://www.xiami.com/widget/1883615_1883615_260_346_FF8719_494949/shufflePlayer.swf" type="application/x-shockwave-flash" width="260" height="346" wmode="opaque"></embed></ul>
+    </section>
+    <section>
+    	<h1>友情链接</h1>
+        <ul>
+        {% for user in link %}
+        <li><a href="{{user.url}}">{{user.title}}</a></li>
+       	{% endfor %}
+       	</ul>
+	</section>
+</aside>

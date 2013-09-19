@@ -1,0 +1,47 @@
+{% include 'header.html' %}
+<div class="blog-index">
+{% for post in posts %}
+<article>
+   <header>
+       <h1 class="entry-title">
+       		<a href="{{post.url}}" rel="bookmark" title="Permanent Link to {{post.title}}">{{post.title}}</a>
+       </h1>
+       <p class="meta">
+        <small>{{post.date}}</small>
+       </p>
+   </header>
+   
+   <div class="entry-content">
+   {{post.content}}
+   </div>
+   <small style="color:#999">标签: 
+	{% if post.tags %}
+	没有标签
+	{% else %}
+	{{post.tags | join(',')}}
+	{% endif %}
+	</small>
+   <!--
+   <footer>
+     <a rel="full-article" href="{url}">Read On</a>
+   </footer>
+   -->
+</article>
+{% endfor %}
+
+   <nav role="pagination">
+       <div>
+    		<a class="prev" id="prev" href="">&larr; Newer</a>
+    		<a class="next" id="next" href="">Older &rarr;</a>
+        </div>
+   </nav>
+   <script type="text/javascript">
+	var pre = document.getElementById('prev'), next = document.getElementById('next');
+	var l = window.location.href.split('/').slice(-1)[0].split('.')[0];
+	if(l == '' || l == 'index') l=1,pre.style.display = 'none';
+	else r=Number(l)-1, pre.href = ((r==1) ? 'index' : r)+'.html';
+	next.href = (Number(l)+1)+'.html';
+  </script>
+</div>
+{% include 'sidebar.html' %}
+{% include 'footer.html' %}

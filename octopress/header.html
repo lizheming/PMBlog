@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="zh-CN"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>{% if post %} {{post.title}} - {% endif %}{{site.title}}</title>
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="MobileOptimized" content="320" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="alternate" type="application/rss+xml" title="{{site.title}} RSS Feed" href="{{site.url}}/rss.xml" />
+
+  <link href="https://raw.github.com/lizheming/PMBlog/theme/octopress/screen.css" media="screen, projection" rel="stylesheet" type="text/css" />
+
+  <script src="http://lib.sinaapp.com/js/jquery/1.9.1/jquery-1.9.1.min.js"></script>
+  <script src="http://saepy.sinaapp.com/static/themes/octopress/js/main.js"></script>
+  <script type="text/javascript">
+		$(function(){
+			$("#go-to-top").click(function(){
+				$("html, body").animate({'scrollTop': 0}, 400);
+				return false;
+			});
+			$(window).scroll(function() {
+				var top = $(document).scrollTop();
+				var g = $("#go-to-top");
+				if (top > 300 && g.is(":hidden")) {
+					g.fadeIn();
+				} else if(top < 300 && g.is(":visible")) {
+					g.fadeOut();
+				}
+			}); 
+		})
+  </script>
+
+</head>
+<body>
+  <header role="banner">
+    <hgroup>
+      <h1><a href="{{site.url}}">{{site.title}}</a></h1>
+    </hgroup>
+  </header>
+  <nav role=navigation>
+    <ul role=subscription data-subscription="rss">
+      <li><a href="{{site.url}}/rss.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+    </ul>
+    <script type="text/javascript">
+        var dispatch = function() {
+            q = document.getElementById("q");
+            if (q.value != "") {
+                window.open('http://www.google.com/search?q=site:{{site.url}}%20' + q.value, "_blank");
+                return false;
+            } else {
+                return false;
+            }
+        }
+    </script>    
+    <form onsubmit="return dispatch()">
+      <fieldset role="site-search">
+        <input class="search" type="search" id="q" placeholder="Search" />
+      </fieldset>
+    </form>
+    <ul role=main-navigation>
+    	<li><a href="{{site.url}}">首页</a></li>
+    	{% for item in menu %}
+    	<li><a href="{{item.url}}">{{item.title}}</a></li>
+    	{% endfor %}
+    </ul>
+  </nav>
+  <div id="main">
+    <div id="content">
+
