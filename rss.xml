@@ -17,19 +17,34 @@
 
 &lt;h2&gt;书写规则&lt;/h2&gt;
 
-&lt;p&gt;默认文件名是输出的静态页面的文件名，即&#039;hello-world.md&#039;将会生成&#039;hello-world.html&#039;。另外不推荐使用中文名作为文件名。&lt;/p&gt;
-
-&lt;p&gt;markdown(以下简称md）文件支持一些自定义字段。&lt;/p&gt;
+&lt;p&gt;默认的情况是：
+- 文件名即文章的URL名，也是文章的ID&lt;/p&gt;
 
 &lt;ul&gt;
-&lt;li&gt;&lt;p&gt;文件中输入&quot;title: Hello World&quot;即可自定义文章标题为&quot;Hello World&quot;（单独一行）&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;&quot;date: 2013年2月11日&quot;即可自定义文章发布时间，如果不定义此字段程序会返回文件的创建时间为文章发布时间（可选字段）&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;&quot;type: page&quot;即可自定义本篇文章为页面，此字段只接受page/post两个参数，不定义此字段默认返回为post（可选字段）&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;&quot;status: draft&quot;即可自定义本篇文章为草稿，定义为草稿的文章将不被程序输出。此字段只接受draft一个参数，非该参数无效。不定义此字段则默认该文章为发布状态（可选字段）&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;&quot;tags：tag1, tag2&quot;即可自定义该文章的关键词，各个关键词之间使用半角逗号分开（可选字段）&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;文件创建时间为文章标题&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;文件内容，即文章正文&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;也就是说目前最简单的写法就是只要定义一个&quot;title:&quot;字段然后开始正文就好了。&lt;/p&gt;
+&lt;p&gt;注：不推荐使用中文作为文件名&lt;/p&gt;
+
+&lt;p&gt;同时程序支持自定义字段&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;title: 这里写你的文章标题（可选）
+
+date: 这里写文章的发表时间（可选，默认为文本文件的创建时间）
+
+type: page (可选，只接受page/post两个参数，默认为post)
+
+status: draft (可选，接受public/draft两个参数，draft的文章不会被别人看到)
+
+tags: Tag1， Tag2 (可选，使用,分隔每个标签）
+
+category: cate1, cate2 (可选，使用, 分隔每个分类名称)
+
+template: guestbook （可选，自定义页面模板）    
+
+从这里开始就是文章正文了...
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;h2&gt;尾言&lt;/h2&gt;
 

@@ -2,7 +2,7 @@
 <html>
 <head>
 	<meta charset="utf-8" />
-	<title>Hello World! - PMBlog</title>
+	<title>Theme - PMBlog</title>
 	<script type="text/javascript" src="http://lib.sinaapp.com/js/jquery/1.9.1/jquery-1.9.1.min.js"></script>
 	<style type="text/css">
 	html {width:100%;background:url('http://lizheming.github.io/PMBlog/theme/image/bg.png');}
@@ -57,85 +57,52 @@
 	    </nav>
 	</header>
 	<div id="main" class="cf">
-		<article>
-	<div class="title">Hello World!</div>
-	<div class="content">
-	<p>欢迎加入PMBlog家族。</p>
-
-<h2>自定义内容</h2>
-
-<p>config.php页面支持自定义多种内容，包括博客名，博客地址，文章时间输出格式，博客模板，markdown文件存放位置，输出静态页面存放位置，导航页每页显示文章数，以及社会化评论等。</p>
-
-<!--more-->
-
-<h2>书写规则</h2>
-
-<p>默认的情况是：
-- 文件名即文章的URL名，也是文章的ID</p>
-
-<ul>
-<li><p>文件创建时间为文章标题</p></li>
-<li><p>文件内容，即文章正文</p></li>
-</ul>
-
-<p>注：不推荐使用中文作为文件名</p>
-
-<p>同时程序支持自定义字段</p>
-
-<pre><code>title: 这里写你的文章标题（可选）
-
-date: 这里写文章的发表时间（可选，默认为文本文件的创建时间）
-
-type: page (可选，只接受page/post两个参数，默认为post)
-
-status: draft (可选，接受public/draft两个参数，draft的文章不会被别人看到)
-
-tags: Tag1， Tag2 (可选，使用,分隔每个标签）
-
-category: cate1, cate2 (可选，使用, 分隔每个分类名称)
-
-template: guestbook （可选，自定义页面模板）    
-
-从这里开始就是文章正文了...
-</code></pre>
-
-<h2>尾言</h2>
-
-<p>如果你对程序有什么疑问或者建议，请电邮告诉我。最后，感谢你的使用。</p>
-
-<p>--以上--</p>
-
-		<!-- Duoshuo Comment BEGIN -->
-	<div class="ds-thread"></div>
+			<style type="text/css">
+	.box {height:190px;width:190px;padding:10px 20px;display:inline-block;}
+	</style>	
+	<div class="box">
+		<div class="image">
+			<a href="https://raw.github.com/lizheming/PMBlog/theme/default/screenshot.png">
+				<img class="fade" src="https://raw.github.com/lizheming/PMBlog/theme/default/screenshot.png" width="190px" alt="" />
+			</a>
+			<div class="content">
+				<div class="name">Default</div>
+				<div class="">
+					<span class="left">
+						<a href="https://raw.github.com/lizheming/PMBlog/theme/default/screenshot.png" target="_blank">图片演示</a>
+					</span>
+					<span class="right">
+						<a href="https://github.com/lizheming/PMBlog/tree/theme/default">模板下载</a>
+					</span>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="box">
+		<div class="image">
+			<a href="#">
+				<img class="fade" src="http://lizheming.github.io/PMBlog/theme/image/thumb_upload.png" width="190px" alt="" />
+			</a>
+			<div class="content">
+				<div class="name">
+					<a href="mailto:i@imnerd.org">在线投稿</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript" src="http://lib.sinaapp.com/js/jquery/1.9.0/jquery.min.js"></script>
+	<link rel="stylesheet" href="http://imnerd.org/lab/pmblog/src/fancybox.css" type="text/css" media="screen" />
+	<script type="text/javascript" src="http://imnerd.org/lab/pmblog/src/fancybox.js"></script>
 	<script type="text/javascript">
-	var duoshuoQuery = {short_name:"pmarook"};
-	(function() {
-		var ds = document.createElement('script');
-		ds.type = 'text/javascript';ds.async = true;
-		ds.src = 'http://static.duoshuo.com/embed.js';
-		ds.charset = 'UTF-8';
-		(document.getElementsByTagName('head')[0] 
-		|| document.getElementsByTagName('body')[0]).appendChild(ds);
-	})();
+	$(function () {
+	    $.each($('a'), function(i,item){
+	        if($('img', item).length >0) {
+	            item.className = 'fancybox';
+	        }
+	    });
+	    $(".fancybox").fancybox();
+	})
 	</script>
-<!-- Duoshuo Comment END --> 	
-	</div>
-	<div class="sidebar">
-		<section>
-			<h3>Theme Info</h3>
-			<ul>
-				<li>模板下载: Hello World!</li>
-				<li>发布时间: 2013年03月15日
-			</ul>
-		<section>
-		<section>
-			<h3>Theme Tags</h3>
-			<ul>
-							</ul>
-		</section>
-	</div>
-	<div style="clear:both"></div>
-</article>
 	</div>
 	<footer id="footer">
 		<div class="copyright">
