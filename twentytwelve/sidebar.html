@@ -26,7 +26,11 @@
     
     <aside id="recent-post" class="widget widget_recent_posts">
     	<h3 class="widget-title">最近文章</h3>
-        {{RecentPost}}
+		<ul>
+        {% for post in RecnentPost %}
+        <li><a href="{{post.url}}">{{post.title}}</a></li>
+        {% endfor %}
+        </ul>
      	<!--
         <ul></ul>
         <script type="text/javascript">
