@@ -1,0 +1,21 @@
+{% include 'header.html' %}
+<div id="primary" class="site-content">
+	<div id="content" role="main">			
+	<article class="page type-page status-publish hentry">
+    	<header class="entry-header">
+        	<h1 class="entry-title">
+            	{{post.title}}
+            </h1>
+        </header>                    
+        <div class="entry-content">
+        	{{post.content}}
+        </div>
+        <footer class="entry-meta">
+        </footer>
+    </article>
+	</div>
+</div>
+{% include 'sidebar.html' %}
+{% include 'footer.html' %}
+
+

@@ -1,0 +1,69 @@
+<div id="secondary" class="widget-area" role="complementary">
+	<aside class="widget widget_search">
+        <form id="searchform">
+            <div>
+                <label class="screen-reader-text" for="s">搜索：</label>
+                <input type="text" name="s" id="s" class="text" size="20" /> 
+                <input type="submit" class="submit" id="searchsubmit" value="搜索" />
+            </div>
+    	</form>
+		<script type="text/javascript">
+        var s=document.getElementById('s'), b=document.getElementById('searchsubmit');
+        b.onclick = function() {
+            if(s.value != '') {
+                window.open("https://www.google.com.hk/#q=site:http://lizheming.gitcafe.com "+s.value);
+            } else {
+                alert('请输入搜索内容');
+            }
+        }   
+        </script>
+    </aside>
+    
+    <aside id="recent-comments-2" class="widget widget_recent_comments">
+    	<h3 class="widget-title">近期评论</h3>
+        <ul class="ds-recent-comments" data-num-items="10"></ul>
+    </aside>
+    
+    <aside id="recent-post" class="widget widget_recent_posts">
+    	<h3 class="widget-title">最近文章</h3>
+        {{RecentPost}}
+     	<!--
+        <ul></ul>
+        <script type="text/javascript">
+			var u=window.location.href;
+			if(u.indexOf('post')>0 || u.indexOf('page')>0) {
+				var rss = '../rss.xml';
+			} else {
+				var rss = 'rss.xml';
+			}
+			$.ajax({
+				url:rss,
+				type:"GET",
+				dataType:"xml",
+				success: function(xml) {
+					$(xml).find('item').each(function(i) {
+						var t = $(this).find('title').text(), l = $(this).find('link').text(); 
+						$('#recent-post ul').append('<li><a href="'+l+'" title="'+t+'">'+t+'</a></li>');
+					});
+				}
+			});
+        </script>
+        -->
+    </aside>
+    
+</div><!-- #secondary -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

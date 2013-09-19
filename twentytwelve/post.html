@@ -1,0 +1,38 @@
+{% include 'header.html' %}
+<div id="primary" class="site-content">
+	<div id="content" role="main">			
+	<article class="post type-post status-publish format-standard hentry category-uncategorized">
+    	<header class="entry-header">
+        	<h1 class="entry-title">
+            	<a href="{{post.url}}" title="链向 {{post.title}} 的固定链接" rel="bookmark">
+                	{{post.title}}
+                </a>
+            </h1>
+            <div class="comments-link">
+            	<!--comment-->
+                <a href="{{post.url}}" title="">
+                    <div class="ds-thread-count" data-thread-key="{{post.filename}}"></div>
+                </a>
+            </div>
+        </header>                    
+        <div class="entry-content">
+        	{{post.content}}
+        </div>
+        <footer class="entry-meta">
+             本条目发布于 <a href="{{post.url}}" title="{{post.date | date('G:i')}}" rel="bookmark"><time class="entry-date" datetime="{{post.date | date('c')}}">{{post.date | date('Y 年 m 月 j 日')}}</time></a>。
+         </footer>
+    </article>
+	<nav class="nav-single">
+		<h3 class="assistive-text">文章导航</h3>
+		<span class="prev">上一篇 <a href="{{post.prev.url}}">{{post.prev.title}}</a></span>
+		<span class="next">下一篇 <a href="{{post.next.url}}">{{post.next.title}}</a></span>
+	</nav>
+	{{comment}}
+    <script type="text/javascript">
+		$('.ds-thread').attr('data-thread-key', '{{post.filename}}');
+		$('.ds-thread').attr('data-title', '{{post.title}}');
+	</script>
+	</div>
+</div>
+{% include 'sidebar.html' %}
+{% include 'footer.html' %}

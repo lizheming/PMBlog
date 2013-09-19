@@ -1,0 +1,28 @@
+		</div><!-- #main .wrapper -->
+	<footer id="colophon" role="contentinfo">
+		<div class="site-info">
+        	<a href="http://lizheming.github.io/PMBlog" title="优雅的个人发布平台">自豪地采用 PMBlog</a> | 
+            <a href="{{site.url}}/rss.xml" title="RSS">文章RSS</a>
+		</div><!-- .site-info -->
+	</footer><!-- #colophon -->
+</div>
+<script type="text/javascript" src="https://raw.github.com/lizheming/PMBlog/theme/twentytwelve/js/navigation.js?ver=1.0"></script>
+<script type="text/javascript" src="http://lib.sinaapp.com/js/jquery/1.9.0/jquery.min.js"></script>
+<link rel="stylesheet" href="http://fancyapps.com/fancybox/source/jquery.fancybox.css?v=2.1.4" type="text/css" media="screen" />
+<script type="text/javascript" src="http://fancyapps.com/fancybox/source/jquery.fancybox.pack.js?v=2.1.4"></script>
+<link rel="stylesheet" type="text/css" href="https://google-code-prettify.googlecode.com/svn/loader/skins/desert.css" />
+<script type="text/javascript"  src="https://google-code-prettify.googlecode.com/svn/loader/prettify.js"></script>
+<script type="text/javascript">
+$(function () {
+    $("pre").addClass("prettyprint linenums");
+    prettyPrint();
+    $.each($('a'), function(i,item){
+        if($('img', item).length >0) {
+            item.className = 'fancybox';
+        }
+    });
+    $(".fancybox").fancybox();
+})
+</script>
+</body>
+</html>

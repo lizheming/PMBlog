@@ -1,0 +1,47 @@
+{% include 'header.html' %}
+	<div id="primary" class="site-content">
+		<div id="content" role="main">
+			{% for post in posts %}
+            	<article class="post type-post status-publish format-standard hentry category-uncategorized">
+                	<header class="entry-header">
+                    	<h1 class="entry-title">
+                        	<a href="{{post.url}}" title="链向 {{post.title}} 的固定链接" rel="bookmark">
+                            	{{post.title}}
+                            </a>
+                        </h1>
+                        <div class="comments-link">
+                        	<!--显示评论条数-->
+                            <a href="{{post.url}}" title="">
+                            	<div class="ds-thread-count" data-thread-key="{{post.filename}}"></div>
+                            </a>
+                        </div>
+                    </header>
+                    <div class="entry-content">
+                    	{{post.content}}
+                    </div>
+                    <footer class="entry-meta">
+                    	本条目发布于 <a href="{{post.url}}" title="{{post.date}}" rel="bookmark"><time class="entry-date" datetime="{{post.date}}">{{post.date}}</time></a>。
+                     </footer>
+                 </article>
+            {% endfor %}
+<nav id="nav-below" class="navigation" role="navigation">
+	<h3 class="assistive-text">文章导航</h3>
+    <a href="" id="pre" title="">
+    	<span class="meta-nav">←</span> 较新文章
+    </a>
+    <a href="" id="next" title="">
+	    早期文章<span class="meta-nav">→</span>
+    </a>
+</nav>
+<script type="text/javascript">
+var pre = document.getElementById('pre'), next = document.getElementById('next');
+var l = window.location.href.split('/').slice(-1)[0].split('.')[0];
+if(l == '' || l == 'index') l=1,pre.style.display = 'none';
+else r=Number(l)-1, pre.href = ((r==1) ? 'index' : r)+'.html';
+next.href = (Number(l)+1)+'.html';
+</script>
+		</div><!-- #content -->
+	</div><!-- #primary -->
+
+{% include 'sidebar.html' %}
+{% include 'footer.html' %}
