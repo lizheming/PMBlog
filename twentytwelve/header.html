@@ -12,7 +12,12 @@
 <meta http-equiv="content-type" content="text/html" charset="utf-8" />
 <meta name="viewport" content="width=device-width" />
 <link rel="alternate" type="application/rss+xml" title="{{site.title}}" href="{{site.url}}/rss.xml">
-<title>{{site.title}}</title>
+<title>
+{% if post %}
+{{post.title}} - 
+{% endif %}
+{{site.title}}
+</title>
 <!-- 使用url函数转换相关路径 -->
 <link rel="stylesheet" type="text/css" media="all" href="https://rawgithub.com/lizheming/PMBlog/theme/twentytwelve/style.css" />
 <!--[if lt IE 9]>
