@@ -1,0 +1,26 @@
+{% include 'header.html' %}
+<div id="content">
+<div id="content-header">
+	<div id="post-entries"> 
+		<div class="nav-prev fl"><a href="{{post.prev.url}}">{{post.prev.title}}</a></div>
+		<div class="nav-next fr"><a href="{{post.next.url}}">{{post.next.title}}</a></div>
+	</div>
+	<div class="fix"></div>    
+</div>
+<div id="inner">
+	<div class="postEntry single">
+		<h2 class="entry-title">{{post.title}}</h2>
+		<div class="postMeta">
+			{{post.date|date('Y/n/j')}}
+		</div>
+		<div class="postContent">
+			<div class="entry-content">{{post.content}}</div>
+			<p class="tags">Tags: {{post.tags|join(', ')}}</p>
+		</div>
+		
+	</div>
+	{{comment}}
+</div>
+</div><!-- end #content-->
+
+{% include 'footer.html' %}

@@ -1,0 +1,33 @@
+{% include 'header.html' %}
+<div  id="content">
+<div id="carousel-inner"></div>
+<div id="inner">
+	{% for post in posts %}
+	<div class="postEntry">
+		<h2 class="entry-title"><a href="{{post.url}}">{{post.title}}</a></h2>
+		<div class="postMeta">
+			{{post.date|date('Y/n/j')}}
+		</div>
+		<div class="postContent">
+			<div class="entry-content">
+			{{post.content}}
+			</div>
+		</div>
+	</div>
+	{% endfor %}
+	
+	<div id="pageNav">
+	    <a class="round pre" id="pre" href="">上一页</a>
+	    <a class="round next" id="next" href="">下一页</a>
+		<script type="text/javascript">
+			var pre = document.getElementById('pre'), next = document.getElementById('next');
+			var l = window.location.href.split('/').slice(-1)[0].split('.')[0];
+			if(l == '' || l == 'index') l=1,pre.style.display = 'none';
+			else r=Number(l)-1, pre.href = ((r==1) ? 'index' : r)+'.html';
+			next.href = (Number(l)+1)+'.html';
+		</script>
+	</div>
+</div>
+</div><!-- end #content-->
+
+{% include 'footer.html' %}

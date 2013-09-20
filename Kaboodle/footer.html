@@ -1,0 +1,34 @@
+<div id="footer">
+    <script type="text/javascript">
+        var dispatch = function() {
+            q = document.getElementById("q");
+            if (q.value != "") {
+                window.open('http://www.google.com/search?q=site:{{site.url}}%20' + q.value, "_blank");
+                return false;
+            } else {
+                return false;
+            }
+        }
+    </script>    
+	<form onsubmit="return dispatch()">
+		<div id="search"><input type="text" name="s" id="q" class="text" size="32" value="Search..." onfocus="this.value = this.value == this.defaultValue ? '' : this.value" onblur="this.value = this.value == '' ? this.defaultValue : this.value"/></div>
+	</form>
+
+	&copy;2013 Theme By <a href="http://linmumu.me/">LinMuMu</a> Modified By <a href="http://imnerd.org">Austin</a>. Powered by <a href="http://github.com/lizheming/PMBlog" target="_blank">PMBlog</a>
+</div><!-- end #footer -->
+
+</div><!-- end #wrap -->
+
+<script type="text/javascript" src="http://lib.sinaapp.com/js/jquery/1.9.0/jquery.min.js"></script>
+<script type='text/javascript' src='https://rawgithub.com/lizheming/PMBlog/theme/Kaboodle/js/slimbox2.js'></script>
+<script type='text/javascript' src='https://rawgithub.com/lizheming/PMBlog/theme/Kaboodle/js/all.js'></script>
+<script type="text/javascript" src="https://google-code-prettify.googlecode.com/svn/loader/prettify.js"></script>
+<link rel="stylesheet" type="text/css" href="https://google-code-prettify.googlecode.com/svn/loader/skins/desert.css">
+<script type="text/javascript">
+$(function () {
+    $("pre").addClass("prettyprint linenums");
+    prettyPrint();
+})
+</script>
+</body>
+</html>

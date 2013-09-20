@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head profile="http://gmpg.org/xfn/11">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>{{site.title}}</title>
+<link rel="stylesheet" type="text/css" media="all" href="https://rawgithub.com/lizheming/PMBlog/theme/Kaboodle/style.css" />
+<link rel="alternate" type="application/rss+xml" title="RSS 2.0" href="{{site.url}}/rss.xml" />
+<style type="text/css">
+.entry-content img {
+	max-width:730px;
+}
+code {
+	margin-left:0px;
+	padding-left:0px;
+	border-left:none;
+}
+</style>
+</head>
+
+<body>
+<div id="wrap">	
+<div id="header-container"> 
+<div id="header">
+	<div id="logo">
+	    <h1><a href="{{site.url}}">{{site.title}}</a></h1>
+	</div>
+	<!--<div id="description"></div>-->
+	<div id="nav">
+		<ul class="nav fl">
+		<li><a href="{{site.url}}">首页</a></li>
+		{% for item in menu %}
+		<li><a href="{{item.url}}" title="{{item.description}}">{{item.title}}</a></li>
+		{% endfor %}
+		</ul>
+		<ul class="rss fr">
+			<li class="sub-rss"><a href="{{site.url}}/rss.xml"><img alt="Feed" src="https://rawgithub.com/lizheming/PMBlog/theme/Kaboodle/images/ico-rss.png"></a></li>
+		</ul>
+	</div>
+	<div class="fix"></div>
+</div><!-- end #header -->
+</div>
+<div id="shadow"></div>
