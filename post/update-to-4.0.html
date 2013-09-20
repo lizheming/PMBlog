@@ -2,7 +2,7 @@
 <html>
 <head>
 	<meta charset="utf-8" />
-	<title></title>
+	<title>PMBlog全新4.0版低调上线 - PMBlog</title>
 	<script type="text/javascript" src="http://lib.sinaapp.com/js/jquery/1.9.1/jquery-1.9.1.min.js"></script>
 	<style type="text/css">
 	html {width:100%;background:url('http://lizheming.github.io/PMBlog/theme/image/bg.jpg');}
@@ -57,66 +57,52 @@
 	    </nav>
 	</header>
 	<div id="main" class="cf">
-				<div class="top" style="height:300px;">
-			<span class="content" style="float:left;display:inline-block;width:40%;">
-				<h3 style="font-size:30px;">PMBlog</h3>
-				<p>PMBlog是一款基于PHP的静态化网站（博客）生成程序，与Jekyll类似，提供了模板功能。</p>
-				<p>程序开源托管在Github上。</p>
-				<span class="button">
-					<a href="https://github.com/lizheming/PMBlog/archive/master.zip" target="_blank">Download</a>
-					<a href="https://github.com/lizheming/PMBlog" target="_blank">Github</a>
-				</span>
-			</span>
-			<div class="slide" id="slide_box">
-				<span>
-					<ul>
-						<li><img src="http://lizheming.github.io/PMBlog/theme/image/slide1.png" /></li>
-						<li><img src="http://lizheming.github.io/PMBlog/theme/image/slide2.png" /></li>
-					</ul>
-				</span>
-			</div>
-			<script type="text/javascript" src="http://responsiveslides.com/responsiveslides.min.js"></script>
-			<script>$(function() {$('#slide_box ul').responsiveSlides()});</script>
-		</div>
-		<div class="bottom" style="height:200px;">
-			<div class="left">
-				<h3>Recent Status</h3>
-				<ul>
-											<li><a href="http://lizheming.github.io/PMBlog/post/update-to-4.0.html">PMBlog全新4.0版低调上线</a></li>
-											<li><a href="http://lizheming.github.io/PMBlog/post/hello-world.html">Hello World!</a></li>
-									</ul>
-			</div>
-			<div class="middle" style="border-left:1px dotted #AAA;border-right:1px dotted #AAA;">
-				<h3>Commits Status</h3>
-				<ul id="commit">
-				</ul>
-				<script type="text/javascript">
-				/*
-				https://api.github.com/repos/lizheming/pmblog/commits
-				*/
-				$(function() {
-				$.ajax({
-					url: 'https://api.github.com/repos/lizheming/pmblog/commits',
-					type: 'GET',
-					dataType: 'jsonp',
-					success: function(d) {
-						$.each(d.data, function(i, cm){
-							$('#commit').append('<li><a href="'+cm.html_url+'">'+cm.commit.message+'</a></li>');
-						});
-					}
-				});
-				});
-				</script>
-			</div>
-			<div class="right">
-				<h3>Site Show</h3>
-				<ul>
-										<li><a href="http://lizheming.gitcafe.com" title="PMBlog官方博客">PMBlog - http://lizheming.gitcafe.com</a></li>
-										<li><a href="http://blog.imnerd.org" title="怡红公子">怡红院落 - http://blog.imnerd.org</a></li>
-									</ul>
-			</div>
-		</div>
-			</div>
+		<article>
+	<div class="title">PMBlog全新4.0版低调上线</div>
+	<div class="content">
+	<p>大概是今年2月份的时候我写了这个程序，当时也没怎么搜资料，就是按照自己的思路写啊写啊写，写到后面就发现越来越坑，不仅维护特别累（前面3个版本每个版都是重写的），而且扩展方面特别让自己无语。</p>
+
+<p>说到底这个程序只是负责<code>Markdown解析</code>+<code>模板生成</code>而已。之前用的模板引擎是自己写的，不仅有BUG，而且语法很坑爹。后来在无意中知道了有模板引擎这么一个东西，表示才知道自己在造轮子啊T_T!!!! 4.0新版摒弃了自己写的模板引擎，采用了全新的<code>Twig</code>模板引擎，语法和Djang，jinjia类似（官网说的）。这样做最重要的是其它的比如Jekyll或者Farbox的模板只要稍加修改一下就可以用到PMBlog上来了！当然采用了<code>Twig</code>之后我对这个程序的贡献度就更小了。</p>
+
+<p>呐，不管怎么说，新版就这么上线了。由于跟老版的模板引擎不同，所以之前写的模板都不能用在新版上的说~ 不过我都在慢慢的转换过来，同志们可以到 <a href="http://lizheming.github.io/PMBlog/page/theme.html">主题库</a> 上下载喜欢的主题。</p>
+
+<p>虽然程序简单，没什么技术含量，不过这也是我自己一直在坚持写的东西，希望大家多给点意见。</p>
+
+		<!-- Duoshuo Comment BEGIN -->
+	<div class="ds-thread"></div>
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"pmarook"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = 'http://static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		|| document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+<!-- Duoshuo Comment END --> 	
+	</div>
+	<div class="sidebar">
+		<section>
+			<h3>Theme Info</h3>
+			<ul>
+				<li>模板下载: PMBlog全新4.0版低调上线</li>
+				<li>发布时间: 2013年09月19日
+			</ul>
+		<section>
+		<section>
+			<h3>Theme Tags</h3>
+			<ul>
+									<li><a href="http://lizheming.github.io/PMBlog/tag/project">project</a></li>
+									<li><a href="http://lizheming.github.io/PMBlog/tag/PMBlog">PMBlog</a></li>
+									<li><a href="http://lizheming.github.io/PMBlog/tag/update">update</a></li>
+							</ul>
+		</section>
+	</div>
+	<div style="clear:both"></div>
+</article>
+	</div>
 	<footer id="footer">
 		<div class="copyright">
 			Powered By

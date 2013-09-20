@@ -6,6 +6,20 @@
 <language>zh-cn</language>
 <ttl>10</ttl>
 <item>
+<title><![CDATA[PMBlog全新4.0版低调上线]]></title>
+<description><![CDATA[&lt;p&gt;大概是今年2月份的时候我写了这个程序，当时也没怎么搜资料，就是按照自己的思路写啊写啊写，写到后面就发现越来越坑，不仅维护特别累（前面3个版本每个版都是重写的），而且扩展方面特别让自己无语。&lt;/p&gt;
+
+&lt;p&gt;说到底这个程序只是负责&lt;code&gt;Markdown解析&lt;/code&gt;+&lt;code&gt;模板生成&lt;/code&gt;而已。之前用的模板引擎是自己写的，不仅有BUG，而且语法很坑爹。后来在无意中知道了有模板引擎这么一个东西，表示才知道自己在造轮子啊T_T!!!! 4.0新版摒弃了自己写的模板引擎，采用了全新的&lt;code&gt;Twig&lt;/code&gt;模板引擎，语法和Djang，jinjia类似（官网说的）。这样做最重要的是其它的比如Jekyll或者Farbox的模板只要稍加修改一下就可以用到PMBlog上来了！当然采用了&lt;code&gt;Twig&lt;/code&gt;之后我对这个程序的贡献度就更小了。&lt;/p&gt;
+
+&lt;p&gt;呐，不管怎么说，新版就这么上线了。由于跟老版的模板引擎不同，所以之前写的模板都不能用在新版上的说~ 不过我都在慢慢的转换过来，同志们可以到 &lt;a href=&quot;http://lizheming.github.io/PMBlog/page/theme.html&quot;&gt;主题库&lt;/a&gt; 上下载喜欢的主题。&lt;/p&gt;
+
+&lt;p&gt;虽然程序简单，没什么技术含量，不过这也是我自己一直在坚持写的东西，希望大家多给点意见。&lt;/p&gt;
+]]></description>
+<pubDate>2013-09-19T22:19:56+08:00</pubDate>
+<guid>http://lizheming.github.io/PMBlog/post/update-to-4.0.html</guid>
+<link>http://lizheming.github.io/PMBlog/post/update-to-4.0.html</link>
+</item>
+<item>
 <title><![CDATA[Hello World!]]></title>
 <description><![CDATA[&lt;p&gt;欢迎加入PMBlog家族。&lt;/p&gt;
 
