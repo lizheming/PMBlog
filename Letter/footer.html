@@ -1,0 +1,33 @@
+<div class="footer">
+	<div id="header-links">
+    <a href="{{site.url}}">首页</a>
+    {% for item in menu %}
+    <span class="h-sep"></span>
+    <a href="{{item.url}}" title="{{item.description}}">{{item.title}}</a>
+    {% endfor %}
+    </div>
+    <div class="tag-search">
+    	<form id="tag-form">
+            <div class="search-text-wrapper">
+                <input id="search-text" autocomplete="off" class="search-text" type="text" value="">
+                <label id="search-tip">搜索</label>
+                <input id="search-btn" class="search-button" type="button" value="搜索">
+            </div>
+        </form>
+    </div>
+</div>
+<div id="pages-nav">
+	<a href="" id="pre" class="prev-page">上一页</a>
+	<a href="" id="next" class="next-page">下一页</a>
+</div>
+<script type="text/javascript">
+var pre = document.getElementById('pre'), next = document.getElementById('next');
+var l = window.location.href.split('/').slice(-1)[0].split('.')[0];
+if(l == '' || l == 'index') l=1,pre.style.display = 'none';
+else r=Number(l)-1, pre.href = ((r==1) ? 'index' : r)+'.html';
+next.href = (Number(l)+1)+'.html';
+</script>
+</div>
+</div>
+</body>
+</html>

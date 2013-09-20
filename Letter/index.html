@@ -1,0 +1,20 @@
+{% include 'header.html' %}
+<div id="posts">
+	{% for post in posts %}
+	<div class="post post-text">
+    	<div class="post-top">
+        	<span class="post-time">{{post.date}}</span>
+        </div>
+        <div class="post-content clearfix">
+        	<h4 class="post-title">{{post.title}}</h4>
+            <div class="text-content rich-content">{{post.content}}</div>
+            <div class="post-info clearfix">
+            	<span id="tags">{{post.tags | join(', ')}}</span>
+                <a href="{{post.url}}">全文</a>
+            </div>
+        </div>
+        <div class="post-bottom"></div>
+	</div>
+    {% endfor %}   
+</div>  
+{% include 'footer.html' %}

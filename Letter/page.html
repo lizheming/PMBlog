@@ -1,0 +1,21 @@
+{% include 'header.html' %}
+<div id="nav">
+	<a class="about-user-name" href="{{site.url}}">←&nbsp;返回主页</a>
+</div>
+<div id="posts">
+	<div class="post post-text">
+    	<div class="post-top">
+        	<span class="post-time">{{post.date}}</span>
+        </div>
+        <div class="post-content clearfix">
+        	<h4 class="post-title">{{post.title}}</h4>
+            <div class="text-content rich-content">{{post.content}}</div>
+            <div class="post-info clearfix">
+            	<span id="tags">{{post.tags | join(', ')}}</span>
+            </div>
+        	{{comment}}
+        </div>
+        <div class="post-bottom"></div>
+	</div>  
+</div> 
+{% include 'footer.html' %}

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" content="" http-equiv="content-type" />
+    <title>{{site.title}}</title>
+    <link rel="stylesheet" href="http://o.libdd.com/id_4/style.css?v=1011">
+    <link rel="stylesheet" type="text/css" href="http://t.libdd.com/css/base/rich-content.css?v=0819">
+    <script type="text/javascript" src="http://lib.sinaapp.com/js/jquery/1.9.0/jquery.min.js"></script>
+	<script type="text/javascript" src="http://google-code-prettify.googlecode.com/svn/trunk/src/prettify.js"></script>
+    <link rel="stylesheet" type="text/css" href="http://imnerd.org/lab/pmblog/src/desert.css">
+    <script type="text/javascript" src="http://lib.sinaapp.com/js/jquery/1.9.0/jquery.min.js"></script>
+    <link rel="stylesheet" href="http://fancyapps.com/fancybox/source/jquery.fancybox.css?v=2.1.4" type="text/css" media="screen" />
+	<script type="text/javascript" src="http://fancyapps.com/fancybox/source/jquery.fancybox.pack.js?v=2.1.4"></script>
+    <style>
+        /* 自定义 */
+        body {
+            
+            background-color:#162E41;
+            background-attachment: fixed;
+            color:#000000
+        }
+        #about .about-user-name {
+            color:#000000
+        }
+        .about-content p {
+            color:#000000
+        }
+		.post img {
+			max-width:500px;
+			display: block;
+			margin: 1em auto 1.8em auto;
+			border: 1px solid #ddd;
+			padding: 5px;
+			border-radius: 5px;
+		}
+		.post pre {
+			border: 1px solid #e0e0e0;
+			margin: 1.2em -2px;
+			font-size: 13px;
+			font-family: Menlo, monospace;
+			line-height: 2.2;
+			display: block;
+			overflow: auto;
+			max-width: 500px;    
+		}
+		#notes {
+			background:#FFF;
+			border-radius:5px;
+			-webkit-border-radius:5px;
+			-moz-border-radius:5px;
+			-o-borer-radius:5px;
+		}
+		.post-info span {
+			float:left;
+		}
+		.post-info a {
+			float:right;
+		}
+	</style>
+    <script type="text/javascript">
+		$(function(){
+			$("pre").addClass("prettyprint linenums");
+			prettyPrint();
+			$.each($('a'), function(i,item){
+				if($('img', item).length >0) {
+					item.className = 'fancybox';
+				}
+			});
+			$(".fancybox").fancybox();
+			var searchText=document.getElementById("search-text");
+			var searchTip=document.getElementById("search-tip");
+			var searchBtn=document.getElementById("search-btn");
+			var searchForm=document.getElementById("tag-form");
+			searchTip.onclick=function(){
+				searchText.focus();
+			};
+			searchText.onfocus=function(){
+				searchTip.style.display="none";
+			};
+			searchText.onblur=function(){
+				if(!$.trim(this.value)){
+					searchTip.style.display="block";
+				}
+			};
+			searchBtn.onclick = searchForm.onsubmit=function() {
+				window.open('https://www.google.com.hk/#q=site:{{site.url}} '+searchText.value);
+			};
+		});
+    </script>
+</head>
+<body>
+<div id="dd-profile">
+	<div id="wrap">
+        <div class="glow"></div>
+        <div id="about">
+        	<div class="about-top"></div>
+            <div class="about-content">
+            	<h2><a class="about-user-name" href="{{site.url}}">{{site.title}}</a></h2>
+            </div>
+            <div class="about-bottom"></div>
+        </div>
