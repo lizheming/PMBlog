@@ -1,0 +1,58 @@
+{% include 'header.html' %}
+       <div class="content">
+
+     
+		  {% for post in posts %}
+        
+          <div class="post container">
+
+            <div class="rel-date" data-timestamp="{{post.date}}"> {{post.date|date('Y-m-d H:i')}} </div>
+
+            <div class="title">
+              <h2>
+                <a href="{{post.url}}">
+                  
+                    {{post.title}}
+                  
+
+                  
+                </a>
+              </h2>
+            </div>
+
+            <div class="article">
+            {{post.content}}
+            </div>
+
+            
+
+            <div class="metadata">
+              <ul class="inline-list">
+              	<li><i class="icon-time"></i>  {{post.date| date('F d, Y H i')}}</li>
+                <li><i class="icon-link"></i> <a href="{{post.url}}"> Permalink </a> </li>
+                <!--<li> <i class="icon-comment"></i> <a href="{{post.url}}"> </a></li>-->
+               </ul>
+			</div>
+			<div style="clear: both;"> </div>
+
+            
+			
+
+          </div>
+        {% endfor %}
+    </div>
+    
+		 <div id="more" page="2" style="margin-top:20px;color:#8c8c8c;font-weight:bold;text-align:center;">载入更多</div>
+		<style type="text/css">
+		    #more:hover {cursor:pointer;}
+		</style>
+		<script type="text/javascript" src="http://lib.sinaapp.com/js/jquery/1.9.1/jquery-1.9.1.min.js"></script>
+		<script type="text/javascript">
+		    $('#more').click(function() {
+		        $.get($('#more').attr('page')+'.html', function(data) {
+		            $('.content').append($('.content', data).html());
+		            $('#more').attr('page', parseInt($('#more').attr('page'))+1);
+		        });
+		    });
+		</script>
+{% include 'footer.html' %}

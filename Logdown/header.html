@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>
+{% if post %}
+{{post.title}} - 
+{% endif %}
+{{site.title}}
+</title>
+<meta name="description" content="">
+<meta name="keywords" content="">
+<meta property="og:title" content="{{site.title}}">
+<meta property="og:description" content="">
+<meta property="og:image" content="">
+<meta property="og:url" content="{{site.url}}">
+<link href="http://lizheming.logdown.com/assets/its-compiling/style-9e582d664254668e09a9bedd53fcbc51.css" media="screen" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<meta name="robots" content="INDEX,FOLLOW">
+<link href="http://lizheming.logdown.com/assets/blog_fundation-3f73b3b21a862220d1d524a8c9953865.css" media="screen" rel="stylesheet" type="text/css">
+<link href="{{site.url}}/rss.xml" rel="alternate" title="怡红院落" type="application/rss+xml">
+</head>
+<body class=" ">
+
+  <div class="wrapper">
+    <header class="header">
+		<div class="search">
+		        <form accept-charset="UTF-8" action="/posts/search" method="get">
+		          <div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="✓"></div>
+		         <input class="search-box" type="text" name="q" results="0" value="" placeholder="Search">
+				</form>
+		</div>
+      <div class="logo">      
+        <h1><a href="{{site.url}}">{{site.title}}</a></h1>
+        <span class="tagline">  </span>
+      </div>
+      <nav class="nav">
+	      <ul class="inline-list">
+			<li><a href="{{site.url}}/rss.xml" taget="_blank"><i class="icon-rss"></i><span>feeds</span></a></li>
+	      </ul>
+      </nav>
+    </header>
+
+ 
