@@ -1,0 +1,25 @@
+{% include 'header.html' %}
+{% include 'sidebar.html' %}
+<div id="main">
+	<div class="outer rich-content">
+        <div class="post text">
+            <h1>{{post.title}}</h1>
+            {{post.content}}
+        </div>
+        <div class="pagination">
+            {{post.date|date('d M, Y, G:i.')}}
+        </div>
+        <div class="notes">
+    		<div class="text">{{comment}}</div>
+        </div>
+        <div class="meta">
+            <a href="{{post.url}}">{{post.date|date('dS M Y')}}</a>
+        </div>
+	</div> 
+    <div class="outer">
+         <div id="page" class="text">
+            <a href="{{post.prev.url}}">{{post.prev.title}}</a>
+            <a href="{{post.next.url}}">{{post.next.title}}</a>
+         </div>
+    </div>
+{% include 'footer.html' %}

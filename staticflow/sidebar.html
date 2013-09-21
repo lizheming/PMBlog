@@ -1,0 +1,41 @@
+<div id="header">
+	<div id="together">
+		<a href="http://pagecookery.diandian.com" class="title">
+			<div class="avatar" style="background: url(http://m3.img.libdd.com/farm3/187/B637CE1C4E6A5A936BDD50CE6437CABB_64_64.jpg);"></div>
+			<h1>{{site.title}}</h1>
+		</a>
+        <ul class="links">
+           	<li><a href="{{site.url}}">首页</a></li>
+           	{% for item in menu %}
+           	<li><a href="{{item.url}}" title="{{item.description}}">{{item.title}}</a></li>
+           	{% endfor %}
+           	<!--
+            <li><a href="{site.url}/page/archive.html">日志</a></li>
+            <li><a href="{site.url}/page/guestbook.html">留言</a></li>   
+            -->            
+        </ul>					
+		<div class="more">
+			<div class="spaceit">
+				<div class="description"></div>
+                <div class="search">
+					<input type="text" name="q" id="search" placeholder="Search..." / style="width:97px;"><button>搜</button>
+					<script type="text/javascript">
+                    var s=document.getElementById('search'), b=document.getElementsByTagName('button')[0];
+                    b.onclick = function() {
+                        if(s.value != '') {
+                            window.open("https://www.google.com.hk/#q=site:{{site.url}} "+s.value);
+                        } else {
+                            alert('请输入搜索内容');
+                        }
+                    }   
+                    </script>
+				</div>
+            </div>
+		</div>
+	</div>	
+	<div class="sidecred">
+        	Copyright &copy; <a href="{site.url}">{{site.title}}</a><br />
+			Powered by <a href="http://github.com/lizheming/PMBlog">PMBlog</a>
+	</div>
+</div>
+ 
