@@ -1,0 +1,13 @@
+{% include 'header.html' %}
+{% include 'sidebar.html' %}
+<div id="main">
+	<p id="tip"></p>
+    <div class="post">
+		<h2><a href="{{post.url}}">{{post.title}}</a></h2>
+        <p>{{post.date|date('d F, Y')}}</p>
+		{{post.content}}			
+	</div>
+	{{comment}}
+</div>
+</div>
+{% include 'footer.html' %}

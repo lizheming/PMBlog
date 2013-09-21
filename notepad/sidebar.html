@@ -1,0 +1,37 @@
+			<div id="sidebar">
+				<div id="title">
+					<h1>
+						<a href="{{site.url}}">{{site.title}}</a>
+					</h1>
+				</div>
+
+				<ul id="nav">
+					<li><a href="{{site.url}}">首页</a></li>
+					{% for item in menu %}
+					<li><a href="{{item.url}}" title="{{item.description}}">{{item.title}}</a></li>
+					<!--
+					<li><a href="{{site.url}}/page/guestbook.html" title="留言">留言</a></li>
+					-->
+				</ul>
+
+				<div id="box">
+					<h3>RecentPost</h3>
+					<ul>
+                    {% for post in RecentPost %}
+                    <li><a href="{{post.url}}">{{post.title}}</a></li>
+                    {% endfor %}
+                    </ul>
+					<h3>Search</h3>
+                    <input type="text" id="search" class="text" value="" /><button>搜索</button>
+					<script type="text/javascript">
+                    var s=document.getElementById('search'), b=document.getElementsByTagName('button')[0];
+                    b.onclick = function() {
+                        if(s.value != '') {
+                            window.open("https://www.google.com.hk/#q=site:{{site.url}} "+s.value);
+                        } else {
+                            alert('请输入搜索内容');
+                        }
+                    }   
+                    </script>
+				</div>
+			</div>			

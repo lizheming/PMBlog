@@ -1,0 +1,15 @@
+{% include 'header.html' %}
+{% include 'sidebar.html' %}
+<div id="main">
+	<p id="tip"></p>
+    <div class="post">
+		<h2><a href="{{post.url}}">{{post.title}}</a></h2>
+        <p>{{post.date|date('d F, Y')}}</p>
+		{{post.content}}			
+	</div>
+    <span class="left"><a href="{{post.prev.url}}">{{post.prev.title}}</a></span>
+	<span class="right"><a href="{{post.next.url}}">{{post.next.title}}</a></span>
+	{{comment}}
+</div>
+</div>
+{% include 'footer.html' %}

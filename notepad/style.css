@@ -1,0 +1,400 @@
+﻿/*=======================
+  font
+=========================*/
+
+@font-face {
+    font-family: 'DroidSerifBold';
+    src: url('font/droidserif-bold-webfont-webfont.eot');
+    src: url('font/droidserif-bold-webfont-webfont.eot?#iefix') format('embedded-opentype'),
+         url('font/droidserif-bold-webfont-webfont.woff') format('woff'),
+         url('font/droidserif-bold-webfont-webfont.ttf') format('truetype'),
+         url('font/droidserif-bold-webfont-webfont.svg#droid_serifbold') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+@font-face {
+    font-family: 'DroidSerifRegular';
+    src: url('font/droidserif-regular-webfont-webfont.eot');
+    src: url('font/droidserif-regular-webfont-webfont.eot?#iefix') format('embedded-opentype'),
+         url('font/droidserif-regular-webfont-webfont.woff') format('woff'),
+         url('font/droidserif-regular-webfont-webfont.ttf') format('truetype'),
+         url('font/droidserif-regular-webfont-webfont.svg#droid_serifregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+/*=======================
+  style
+=========================*/
+
+html{
+background: url(image/nocol-bg-vertical.gif) repeat-y scroll left top #374248;
+}
+
+body {
+background: url(image/bghtml.gif) repeat-x scroll left top transparent;
+min-width: 1000px;
+color: #FFFFFF;
+font: 80%/1.6 "DroidSerifBold",Georgia,Times New Roman,serif;
+height: 100%;
+text-align: left;
+width: 100%;
+}
+
+body,h1{
+margin:0;
+padding:0;
+}
+
+h2{
+font: 2.5em/1em "DroidSerifBold";
+height: auto;
+letter-spacing: -2px;
+margin: 1em 0 0;
+line-height: 1.75em;
+padding: 1em 0 0;
+text-shadow: 2px 2px #151A1D;
+width: auto;
+}
+
+img{
+max-width:680px;
+margin:5px 0;
+}
+
+a {
+color: #FFFFFF;
+text-decoration: none;
+}
+
+#sidebar a:hover{
+color:#ffe7c2
+}
+
+#main a {
+color: #999;
+}
+
+#main a:hover {
+color: #ccc;
+}
+
+#main h2 a {
+color: #FFF;
+}
+
+blockquote{
+background:#262F35;
+padding: 1em;
+}
+
+code {
+border: 1px solid #AAA;
+background-color: grey;
+padding: 2px 4px;
+}
+
+pre {
+background:#262F35;
+display:block;
+overflow-x:auto;
+margin: 1em;
+padding: 1em;
+font: 1em/1.2 "Consolas","Bitstream Vera Sans Mono","Courier New",Courier,monospace!important;
+}
+
+pre code {
+	background:none;
+	padding:0;
+	border:none;
+}
+/*=======================
+  main
+=========================*/
+
+#wrapper {
+background: url(image/bg.jpg) no-repeat scroll left top transparent;
+height: auto !important;
+min-height: 100%;
+min-width: 1000px;
+position: relative;
+}
+
+#content {
+overflow: hidden;
+padding: 0 0 15em;
+}
+
+#main {
+margin-left: 265px;
+padding: 0 24px;
+font: 1.25em/1.75em "DroidSerifRegular";
+min-width: 462px;
+}
+
+.post {
+border-bottom: 1px dashed #505F69;
+margin-top: -2em;
+padding: 1em 0;
+}
+.right{
+float:right;
+}
+.left{
+float:left;
+}
+.left,.right{
+font-size:1em;
+margin:10px 20px;
+}
+/*
+.tag{
+color:#A1A9AD;
+font-size:.8em;
+background:#475157;
+padding:5px;
+margin:2em 0;
+-moz-border-radius: 5px;
+}
+*/
+#tip{
+font-family: "DroidSerifRegular",Arial,sans-serif;
+font-size: 0.75em;
+height: 28px;
+line-height: 28px;
+margin: 0;
+vertical-align: middle;
+letter-spacing: 0.075em;
+color: #7D7D7D;
+}
+#tip a {
+color: #7D7D7D;
+}
+#tip a:hover {
+color: #999999;
+}
+#tip a.active , #tip span a{
+color: #B2B2B2;
+}
+#tip a.active:hover ,#tip span a:hover{
+color: #FFFFFF;
+}
+
+
+/*=======================
+  pagenav
+=========================*/
+
+ol.page-navigator{
+list-style:none;
+}
+
+ol.page-navigator li{
+display:inline;
+padding-right:1em;
+font-size:1.2em;
+font-weight:bold;
+}
+
+ol.page-navigator li.current a{
+color:#ccc!important;
+}
+
+
+/*=======================
+  footer
+=========================*/
+
+#footer {
+background: url(image/footer-bg.png) repeat-x scroll left top transparent;
+bottom: 0;
+font-size: 1.1em;
+height: 10em;
+left: 0;
+position: absolute;
+width: 100%;
+}
+
+#share {
+float: left;
+padding: 17px 0 0 271px;
+}
+
+#share a {
+background: url(image/fbtwrss.png) no-repeat scroll 0 -34px transparent;
+float: left;
+height: 34px;
+margin-right: 5px;
+text-indent: -9999em;
+width: 41px;
+}
+
+#share a:hover {
+background-position: 0 0;
+}
+
+#share a.twitter {
+background-position: -46px -34px;
+}
+
+#share a.twitter:hover {
+background-position: -46px 0;
+}
+
+#share a.gplus {
+background-position: -92px -34px;
+}
+
+#share a.gplus:hover {
+background-position: -92px 0;
+}
+
+#share a.rss {
+background-position: -138px -34px;
+}
+
+#share a.rss:hover {
+background-position: -138px 0;
+}
+
+p.copy {
+margin-top: 20px;
+color: #777777;
+margin-left: 520px;
+font-size:80%;
+}
+
+p.copy a {
+color: #999999;
+}
+
+p.copy  a:hover {
+color: #FFFFFF;
+}
+
+/*=======================
+  sidebar
+=========================*/
+
+#sidebar {
+float: left;
+padding: 0;
+width: 245px;
+}
+
+#title{
+margin: 55px 30px 0;
+}
+
+#title,.desc{
+width: 200px;
+}
+
+#title h1{
+font-size:2.5em;
+}
+
+#sidebar ul {
+list-style:none;
+padding:0;
+margin:0;
+padding:0;
+
+}
+
+#sidebar #box{
+margin: 0 2em;
+font-size:1.1em;
+text-shadow: 1px 1px #A96B27;
+
+}
+
+#sidebar #box h3{
+color: #ffe7c2;
+margin-bottom:-.2em;
+}
+
+ul#nav{
+font: 1.5em "DroidSerifBold";
+list-style-type: none;
+padding: 26px 0 36px;
+}
+
+ul#nav li {
+background: url(image/divider1.png) no-repeat scroll 24px 100% transparent;
+display: block;
+}
+
+ul#nav li a {
+color: white;
+display: block;
+letter-spacing: -1px;
+margin-left: 24px;
+padding: 5px 0 7px;
+text-shadow: 1px 1px #A96B27;
+text-transform: lowercase;
+}
+
+ul#nav li.current a{
+color: #8B3501;
+text-shadow: 1px 1px #D7A367;
+}
+
+
+/*========================
+  comments///啊 肚饿... 
+==========================*/
+
+h3.comment{
+font-size:1.8em;
+}
+
+h3.comment span{
+font-size:.6em;
+display:block;
+}
+
+#comment{
+margin-top:6em;
+}
+
+#comment ol{
+list-style:none;
+margin:0;
+padding:0;
+}
+
+#comment ol li{
+border-top: 1px dotted #505F69;
+}
+
+#comment label{
+margin-left:.5em;
+}
+
+#comment .text{
+border:1px solid #505F69;
+background:#262F35;
+}
+
+#comment .submit{
+border:1px solid #262F35;
+background:#505F69;
+font-weight:bold;
+}
+
+#comment .text,#comment .submit{
+padding:6px;
+margin:5px 0;
+color:#ccc;
+font:.8em "DroidSerifRegular";
+}
+.avatar{
+height:40px;
+width:40px;
+float:left;
+margin:10px 8px 0 0;
+
+}
