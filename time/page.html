@@ -1,0 +1,26 @@
+{% include 'header.html' %}
+<div id="content">
+	<div class="post post-text clearfix">
+    	<div class="post-meta">
+        	<a class="post-date" href="#">
+            	{{post.date}}
+            </a>
+        </div>
+        <div class="post-body">
+        	<div class="post-content">
+            	<h1 class="post-title">
+                	<a href="#">{{post.title}}</a>
+                </h1>
+                <div class="rich-content">{{post.content}}</div>
+            </div>
+            <div class="post-extra clearfix">
+            	<div class="post-link-wrap">
+                	<span class="tags">{{post.tags|join(' | ')}}</span>
+                    <!--<span class="pipe">|</span>-->
+                </div>
+            </div>
+            <div class="post-note">{{comment}}</div>
+        </div>
+    </div>
+</div>
+{% include 'footer.html' %}

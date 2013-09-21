@@ -1,0 +1,38 @@
+{% include 'header.html' %}
+<div id="content">
+	{% for post in posts %}
+	<div class="post post-text clearfix">
+    	<div class="post-meta">
+        	<a class="post-date" href="{{post.url}}">{{post.date}}</a>
+        </div>
+        <div class="post-body">
+        	<div class="post-content">
+            	<h1 class="post-title">
+                	<a href="{{post.url}}">{{post.title}}</a>
+                </h1>
+                <div class="rich-content">
+                	<div class="text-summary">{{post.content}}</div>
+                </div>
+            </div>
+            <div class="post-extra clearfix">
+            	<div class="post-link-wrap">
+                	<span class="tags">{{post.tags|join(' | ')}}</span>
+                    <!--<span class="pipe">|</span>-->
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+    <div id="pagination" class="normal-pagination">
+        <a href="" id="pager-prev">上一页</a>
+        <a href="" id="pager-next">下一页</a>
+    </div>
+</div>
+<script type="text/javascript">
+var pre = document.getElementById('pager-prev'), next = document.getElementById('pager-next');
+var l = window.location.href.split('/').slice(-1)[0].split('.')[0];
+if(l == '' || l == 'index') l=1,pre.style.display = 'none';
+else r=Number(l)-1, pre.href = ((r==1) ? 'index' : r)+'.html';
+next.href = (Number(l)+1)+'.html';
+</script>
+{% include 'footer.html' %}

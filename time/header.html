@@ -1,0 +1,62 @@
+<!DOCTYPE　html>
+<html>
+<head>
+	<meta charset="utf-8" content="" http-equiv="content-type" />
+  	<title>{% if post %}{{post.title}} - {% endif %}{{site.title}}</title>
+    <link rel="stylesheet" type="text/css" href="http://rawgithub.com/lizheming/PMBlog/theme/time/style.css">
+	<script type="text/javascript" src="http://lib.sinaapp.com/js/jquery/1.9.0/jquery.min.js"></script>
+    <script type="text/javascript" src="http://google-code-prettify.googlecode.com/svn/trunk/src/prettify.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://google-code-prettify.googlecode.com/svn/loader/skins/desert.css">
+	<script type="text/javascript">
+    $(function () {
+        $("pre").addClass("prettyprint linenums");
+        prettyPrint();
+		
+        var searchActive = false;
+        $('#nav-search').click(function(){
+            if(!searchActive){
+                $('#nav-search-input').fadeIn();
+                $('#nav-search-wrap').addClass('active');
+                $('#nav-search-input').focus();
+                searchActive = true;
+            }else{
+                $('#nav-search-input').fadeOut();
+                $('#nav-search-wrap').removeClass('active');
+                searchActive = false;
+            }
+        });
+
+        $('#nav-search-form').submit(function(ev){
+            ev.stopPropagation();
+            ev.preventDefault();
+            location.href = 'https://www.google.com.hk/#q=site:{{site.url}} '+encodeURIComponent($('#nav-search-input').val());
+        });
+    });
+    </script>
+</head>
+<body>
+	<div id="wrap">
+        <div id="header-wrap">
+        	<div id="header" class="clearfix">
+            	<div id="nav">
+                	<a href="{{site.url}}" class="nav-item">首页</a>
+                	{% for item in menu %}
+                	<a href="{{item.url}}" title="{{item.description}}">{{item.title}}</a>
+                	{% endfor %}
+                	<!--
+                	<a href="{{site.url}}/page/guestbook.html" class="nav-item">留言</a>
+                	-->
+                    <div id="nav-search-wrap">
+                    	<span id="nav-search" class="nav-item">搜索</span>
+                        <form id="nav-search-form">
+                        	<input type="text" id="nav-search-input" style="display:none">
+                        </form>
+                    </div>
+                </div>
+                <div id="blog-info">
+                	<h1 id="blog-name">
+                    	<a href="{{site.url}}">{{site.title}}</a>
+                    </h1>
+                </div>
+            </div>
+        </div>
