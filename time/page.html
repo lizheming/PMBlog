@@ -3,7 +3,7 @@
 	<div class="post post-text clearfix">
     	<div class="post-meta">
         	<a class="post-date" href="#">
-            	{{post.date}}
+            	<span class="post-date-month">{{post.date|date('F')}}</span><span class="post-date-day">{{post.date|date('d')}}</span><span class="post-date-year">{{post.date|date('Y')}}</span>
             </a>
         </div>
         <div class="post-body">

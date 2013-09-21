@@ -3,7 +3,9 @@
 	{% for post in posts %}
 	<div class="post post-text clearfix">
     	<div class="post-meta">
-        	<a class="post-date" href="{{post.url}}">{{post.date}}</a>
+        	<a class="post-date" href="{{post.url}}">
+				<span class="post-date-month">{{post.date|date('F')}}</span><span class="post-date-day">{{post.date|date('d')}}</span><span class="post-date-year">{{post.date|date('Y')}}</span>
+        	</a>
         </div>
         <div class="post-body">
         	<div class="post-content">
