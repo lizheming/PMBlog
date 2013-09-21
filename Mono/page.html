@@ -1,0 +1,27 @@
+{% include 'header.html' %}
+<div id="contents" class="clearfix">
+  <div id="left_col">
+            <div class="post clearfix" id="single_post">
+              <div class="post_content_wrapper">
+                <h2 class="post_title"><span>{{post.title}}</span></h2>
+                <div class="post_content">
+                {{post.content}}
+                </div>
+              </div>
+        	  <dl class="post_meta">
+          		<dt class="meta_date">{{post.date|date('Y</dt>
+          		<dd class="post_date">{{post.date|date('m}<span>/{date:d')}}</span></dd>
+          		<dt>TAGS</dt>
+          		<dd>{{post.tags|join(',')}}</dd>
+          		<dt class="meta_comment">
+                <div class="ds-thread-count" data-thread-key="{{post.filename}}"></div>
+                </dt>
+        	  </dl>
+            </div>
+            <div class="content_noside">
+            {{comment}}
+            </div>
+    </div>
+{% include 'sidebar.html' %}
+</div>
+{% include 'footer.html' %}

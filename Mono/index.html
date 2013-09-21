@@ -1,0 +1,43 @@
+{% include 'header.html' %}
+<div id="contents" class="clearfix">
+  <div id="left_col">
+  		{% for post in posts %}
+        <div class="post_odd">
+          <div class="post clearfix">
+              <div class="post_content_wrapper">
+                  <h2 class="post_title"><a href="{{post.url}}" rel="bookmark">{{post.title}}</a></h2>
+                  <div class="post_content">{{post.content}}</div>
+              </div>
+        	  <dl class="post_meta">
+          		<dt class="meta_date">{{post.date|date('Y')}}</dt>
+          		<dd class="post_date">{{post.date|date('m')}}<span>/{{post.date|date('d')}}</span></dd>
+          		<dt>TAGS</dt>
+          		<dd>{{post.tags|join(',')}}</dd>
+          		<dt class="meta_comment">
+                <div class="ds-thread-count" data-thread-key="{{post.filename}}"></div>
+                </dt>
+        	  </dl>
+          </div>
+        </div>
+        {% endfor %}
+    <div class="content_noside">
+      <div class="page_navi clearfix">
+      	<div class="pager">
+    		<a class="round pre" id="pre" href="" style="float:left">上一页</a>
+    		<a class="round next" id="next" href=""  style="float:right">下一页</a>
+		</div>
+        <script type="text/javascript">
+			var pre = document.getElementById('pre'), next = document.getElementById('next');
+			var l = window.location.href.split('/').slice(-1)[0].split('.')[0];
+			if(l == '' || l == 'index') l=1,pre.style.display = 'none';
+			else r=Number(l)-1, pre.href = ((r==1) ? 'index' : r)+'.html';
+			next.href = (Number(l)+1)+'.html';
+		</script>
+	  </div>
+    </div>
+  </div>
+  <!-- #left_col end -->
+  {% include 'sidebar.html' %}
+</div>
+<!-- end #content-->
+{% include 'footer.html' %}

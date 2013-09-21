@@ -1,0 +1,42 @@
+  <div id="right_col">
+      <div id="information_area" class="clearfix">
+        <div class="side_box" id="information">
+          <h3>Information</h3>
+          <div id="information_contents">
+            欢迎来到我的网站
+          </div>
+        </div>
+        <div id="entries_rss"> <a href="{{site.url}}/rss.xml" title="Entries RSS" >RSS FEED</a> </div>
+      </div>
+      
+  <div class="side_box" id="search_area_top">
+    <div id="search_area" class="clearfix">
+        <div>
+          <input type="text" name="s" id="search_input" value="Search" onfocus="if(this.value=='Search'){this.value=''; this.style.color = 'white';}" onblur="if(this.value=='')this.value='Search'; this.style.color = 'gray';" />
+        </div>
+        <div>
+          <input type="image" src="http://rawgithub.com/lizheming/PMBlog/theme/Mono/img/search_button.gif" alt="Search from this blog." title="Search from this blog." id="search_button" />
+        </div>
+<script type="text/javascript">
+var s=document.getElementById('search_input'), b=document.getElementById('search_button');
+b.onclick = function() {
+    if(s.value != '') {
+        window.open("https://www.google.com.hk/#q=site:{{site.url}} "+s.value);
+    } else {
+        alert('请输入搜索内容');
+    }
+}   
+</script>
+    </div>
+    </div>
+    
+    <div class="side_box" id="recent-posts">
+        <h3>Recent Posts</h3>
+        <ul>
+        {% for post in RecentPost %}
+        <li><a href="{{post.url}}">{{post.title}}</a></li>
+        {% endfor %}
+        </ul>
+    </div>
+  </div>
+<!-- #right_col end --> 
