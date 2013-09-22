@@ -4,7 +4,7 @@ date_default_timezone_set('Asia/Shanghai');
 $pagestartime=microtime(); //mark a begin runtime to calculate this page's runtime
 set_time_limit(0);
 //check update!
-$version = 3.0;
+$version = 3.1;
 $curl = curl_init('https://rawgithub.com/lizheming/PMBlog/master/version.json');
 curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
 curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
