@@ -118,5 +118,10 @@ class parse {
 	function image() {
 		$preg = "/<img src=\"(.+?)\".*?>/";
 		$n = preg_match_all($preg, $this->text(), $match);
+		if($n!=0) {
+			return $match[1][0];
+		} else {
+			return 'None';
+		}
 	}
 }

@@ -5,7 +5,7 @@ $pagestartime=microtime(); //mark a begin runtime to calculate this page's runti
 set_time_limit(0);
 //check update!
 $version = 3.0;
-$curl = curl_init('https://gitcafe.com/lizheming/PMBlog/raw/master/version.json');
+$curl = curl_init('https://rawgithub.com/lizheming/PMBlog/master/version.json');
 curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
 curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
 curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
@@ -13,7 +13,7 @@ $check = curl_exec($curl);
 curl_close($curl);
 $check = json_decode($check, true);
 if($check[0]['version'] > $version) {
-	die('PMBlog好像发布新版本咯，<a href="http://gitcafe.com/lizheming/PMBlog" title="PMBlog">点击这里</a>去下载新版本再来更新博客吧！<p>更新信息： </p>'.$check[0]['description']);
+	die('PMBlog好像发布新版本咯，<a href="http://github.com/lizheming/PMBlog" title="PMBlog">点击这里</a>去下载新版本再来更新博客吧！<p>更新信息： </p>'.$check[0]['description']);
 }
 
 include 'config.php';
@@ -63,15 +63,15 @@ foreach(glob($dir['md'].'*') as $item) {
 	$date = $post->date();
 	//if post's status is draft and post's date is lower than time now, then skip
 	if(!$status or $date >= time()) continue;
-
 	//get post's other infomations
 	$log['type'] = $post->type();
 	$log['filename'] = $post->doc_title();
 	$log['filepath'] = '/'.$log['type'].'/'.$log['filename'].'.html';
 	$log = array_merge($log, array('title'=> $post->title(),'date'=> date($site['config']['dateformat'], $date),'url' => $site['url'].$log['filepath'],'content' => $post->text(),'template' => $post->tmp(),'tags' => $post->tags()));
 
-	//pages haven't abstract and tag category's access
+	//pages haven't cover abstract and tag category's access
 	if($log['type'] == 'post') {
+		$log['cover'] = $post->image();
 		$abstract = explode('<!--more-->', $log['content']);
 		//add abstract...
 		if(isset($abstract[1])) $abstract[0] .= '<div class="read_more"><a href="'.$log['url'].'">{more}</a></div>';
@@ -247,14 +247,13 @@ $sitemap = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>
 
 Twig_Autoloader::register();
 
-$loader = new Twig_loader_filesystem($dir['tmp']);
+$loader = new Twig_Loader_Filesystem($dir['tmp']);
 $twig = new Twig_Environment($loader, array('autoescape'=>false));
 
 //The Page HTML Output
-if(!empty($data['page'])):
 foreach($data['page'] as $key => $post):
 	$file = $post['template'];
-	if(!file_exists($file))	$file = 'page.html';
+	if(!file_exists($dir['tmp'].$file))	$file = 'page.html';
 	$template = $twig->loadTemplate($file);
 	$html = $template->render(compact('site', 'menu', 'link', 'comment', 'RecentPost', 'Archive', 'TagCloud', 'CategoryCloud', 'post'));
 	file_put_contents($dir['html'].$post['filepath'], $html);
@@ -266,10 +265,8 @@ foreach($data['page'] as $key => $post):
 	  <lastmod>".date('c', strtotime($post['date']))."</lastmod>
 	 </url>";
 endforeach;
-endif;
 
 //The Post HTML Output
-if(!empty($data['post'])):
 foreach($data['post'] as $key => $post):
 	//preg from template
 	if(isset($data['post'][$key+1])) {
@@ -295,7 +292,6 @@ foreach($data['post'] as $key => $post):
 	  <lastmod>".date('c', strtotime($post['date']))."</lastmod>
 	 </url>";
 endforeach;
-endif;
 
 //index
 for($i=0,$l=ceil(count($data['post'])/$site['config']['posts_per_page']);$i<$l;$i++) {
@@ -360,7 +356,7 @@ file_put_contents($dir['html'].'sitemap.xml', $sitemap);
 
 
 //RSS and Atom
-$loader = new Twig_loader_filesystem('./lib/');
+$loader = new Twig_Loader_Filesystem('./lib/');
 $twig = new Twig_Environment($loader, array('autoescape'=>false));
 $atom = $twig->loadTemplate('atom.xml');
 $posts = array_slice($data['post'], 0, 20);
