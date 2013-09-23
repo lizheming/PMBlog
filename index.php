@@ -4,7 +4,7 @@ date_default_timezone_set('Asia/Shanghai');
 $pagestartime=microtime(); //mark a begin runtime to calculate this page's runtime
 set_time_limit(0);
 //check update!
-$version = 3.1;
+$version = 3.2;
 $curl = curl_init('https://rawgithub.com/lizheming/PMBlog/master/version.json');
 curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
 curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
@@ -63,15 +63,15 @@ foreach(glob($dir['md'].'*') as $item) {
 	$date = $post->date();
 	//if post's status is draft and post's date is lower than time now, then skip
 	if(!$status or $date >= time()) continue;
+	$post->image();
 	//get post's other infomations
 	$log['type'] = $post->type();
 	$log['filename'] = $post->doc_title();
 	$log['filepath'] = '/'.$log['type'].'/'.$log['filename'].'.html';
 	$log = array_merge($log, array('title'=> $post->title(),'date'=> date($site['config']['dateformat'], $date),'url' => $site['url'].$log['filepath'],'content' => $post->text(),'template' => $post->tmp(),'tags' => $post->tags()));
 
-	//pages haven't cover abstract and tag category's access
+	//pages haven't abstract and tag category's access
 	if($log['type'] == 'post') {
-		$log['cover'] = $post->image();
 		$abstract = explode('<!--more-->', $log['content']);
 		//add abstract...
 		if(isset($abstract[1])) $abstract[0] .= '<div class="read_more"><a href="'.$log['url'].'">{more}</a></div>';
@@ -294,13 +294,14 @@ foreach($data['post'] as $key => $post):
 endforeach;
 
 //index
-for($i=0,$l=ceil(count($data['post'])/$site['config']['posts_per_page']);$i<$l;$i++) {
-	$posts = array_slice($data['post'], $i*$site['config']['posts_per_page'], $site['config']['posts_per_page']);
+foreach(paginator($data['post']) as $paginator) {
+	$posts = $paginator['object_list'];
+	$paginator['previous_page_url'] = $paginator['pre_page_url'] = $site['url'].'/'.$paginator['pre_page_url'];
 	$template = $twig->loadTemplate('index.html');
-	$html = $template->render(compact('site', 'menu', 'link', 'comment', 'RecentPost', 'Archive', 'TagCloud', 'CategoryCloud', 'posts'));
-	file_put_contents($dir['html'].($i+1).'.html', $html);
+	$html = $template->render(compact('site','menu','link','comment','RecentPost','Archive','TagCloud','CategoryCloud','posts','paginator'));
+	file_put_contents($dir['html'].$paginator['page'].'.html', $html);
 	$sitemap .= "<url>
-		<loc>".$site['url']."/".($i+1).".html</loc>
+		<loc>".$site['url']."/".$paginator['page'].".html</loc>
 		<priority>0.8</priority>
 		<changefreq>daily</changefreq>
 		<lastmod>".date('c')."</lastmod>
@@ -313,11 +314,12 @@ $sitemap .= "<url><loc>".$site['url']."/index.html</loc><priority>0.8</priority>
 foreach($categories as $key => $category) {
 	if(DIRECTORY_SEPARATOR == '\\')	$key = iconv('utf-8', 'gbk', $key);
 	CheckFolder($dir['html'].'/category/'.$key);
-	for($i=0,$l=ceil(count($category)/$site['config']['posts_per_page']);$i<$l;$i++) {
-		$posts = array_slice($category, $i*$site['config']['posts_per_page'], $site['config']['posts_per_page']);
+	foreach(paginator($category) as $paginator) {
+		$posts = $paginator['object_list'];
+		$paginator['previous_page_url'] = $paginator['pre_page_url'] = $site['url'].'/category/'.$key.'/'.$paginator['pre_page_url'];
 		$template = $twig->loadTemplate('index.html');
-		$html = $template->render(compact('site', 'menu', 'link', 'comment', 'RecentPost', 'Archive', 'TagCloud', 'CategoryCloud', 'posts'));
-		file_put_contents($dir['html'].'/category/'.$key.'/'.($i+1).'.html', $html);
+		$html = $template->render(compact('site','menu','link','comment','RecentPost','Archive','TagCloud','CategoryCloud','posts','paginator'));
+		file_put_contents($dir['html'].'/category/'.$key.'/'.$paginator['page'].'.html', $html);
 		$sitemap .= "<url>
 			<loc>".$site['url']."/category/".$key."/".($i+1).".html</loc>
 			<priority>0.8</priority>
@@ -333,11 +335,12 @@ foreach($categories as $key => $category) {
 foreach($tags as $key => $tag) {
 	if(DIRECTORY_SEPARATOR == '\\')	$key = iconv('utf-8', 'gbk', $key);
 	CheckFolder($dir['html'].'/tag/'.$key);
-	for($i=0,$l=ceil(count($tag)/$site['config']['posts_per_page']);$i<$l;$i++) {
-		$posts = array_slice($tag, $i*$site['config']['posts_per_page'], $site['config']['posts_per_page']);
+	foreach(paginator($tag) as $paginator) {
+		$posts = $paginator['object_list'];
+		$paginator['previous_page_url'] = $paginator['pre_page_url'] = $site['url'].'/tag/'.$key.'/'.$paginator['pre_page_url'];
 		$template = $twig->loadTemplate('index.html');
-		$html = $template->render(compact('site', 'menu', 'link', 'comment', 'RecentPost', 'Archive', 'TagCloud', 'CategoryCloud', 'posts'));
-		file_put_contents($dir['html'].'/tag/'.$key.'/'.($i+1).'.html', $html);
+		$html = $template->render(compact('site','menu','link','comment','RecentPost','Archive','TagCloud','CategoryCloud','posts','paginator'));
+		file_put_contents($dir['html'].'/tag/'.$key.'/'.$paginator['page'].'.html', $html);
 		$sitemap .= "<url>
 			<loc>".$site['url']."/tag/".$key."/".($i+1).".html</loc>
 			<priority>0.8</priority>

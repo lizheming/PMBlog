@@ -1,10 +1,7 @@
 <?php
 include_once 'markdown.php';
-include_once 'Twig/Autoloader.php';
-//include_once 'output.php';
-function CheckFolder($path)	{
-	if(!is_writable($path)) mkdir($path, 0777);
-}
+include_once dirname(__FILE__).'/Twig/Autoloader.php';
+include_once 'function.php';
 
 class parse {
 	var $doc;
@@ -109,7 +106,7 @@ class parse {
 			return trim($match[1][0]).'.html';
 		else:
 			if($this->type() != 'page'):
-				return 'blog.html';
+				return 'post.html';
 			else:
 				return 'page.html';
 			endif;
