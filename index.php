@@ -73,16 +73,18 @@ foreach(glob($dir['md'].'*') as $item) {
 	//pages haven't abstract and tag category's access
 	if($log['type'] == 'post') {
 		$abstract = explode('<!--more-->', $log['content']);
-		//add abstract...
-		if(isset($abstract[1])) $abstract[0] .= '<div class="read_more"><a href="'.$log['url'].'">{more}</a></div>';
+		
+		$log['read_more'] = false;
+		if(isset($abstract[1])) $log['read_more'] = true;
 
-		$log['abstract'] = $abstract[0];
+		$log['opening'] = $abstract[0];
 		$log['categories'] = $post->categories();
 
 		foreach($log['tags'] as $item) $tags[$item][] = $log;
 		foreach($log['categories'] as $item) $categories[$item][] = $log;
 	} else {
-		unset($log['abstract']);
+		unset($log['read_more']);
+		unset($log['opening']);
 		unset($log['categories']);
 		unset($log['tags']);
 	}
@@ -109,7 +111,8 @@ foreach(array_keys($categories) as $i) usort($categories[$i], $srt);
 			'type'=> '',
 			'filename'=> '',
 			'filepath'=> '',
-			'abstract'=> '',
+			'opening'=> '',
+			'read_more' => '',
 			'content'=> '',
 			'template'=> '',
 			'tags'=> array(),
