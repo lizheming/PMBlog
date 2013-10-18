@@ -254,6 +254,8 @@ $loader = new Twig_Loader_Filesystem($dir['tmp']);
 $twig = new Twig_Environment($loader, array('autoescape'=>false));
 
 //The Page HTML Output
+if(count($data['page'])) 
+{
 foreach($data['page'] as $key => $post):
 	$file = $post['template'];
 	if(!file_exists($dir['tmp'].$file))	$file = 'page.html';
@@ -268,8 +270,11 @@ foreach($data['page'] as $key => $post):
 	  <lastmod>".date('c', strtotime($post['date']))."</lastmod>
 	 </url>";
 endforeach;
+}
 
 //The Post HTML Output
+if(count($data['post'])) 
+{
 foreach($data['post'] as $key => $post):
 	//preg from template
 	if(isset($data['post'][$key+1])) {
@@ -295,6 +300,7 @@ foreach($data['post'] as $key => $post):
 	  <lastmod>".date('c', strtotime($post['date']))."</lastmod>
 	 </url>";
 endforeach;
+}
 
 //index
 foreach(paginator($data['post']) as $paginator) {
@@ -314,10 +320,12 @@ copy($dir['html'].'1.html', $dir['html'].'index.html');
 $sitemap .= "<url><loc>".$site['url']."/index.html</loc><priority>0.8</priority><changefreq>daily</changefreq><lastmod>".date('c')."</lastmod></url>";
 
 //output category
-foreach($categories as $key => $category) {
+if($site['config']['category']) 
+{
+foreach($categories as $key => $category) :
 	if(DIRECTORY_SEPARATOR == '\\')	$key = iconv('utf-8', 'gbk', $key);
 	CheckFolder($dir['html'].'/category/'.$key);
-	foreach(paginator($category) as $paginator) {
+	foreach(paginator($category) as $paginator) :
 		$posts = $paginator['object_list'];
 		$paginator['previous_page_url'] = $paginator['pre_page_url'] = $site['url'].'/category/'.$key.'/'.$paginator['pre_page_url'];
 		$template = $twig->loadTemplate('index.html');
@@ -329,16 +337,19 @@ foreach($categories as $key => $category) {
 			<changefreq>daily</changefreq>
 			<lastmod>".date('c')."</lastmod>
 		</url>";
-	}
+	endforeach;
 	copy($dir['html'].'/category/'.$key.'/1.html', $dir['html'].'/category/'.$key.'/index.html');
 	$sitemap .= "<url><loc>".$site['url']."/category/".$key."/index.html</loc><priority>0.8</priority><changefreq>daily</changefreq><lastmod>".date('c')."</lastmod></url>";
+endforeach;
 }
 
 //output tags
-foreach($tags as $key => $tag) {
+if($site['config']['tag']) 
+{
+foreach($tags as $key => $tag):
 	if(DIRECTORY_SEPARATOR == '\\')	$key = iconv('utf-8', 'gbk', $key);
 	CheckFolder($dir['html'].'/tag/'.$key);
-	foreach(paginator($tag) as $paginator) {
+	foreach(paginator($tag) as $paginator):
 		$posts = $paginator['object_list'];
 		$paginator['previous_page_url'] = $paginator['pre_page_url'] = $site['url'].'/tag/'.$key.'/'.$paginator['pre_page_url'];
 		$template = $twig->loadTemplate('index.html');
@@ -350,9 +361,10 @@ foreach($tags as $key => $tag) {
 			<changefreq>daily</changefreq>
 			<lastmod>".date('c')."</lastmod>
 		</url>";
-	}
+	endforeach;
 	copy($dir['html'].'/tag/'.$key.'/1.html', $dir['html'].'/tag/'.$key.'/index.html');
 	$sitemap .= "<url><loc>".$site['url']."/tag/".$key."/index.html</loc><priority>0.8</priority><changefreq>daily</changefreq><lastmod>".date('c')."</lastmod></url>";
+endforeach;
 }
 
 /*sitemap*/

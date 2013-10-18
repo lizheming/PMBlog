@@ -1,13 +1,15 @@
 <?php
 $site = array(
-	'title' => 'PMBlog',	//Blog title
-	'url' => 'https://github.com/lizheming/PMBlog/',	//Blog URL
+	'title' => 'PMBlog',	//博客标题
+	'url' => 'http://lizheming.github.io/PMBlog',	//博客地址
 	'config' => array(
-		'template' => 'default',	//Blog theme
-		'dateformat' => 'Y-m-d H:i:s',	//Blog time format, if you don't know what it is, don't change it!
-		'doc' => 'md',	//define which folder to be your post's storage
-		'html' => 'html',	//define which folder to be the last blog's storage
-		'posts_per_page' =>	'3'	//define how posts display in one page
+		'template' => 'notepad',	//博客主题
+		'dateformat' => 'Y-m-d H:i:s',	//默认时间格式，如果不知道怎么改就不用动了！
+		'doc' => 'md',	//日志存放文件夹
+		'html' => 'html',	//静态文件输出文件夹
+		'posts_per_page' =>	'3',//每页显示多少篇文章
+		'tag' => true,	//是否输出标签导航页
+		'category' => true, //是否输出分类导航页
 		//'scripts_per_page' => ''	//you can put the third comment system code in here
 	)
 );
