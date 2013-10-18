@@ -225,6 +225,8 @@ for($i=0;$i<10;$i++) {
 	unset($RecentPost[$i]['content']);
 }
 //TagCloud 
+if(count($tags)) 
+{
 $TagCloud = array();
 foreach($tags as $key => $tag) {
 	$TagCloud[] = array(
@@ -233,7 +235,10 @@ foreach($tags as $key => $tag) {
 		'length' => count($tag)
 	);
 }
+}
 //CategoryCloud
+if(count($categories)) 
+{
 $CategoryCloud = array();
 foreach($categories as $key =>$category) {
 	$CategoryCloud[] = array(
@@ -242,7 +247,7 @@ foreach($categories as $key =>$category) {
 		'length' => count($category)
 	);
 }
-
+}
 
 $sitemap = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>
 <urlset xsi:schemaLocation=\"http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">";
