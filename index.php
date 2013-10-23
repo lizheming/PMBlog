@@ -1,20 +1,25 @@
 <?php
-	
+
 date_default_timezone_set('Asia/Shanghai');
 $pagestartime=microtime(); //mark a begin runtime to calculate this page's runtime
 set_time_limit(0);
 //check update!
-$version = 3.2;
-$curl = curl_init('https://rawgithub.com/lizheming/PMBlog/master/version.json');
-curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
-curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
-curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-$check = curl_exec($curl);
-curl_close($curl);
-$check = json_decode($check, true);
-if($check[0]['version'] > $version) {
-	die('PMBlog好像发布新版本咯，<a href="http://github.com/lizheming/PMBlog" title="PMBlog">点击这里</a>去下载新版本再来更新博客吧！<p>更新信息： </p>'.$check[0]['description']);
+if(extension_loaded('cURL'))
+{
+	$version = 3.2;
+	$curl = curl_init('https://rawgithub.com/lizheming/PMBlog/master/version.json');
+	curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
+	curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+	curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+	$check = curl_exec($curl);
+	curl_close($curl);
+	$check = json_decode($check, true);
+	if($check[0]['version'] > $version)
+	{
+		die('PMBlog好像发布新版本咯，<a href="http://github.com/lizheming/PMBlog" title="PMBlog">点击这里</a>去下载新版本再来更新博客吧！<p>更新信息： </p>'.$check[0]['description']);
+	}	
 }
+
 
 include 'config.php';
 include 'lib/parse.php';
@@ -30,30 +35,24 @@ $dir = array_map(
 			'html' => $site['config']['html']
 		)
 	);
-
-//add folders check, so we don't worry we have no folder to save!
-CheckFolder($dir['html'].'/post');
-CheckFolder($dir['html'].'/page');
-CheckFolder($dir['html'].'/tag');
-CheckFolder($dir['html'].'/category');
-
+	
+/*
 //delete all output file 
 @unlink($dir['html'].'rss.xml');
 @unlink($dir['html'].'index.html');
 foreach(glob($dir['html'].'*.html') as $html_doc) {
-	if(preg_match('/\/\d{1,}\.html/i', $html_doc)) @unlink($html_doc);
+        if(preg_match('/\/\d{1,}\.html/i', $html_doc)) @unlink($html_doc);
 }
-foreach(glob($dir['html'].'page/*') as $html_doc) @unlink($html_doc);
-foreach(glob($dir['html'].'post/*') as $html_doc) @unlink($html_doc);
 
 function removeDir($dirName) { 
-	foreach(glob($dirName.'/*') as $dir) {
-		foreach(glob($dir.'/*') as $f) @unlink($f);
-		rmdir($dir);
-	}
+        foreach(glob($dirName.'/*') as $dir) {
+                foreach(glob($dir.'/*') as $f) @unlink($f);
+                rmdir($dir);
+        }
 }
 removeDir($dir['html'].'/tag');
 removeDir($dir['html'].'/category');
+*/
 
 $data = $tags = $categories = array();
 
@@ -67,7 +66,12 @@ foreach(glob($dir['md'].'*') as $item) {
 	//get post's other infomations
 	$log['type'] = $post->type();
 	$log['filename'] = $post->doc_title();
-	$log['filepath'] = '/'.$log['type'].'/'.$log['filename'].'.html';
+	$router = str_replace(
+		array('{year}','{month}','{day}'),
+		array(date('Y', $date), date('m', $date), date('d', $date)),
+		$site['config']['router'][$log['type']]
+	);
+	$log['filepath'] = $router.'/'.$log['filename'].'.html';
 	$log = array_merge($log, array('title'=> $post->title(),'date'=> date($site['config']['dateformat'], $date),'url' => $site['url'].$log['filepath'],'content' => $post->text(),'template' => $post->tmp(),'tags' => $post->tags()));
 
 	//pages haven't abstract and tag category's access
@@ -266,6 +270,7 @@ foreach($data['page'] as $key => $post):
 	if(!file_exists($dir['tmp'].$file))	$file = 'page.html';
 	$template = $twig->loadTemplate($file);
 	$html = $template->render(compact('site', 'menu', 'link', 'comment', 'RecentPost', 'Archive', 'TagCloud', 'CategoryCloud', 'post'));
+	mkfolder(dirname($dir['html'].$post['filepath']));
 	file_put_contents($dir['html'].$post['filepath'], $html);
 	$sitemap .= "
 	 <url>
@@ -296,6 +301,7 @@ foreach($data['post'] as $key => $post):
 	}
 	$template = $twig->loadTemplate('post.html');
 	$html = $template->render(compact('site', 'menu', 'link', 'comment', 'RecentPost', 'Archive', 'TagCloud', 'CategoryCloud', 'post'));
+	mkfolder(dirname($dir['html'].$post['filepath']));
 	file_put_contents($dir['html'].$post['filepath'], $html);
 	$sitemap .= "
 	 <url>
@@ -329,7 +335,7 @@ if($site['config']['category'])
 {
 foreach($categories as $key => $category) :
 	if(DIRECTORY_SEPARATOR == '\\')	$key = iconv('utf-8', 'gbk', $key);
-	CheckFolder($dir['html'].'/category/'.$key);
+	mkfolder($dir['html'].'/category/'.$key);
 	foreach(paginator($category) as $paginator) :
 		$posts = $paginator['object_list'];
 		$paginator['previous_page_url'] = $paginator['pre_page_url'] = $site['url'].'/category/'.$key.'/'.$paginator['pre_page_url'];
@@ -353,7 +359,7 @@ if($site['config']['tag'])
 {
 foreach($tags as $key => $tag):
 	if(DIRECTORY_SEPARATOR == '\\')	$key = iconv('utf-8', 'gbk', $key);
-	CheckFolder($dir['html'].'/tag/'.$key);
+	mkfolder($dir['html'].'/tag/'.$key);
 	foreach(paginator($tag) as $paginator):
 		$posts = $paginator['object_list'];
 		$paginator['previous_page_url'] = $paginator['pre_page_url'] = $site['url'].'/tag/'.$key.'/'.$paginator['pre_page_url'];
