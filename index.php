@@ -322,7 +322,9 @@ foreach($data['post'] as $key => $post):
 	} else {
 		$post['prev'] = '';
 	}
-	$template = $twig->loadTemplate('post.html');
+	$file = $post['template'];
+	if(!file_exists($dir['tmp'].$file))	$file = 'post.html';
+	$template = $twig->loadTemplate($file);
 	$html = $template->render(compact('site', 'menu', 'link', 'comment', 'RecentPost', 'Archive', 'TagCloud', 'CategoryCloud', 'post'));
 	foreach($post['filepath'] as $filepath) {
 		if(DIRECTORY_SEPARATOR == '\\')	$filepath = iconv('utf-8', 'gbk', $filepath);
