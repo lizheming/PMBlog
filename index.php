@@ -71,8 +71,13 @@ foreach(glob($dir['md'].'*') as $item) {
 		array(date('Y', $date), date('m', $date), date('d', $date)),
 		$site['config']['router'][$log['type']]
 	);
-	$log['filepath'] = $router.'/'.$log['filename'].'.html';
-	$log = array_merge($log, array('title'=> $post->title(),'date'=> date($site['config']['dateformat'], $date),'url' => $site['url'].$log['filepath'],'content' => $post->text(),'template' => $post->tmp(),'tags' => $post->tags()));
+	$log = array_merge($log, array(
+		'title'=> $post->title(),
+		'date'=> date($site['config']['dateformat'], $date),
+		'content' => $post->text(),
+		'template' => $post->tmp(),
+		'tags' => $post->tags()
+	));
 
 	//pages haven't abstract and tag category's access
 	if($log['type'] == 'post') {
@@ -83,10 +88,28 @@ foreach(glob($dir['md'].'*') as $item) {
 
 		$log['opening'] = $abstract[0];
 		$log['categories'] = $post->categories();
-
+		/*post URL replace {category}
+		  the url setting maynot have {category}, then post.filepath will return just only one item
+		  if it has, then loop to replace {category} and push to array post.filepath
+		  the first category will be the part of the post.url
+		*/
+		if(preg_match('/{category}/', $router)) {
+			$log['filepath'] = array();
+			foreach($log['categories'] as $item) {
+				$log['filepath'][] = str_replace('{category}', $item, $router).'/'.$log['filename'].'.html';
+			}
+		} else {
+			$log['filepath'] = array($router.'/'.$log['filename'].'.html');
+		}
+		$log['url'] = $site['url'].$log['filepath'][0];
+		
 		foreach($log['tags'] as $item) $tags[$item][] = $log;
-		foreach($log['categories'] as $item) $categories[$item][] = $log;
+		foreach($log['categories'] as $item) {
+			$categories[$item][] = $log;
+		}
 	} else {
+		$log['filepath'] = $router.'/'.$log['filename'].'.html';
+		$log['url'] = $site['url'].$log['filepath'];
 		unset($log['read_more']);
 		unset($log['opening']);
 		unset($log['categories']);
@@ -142,7 +165,7 @@ foreach(array_keys($categories) as $i) usort($categories[$i], $srt);
  *
  *
  */
-
+ 
  //Get Archive
 function PCOUNT($array) {
 	$count = 0;
@@ -301,11 +324,14 @@ foreach($data['post'] as $key => $post):
 	}
 	$template = $twig->loadTemplate('post.html');
 	$html = $template->render(compact('site', 'menu', 'link', 'comment', 'RecentPost', 'Archive', 'TagCloud', 'CategoryCloud', 'post'));
-	mkfolder(dirname($dir['html'].$post['filepath']));
-	file_put_contents($dir['html'].$post['filepath'], $html);
+	foreach($post['filepath'] as $filepath) {
+		if(DIRECTORY_SEPARATOR == '\\')	$filepath = iconv('utf-8', 'gbk', $filepath);
+		mkfolder($dir['html'].dirname($filepath));
+		file_put_contents($dir['html'].$filepath, $html);
+	}
 	$sitemap .= "
 	 <url>
-	  <loc>".$site['url'].$post['filepath']."</loc>
+	  <loc>".$site['url'].$post['filepath'][0]."</loc>
 	  <priority>1.0</priority>
 	  <changefreq>monthly</changefreq>
 	  <lastmod>".date('c', strtotime($post['date']))."</lastmod>
@@ -380,7 +406,7 @@ endforeach;
 
 /*sitemap*/
 $sitemap .= '</urlset>';
-if(DIRECTORY_SEPARATOR == '\\') $sitemap = iconv('gbk', 'utf-8', $sitemap);
+if(DIRECTORY_SEPARATOR == '\\') $sitemap = @iconv('gbk', 'utf-8', $sitemap);
 file_put_contents($dir['html'].'sitemap.xml', $sitemap);
 
 
