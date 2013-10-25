@@ -44,19 +44,13 @@ foreach(glob($dir['html'].'*.html') as $html_doc) {
         if(preg_match('/\/\d{1,}\.html/i', $html_doc)) @unlink($html_doc);
 }
 
-function removeDir($dirName) { 
-        foreach(glob($dirName.'/*') as $dir) {
-                foreach(glob($dir.'/*') as $f) @unlink($f);
-                rmdir($dir);
-        }
-}
+*/
 removeDir($dir['html'].'/tag');
 removeDir($dir['html'].'/category');
-*/
 
 $data = $tags = $categories = array();
 
-foreach(glob($dir['md'].'*') as $item) {
+foreach(daily($dir['md'].'*') as $item) {
 	$post = new parse($item);
 	$status = $post->status();
 	$date = $post->date();
@@ -87,7 +81,17 @@ foreach(glob($dir['md'].'*') as $item) {
 		if(isset($abstract[1])) $log['read_more'] = true;
 
 		$log['opening'] = $abstract[0];
+		
+		$dirname = dirname($item).'/';
+		$dirname = str_replace($dir['md'], '', $dirname);
+		$dirname = explode('/', $dirname);
+		$dirname = array_filter($dirname);
 		$log['categories'] = $post->categories();
+		if($log['categories'][0] != '未分类') {
+			$log['categories'] = array_merge($log['categories'], $dirname);
+		} else {
+			if(count($dirname) > 0)	$log['categories'] = $dirname;
+		}
 		/*post URL replace {category}
 		  the url setting maynot have {category}, then post.filepath will return just only one item
 		  if it has, then loop to replace {category} and push to array post.filepath
