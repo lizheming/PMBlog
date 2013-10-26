@@ -21,7 +21,7 @@ class parse {
 		if(isset($match[1][0])) {
 			return trim($match[1][0]);
 		} else {
-			$preg = '/^#(.*?)$/im';
+			$preg = '/^#([^#].*?)$/im';
 			$n = preg_match_all($preg, $this->text, $match);
 			if($n == 1) {
 				$title = trim($match[1][0]);
