@@ -70,7 +70,8 @@ foreach(daily($dir['md'].'*') as $item) {
 		'date'=> date($site['config']['dateformat'], $date),
 		'content' => $post->text(),
 		'template' => $post->tmp(),
-		'tags' => $post->tags()
+		'tags' => $post->tags(),
+		'custom' => $post->custom()
 	));
 
 	//pages haven't abstract and tag category's access
@@ -147,7 +148,8 @@ foreach(array_keys($categories) as $i) usort($categories[$i], $srt);
 			'content'=> '',
 			'template'=> '',
 			'tags'=> array(),
-			'categories'=> array()
+			'categories'=> array(),
+			'custom' => array()
 		),
 		array()....
 	),
@@ -160,7 +162,8 @@ foreach(array_keys($categories) as $i) usort($categories[$i], $srt);
 			'filename'=> '',
 			'filepath'=> '',
 			'content'=> '',
-			'template'=> ''
+			'template'=> '',
+			'custom' => array()
 		),
 		array()...
 	)

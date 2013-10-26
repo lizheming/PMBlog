@@ -88,7 +88,7 @@ class parse {
 		return $this->doc_title().'.html';
 	}
 	function text() {
-		$preg = '/^(title|status|tags|date|type|template|category):.*/im';
+		$preg = '/^(title|status|tags|date|type|template|category|custom-.*):.*/im';
 		return Markdown(trim(preg_replace($preg, '', $this->text)));
 	}
 	function type() {
@@ -120,5 +120,18 @@ class parse {
 		} else {
 			return 'None';
 		}
+	}
+	function custom() {
+		$preg = '/^(custom-.*?):(.*?)$/im';
+		$n = preg_match_all($preg, $this->text, $match);
+		if($n!=0) {
+			$custom = array();
+			for($i=0;$i<$n;$i++) {
+				$name = substr($match[1][$i], 7);
+				$custom[$name] = $match[2][$i];
+			}
+			return $custom;
+		}
+		return false;
 	}
 }
