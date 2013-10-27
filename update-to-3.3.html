@@ -1,0 +1,194 @@
+<!DOCTYPE html >
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title>PMBlog升级至3.3版 - PMBlog</title>
+	<script type="text/javascript" src="http://lib.sinaapp.com/js/jquery/1.9.1/jquery-1.9.1.min.js"></script>
+	<style type="text/css">
+	html {width:100%;background:url('http://lizheming.github.io/PMBlog/theme/image/bg.jpg');}
+	body {margin:10px auto 0;padding:0;width:1000px;font-family:'Lucida Grande','Lucida Sans Unicode','Lucida Sans','DejaVu Sans Condensed',Tahoma, Arial,sans-serif;font-size:12px;}
+	a {color:#111;outline:none;text-decoration:none;}
+	a:hover {color:#111;text-decoration:none;}
+	.cf {width:940px;padding-left:30px;padding-right:30px;}
+	#header {padding-top:30px;padding-bottom:80px;background-color:rgb(61,61,61);}
+	#header .logo {float:left;}
+	#header .main-nav {float:right;margin-top:10px;}
+	#header .main-nav a {color:#A7A7A7;padding:8px 10px;font-size:14px;}
+	#header .main-nav a:hover {color:#FFF;background:#000;}
+	#header .menu li {float:left;display:inline;}
+	#main {background-color:#FFF;padding-top:20px;}
+	#main .top p {line-height:2em;text-indent:1em;}
+	.button {display:inline-block;margin-top:35px;vertical-align: baseline;}
+	.button a {padding:10px 20px;font-size:20px;margin:0 20px;}
+	.button a:hover {background:#AAA;color:#FFF;}
+	#main .title {font-size: 22px;color: #7d7d7d;padding: 12px 0 12px 0;margin: 0 0 30px 0;border-bottom: 1px dotted #D1D1D1;width: 940px;}
+	#main .content {font-size: 12px;line-height: 20px;color: #7d7d7d;padding-bottom: 20px;width:600px;float:left;}
+	#main .sidebar {float:right;width:280px;}
+	#main .sidebar a {color:#7D7D7D;}
+	#main .sidebar ul {padding:0;}
+	#main .sidebar li {list-style-type:none;border-bottom:1px dotted #DDD;padding:6px 0 5px 5px;}
+	#main .bottom {padding-top:50px;}
+	#main .bottom div {width:25.2%;height:150px;float:left;padding:0 4%;}
+	#main .bottom ul {padding:0;}
+	#main .bottom li {list-style-type:none;}
+	#footer {color:#DDD;}
+	#footer a{color:#AAA;}
+	#slide_box ul {position: relative;list-style:none;list-style-type: none;overflow: hidden;padding: 0;margin: 0;}
+	#slide_box ul li {-webkit-backface-visibility: hidden;  position: absolute;  display: none;  left: 0;  top: 0;  list-style-type:none;}
+	#slide_box ul li:first-child {  position: relative;  display: block;  float: left;  }
+	#slide_box ul img {  display: block;  height: auto;  float: left;  border: 0;  border:1px solid #000;  }
+	</style>
+</head>
+<body>
+	<header id="header" class="cf">
+	    <div class="logo">
+	    	<a href="http://lizheming.github.io/PMBlog">
+	    		<img src="http://lizheming.github.io/PMBlog/theme/image/logo.png" />
+	    	</a>
+	    </div>
+	    <nav class="main-nav">
+	        <ul class="menu">
+	        	<li><a href="http://lizheming.github.io/PMBlog">Home</a></li>
+	        		        	<li><a href="https://github.com/lizheming/PMBlog/wiki" title="">Documentation</a></li>
+					        	<li><a href="http://lizheming.github.io/PMBlog/page/theme.html" title="">Theme</a></li>
+					        	<li><a href="https://github.com/lizheming/PMBlog/" title="">Download</a></li>
+					        	<li><a href="http://lizheming.github.io/PMBlog/page/forum.html" title="">Forum</a></li>
+					        </ul>
+	    </nav>
+	</header>
+	<div id="main" class="cf">
+		<article>
+	<div class="title">PMBlog升级至3.3版</div>
+	<div class="content">
+	<h2>新增功能</h2>
+
+<h3>新增三个变量</h3>
+
+<h4>post.opening 和 post.read_more</h4>
+
+<blockquote>
+  <p><code>post.opening</code> :　以&lt;!--more--&gt;分割post.content，并提取前半部分</p>
+  
+  <p><code>post.read_more</code>: 如果post.opening已是全文，则为false；反之为true</p>
+</blockquote>
+
+<p>详细内容请看：<a href="https://github.com/lizheming/PMBlog/wiki/%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E5%8F%8A%E5%AD%97%E6%AE%B5#post">WIKI</a></p>
+
+<p>增加这两个变量主要是想要在导航页输出摘要。下面给一个简单的示例：</p>
+
+<pre><code>&lt;div class="content"&gt;
+    {{post.opening}}
+    {% if post.read_more %}
+        &lt;span class="read_more"&gt;阅读全文&lt;/span&gt;
+    {% endif %}
+&lt;/div&gt;
+</code></pre>
+
+<h4>post.custom</h4>
+
+<blockquote>
+  <p><code>post.custom</code>: 文章的自定义变量（在文章用以custom-变量名:变量值实现）</p>
+</blockquote>
+
+<p>详细内容请看<a href="https://github.com/lizheming/PMBlog/wiki/%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E5%8F%8A%E5%AD%97%E6%AE%B5#post">WIKI</a></p>
+
+<p>新增此变量之后用户就可以在文章中自定义头部变量了，下面给个示例：</p>
+
+<p>例如你需要一个<code>description</code>变量存储文章的简介，那么你在编写文章的时候需要这么写</p>
+
+<blockquote>
+  <p>custom-description: 这篇文章讲述了一个潸然泪下的故事</p>
+  
+  <p>从前有个公主，还有个王子，然后他们快乐幸福的生活在了一起。</p>
+</blockquote>
+
+<p>在模板中使用<code>{{post.custom.description}}</code>变量的话就会输出<code>这篇文章讲述了一个潸然泪下的故事</code>了。</p>
+
+<h3>自定义日志文件存储位置</h3>
+
+<p>在<code>config.php</code>文件中新增了两个配置，那就是<code>$site['config']['router']['post']</code>和<code>$site['config']['router']['page']</code>。通过自定义文件的存储路径达到自定义文章和页面的访问地址的目的。目前，文章和页面的访问地址是这样的格式：</p>
+
+<pre><code>日志： {{site.url}} / {{site.config.router.post}} / {{post.filename}} .html
+
+页面： {{site.url}} / {{site.config.router.page}} / {{post.filename}} .html
+</code></pre>
+
+<h3>日志子文件夹读取</h3>
+
+<p>新版对日志文件夹的子文件夹提供了支持（之前只支持日志文件夹根目录下的文件）。并且，子文件夹的名称会作为子文件夹内的文章的一个分类。比如说你的日志文件夹是这样的</p>
+
+<pre><code>|----doc
+    |----生活
+        |----这个月被抢了.md
+        |----又被抢了.md
+    |----技术
+        |----1+1为什么等于2.md
+        |----暴库的那些事.md
+</code></pre>
+
+<p>那么程序就会自动获取得到分类为:</p>
+
+<pre><code>category: {
+    '生活': ['这个月被抢了', '又被抢了'],
+    '技术': ['1+1为什么等于2', '暴库的那些事']
+}
+</code></pre>
+
+<p>注：子文件夹分类不会影响日志的<code>category</code>变量，<code>category</code>变量同时可用，两者会叠加。</p>
+
+<h3>日志支持自定义模板</h3>
+
+<p>这个功能其实之前已经有，但是后来我又去掉了，这下应用户的要求又加上了。</p>
+
+<h2>修复BUG</h2>
+
+<h3>TWIG模板无法加载的错误</h3>
+
+<h3>文章中存在多个#标签的时候无法识别H1标签作为标题</h3>
+
+<h3>其它大大小小BUG</h3>
+
+		<!-- Duoshuo Comment BEGIN -->
+	<div class="ds-thread"></div>
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"pmarook"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = 'http://static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		|| document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+<!-- Duoshuo Comment END --> 	
+	</div>
+	<div class="sidebar">
+		<section>
+			<h3>Theme Info</h3>
+			<ul>
+				<li>模板下载: PMBlog升级至3.3版</li>
+				<li>发布时间: 2013年10月27日
+			</ul>
+		<section>
+		<section>
+			<h3>Theme Tags</h3>
+			<ul>
+									<li><a href="http://lizheming.github.io/PMBlog/tag/project">project</a></li>
+									<li><a href="http://lizheming.github.io/PMBlog/tag/PMBlog">PMBlog</a></li>
+									<li><a href="http://lizheming.github.io/PMBlog/tag/update">update</a></li>
+							</ul>
+		</section>
+	</div>
+	<div style="clear:both"></div>
+</article>
+	</div>
+	<footer id="footer">
+		<div class="copyright">
+			Powered By
+			<a target="_blank" href="http://lizheming.gitcafe.com">PMBlog</a>
+			©2013-2015 Austin Lee Inc. Theme by <a href="http://zh.eming.li">CMS Template</a> .
+		</div>
+	</footer>
+</body>
+</html>

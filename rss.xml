@@ -6,18 +6,112 @@
 <language>zh-cn</language>
 <ttl>10</ttl>
 <item>
-<title><![CDATA[PMBlog全新4.0版低调上线]]></title>
+<title><![CDATA[PMBlog升级至3.3版]]></title>
+<description><![CDATA[&lt;h2&gt;新增功能&lt;/h2&gt;
+
+&lt;h3&gt;新增三个变量&lt;/h3&gt;
+
+&lt;h4&gt;post.opening 和 post.read_more&lt;/h4&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;code&gt;post.opening&lt;/code&gt; :　以&amp;lt;!--more--&amp;gt;分割post.content，并提取前半部分&lt;/p&gt;
+  
+  &lt;p&gt;&lt;code&gt;post.read_more&lt;/code&gt;: 如果post.opening已是全文，则为false；反之为true&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;详细内容请看：&lt;a href=&quot;https://github.com/lizheming/PMBlog/wiki/%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E5%8F%8A%E5%AD%97%E6%AE%B5#post&quot;&gt;WIKI&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;增加这两个变量主要是想要在导航页输出摘要。下面给一个简单的示例：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;div class=&quot;content&quot;&amp;gt;
+    {{post.opening}}
+    {% if post.read_more %}
+        &amp;lt;span class=&quot;read_more&quot;&amp;gt;阅读全文&amp;lt;/span&amp;gt;
+    {% endif %}
+&amp;lt;/div&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h4&gt;post.custom&lt;/h4&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;code&gt;post.custom&lt;/code&gt;: 文章的自定义变量（在文章用以custom-变量名:变量值实现）&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;详细内容请看&lt;a href=&quot;https://github.com/lizheming/PMBlog/wiki/%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E5%8F%8A%E5%AD%97%E6%AE%B5#post&quot;&gt;WIKI&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;新增此变量之后用户就可以在文章中自定义头部变量了，下面给个示例：&lt;/p&gt;
+
+&lt;p&gt;例如你需要一个&lt;code&gt;description&lt;/code&gt;变量存储文章的简介，那么你在编写文章的时候需要这么写&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;custom-description: 这篇文章讲述了一个潸然泪下的故事&lt;/p&gt;
+  
+  &lt;p&gt;从前有个公主，还有个王子，然后他们快乐幸福的生活在了一起。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;在模板中使用&lt;code&gt;{{post.custom.description}}&lt;/code&gt;变量的话就会输出&lt;code&gt;这篇文章讲述了一个潸然泪下的故事&lt;/code&gt;了。&lt;/p&gt;
+
+&lt;h3&gt;自定义日志文件存储位置&lt;/h3&gt;
+
+&lt;p&gt;在&lt;code&gt;config.php&lt;/code&gt;文件中新增了两个配置，那就是&lt;code&gt;$site[&#039;config&#039;][&#039;router&#039;][&#039;post&#039;]&lt;/code&gt;和&lt;code&gt;$site[&#039;config&#039;][&#039;router&#039;][&#039;page&#039;]&lt;/code&gt;。通过自定义文件的存储路径达到自定义文章和页面的访问地址的目的。目前，文章和页面的访问地址是这样的格式：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;日志： {{site.url}} / {{site.config.router.post}} / {{post.filename}} .html
+
+页面： {{site.url}} / {{site.config.router.page}} / {{post.filename}} .html
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3&gt;日志子文件夹读取&lt;/h3&gt;
+
+&lt;p&gt;新版对日志文件夹的子文件夹提供了支持（之前只支持日志文件夹根目录下的文件）。并且，子文件夹的名称会作为子文件夹内的文章的一个分类。比如说你的日志文件夹是这样的&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;|----doc
+    |----生活
+        |----这个月被抢了.md
+        |----又被抢了.md
+    |----技术
+        |----1+1为什么等于2.md
+        |----暴库的那些事.md
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;那么程序就会自动获取得到分类为:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;category: {
+    &#039;生活&#039;: [&#039;这个月被抢了&#039;, &#039;又被抢了&#039;],
+    &#039;技术&#039;: [&#039;1+1为什么等于2&#039;, &#039;暴库的那些事&#039;]
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;注：子文件夹分类不会影响日志的&lt;code&gt;category&lt;/code&gt;变量，&lt;code&gt;category&lt;/code&gt;变量同时可用，两者会叠加。&lt;/p&gt;
+
+&lt;h3&gt;日志支持自定义模板&lt;/h3&gt;
+
+&lt;p&gt;这个功能其实之前已经有，但是后来我又去掉了，这下应用户的要求又加上了。&lt;/p&gt;
+
+&lt;h2&gt;修复BUG&lt;/h2&gt;
+
+&lt;h3&gt;TWIG模板无法加载的错误&lt;/h3&gt;
+
+&lt;h3&gt;文章中存在多个#标签的时候无法识别H1标签作为标题&lt;/h3&gt;
+
+&lt;h3&gt;其它大大小小BUG&lt;/h3&gt;
+]]></description>
+<pubDate>2013-10-27T13:18:51+08:00</pubDate>
+<guid>http://lizheming.github.io/PMBlog/update-to-3.3.html</guid>
+<link>http://lizheming.github.io/PMBlog/update-to-3.3.html</link>
+</item>
+<item>
+<title><![CDATA[PMBlog全新3.0版低调上线]]></title>
 <description><![CDATA[&lt;p&gt;大概是今年2月份的时候我写了这个程序，当时也没怎么搜资料，就是按照自己的思路写啊写啊写，写到后面就发现越来越坑，不仅维护特别累（前面3个版本每个版都是重写的），而且扩展方面特别让自己无语。&lt;/p&gt;
 
-&lt;p&gt;说到底这个程序只是负责&lt;code&gt;Markdown解析&lt;/code&gt;+&lt;code&gt;模板生成&lt;/code&gt;而已。之前用的模板引擎是自己写的，不仅有BUG，而且语法很坑爹。后来在无意中知道了有模板引擎这么一个东西，表示才知道自己在造轮子啊T_T!!!! 4.0新版摒弃了自己写的模板引擎，采用了全新的&lt;code&gt;Twig&lt;/code&gt;模板引擎，语法和Djang，jinjia类似（官网说的）。这样做最重要的是其它的比如Jekyll或者Farbox的模板只要稍加修改一下就可以用到PMBlog上来了！当然采用了&lt;code&gt;Twig&lt;/code&gt;之后我对这个程序的贡献度就更小了。&lt;/p&gt;
+&lt;p&gt;说到底这个程序只是负责&lt;code&gt;Markdown解析&lt;/code&gt;+&lt;code&gt;模板生成&lt;/code&gt;而已。之前用的模板引擎是自己写的，不仅有BUG，而且语法很坑爹。后来在无意中知道了有模板引擎这么一个东西，表示才知道自己在造轮子啊T_T!!!! 3.0新版摒弃了自己写的模板引擎，采用了全新的&lt;code&gt;Twig&lt;/code&gt;模板引擎，语法和Djang，jinjia类似（官网说的）。这样做最重要的是其它的比如Jekyll或者Farbox的模板只要稍加修改一下就可以用到PMBlog上来了！当然采用了&lt;code&gt;Twig&lt;/code&gt;之后我对这个程序的贡献度就更小了。&lt;/p&gt;
 
 &lt;p&gt;呐，不管怎么说，新版就这么上线了。由于跟老版的模板引擎不同，所以之前写的模板都不能用在新版上的说~ 不过我都在慢慢的转换过来，同志们可以到 &lt;a href=&quot;http://lizheming.github.io/PMBlog/page/theme.html&quot;&gt;主题库&lt;/a&gt; 上下载喜欢的主题。&lt;/p&gt;
 
 &lt;p&gt;虽然程序简单，没什么技术含量，不过这也是我自己一直在坚持写的东西，希望大家多给点意见。&lt;/p&gt;
 ]]></description>
 <pubDate>2013-09-19T22:19:56+08:00</pubDate>
-<guid>http://lizheming.github.io/PMBlog/post/update-to-4.0.html</guid>
-<link>http://lizheming.github.io/PMBlog/post/update-to-4.0.html</link>
+<guid>http://lizheming.github.io/PMBlog/update-to-3.0.html</guid>
+<link>http://lizheming.github.io/PMBlog/update-to-3.0.html</link>
 </item>
 <item>
 <title><![CDATA[Hello World!]]></title>
@@ -67,8 +161,8 @@ template: guestbook （可选，自定义页面模板）
 &lt;p&gt;--以上--&lt;/p&gt;
 ]]></description>
 <pubDate>2013-03-15T19:35:50+08:00</pubDate>
-<guid>http://lizheming.github.io/PMBlog/post/hello-world.html</guid>
-<link>http://lizheming.github.io/PMBlog/post/hello-world.html</link>
+<guid>http://lizheming.github.io/PMBlog/hello-world.html</guid>
+<link>http://lizheming.github.io/PMBlog/hello-world.html</link>
 </item>
 </channel>
 </rss>

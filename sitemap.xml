@@ -1,25 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 	 <url>
-	  <loc>http://lizheming.github.io/PMBlog/page/forum.html</loc>
+	  <loc>http://lizheming.github.io/PMBlog/forum.html</loc>
 	  <priority>1.0</priority>
 	  <changefreq>monthly</changefreq>
 	  <lastmod>2013-08-28T14:59:27+08:00</lastmod>
 	 </url>
 	 <url>
-	  <loc>http://lizheming.github.io/PMBlog/page/theme.html</loc>
+	  <loc>http://lizheming.github.io/PMBlog/theme.html</loc>
 	  <priority>1.0</priority>
 	  <changefreq>monthly</changefreq>
 	  <lastmod>2013-09-16T14:29:32+08:00</lastmod>
 	 </url>
 	 <url>
-	  <loc>http://lizheming.github.io/PMBlog/post/update-to-4.0.html</loc>
+	  <loc>http://lizheming.github.io/PMBlog/update-to-3.3.html</loc>
+	  <priority>1.0</priority>
+	  <changefreq>monthly</changefreq>
+	  <lastmod>2013-10-27T13:18:51+08:00</lastmod>
+	 </url>
+	 <url>
+	  <loc>http://lizheming.github.io/PMBlog/update-to-3.0.html</loc>
 	  <priority>1.0</priority>
 	  <changefreq>monthly</changefreq>
 	  <lastmod>2013-09-19T22:19:56+08:00</lastmod>
 	 </url>
 	 <url>
-	  <loc>http://lizheming.github.io/PMBlog/post/hello-world.html</loc>
+	  <loc>http://lizheming.github.io/PMBlog/hello-world.html</loc>
 	  <priority>1.0</priority>
 	  <changefreq>monthly</changefreq>
 	  <lastmod>2013-03-15T19:35:50+08:00</lastmod>
@@ -27,30 +33,45 @@
 		<loc>http://lizheming.github.io/PMBlog/1.html</loc>
 		<priority>0.8</priority>
 		<changefreq>daily</changefreq>
-		<lastmod>2013-09-21T16:45:51+08:00</lastmod>
-	</url><url><loc>http://lizheming.github.io/PMBlog/index.html</loc><priority>0.8</priority><changefreq>daily</changefreq><lastmod>2013-09-21T16:45:51+08:00</lastmod></url><url>
-			<loc>http://lizheming.github.io/PMBlog/category/程序日志/1.html</loc>
+		<lastmod>2013-10-27T13:50:37+08:00</lastmod>
+	</url><url><loc>http://lizheming.github.io/PMBlog/index.html</loc><priority>0.8</priority><changefreq>daily</changefreq><lastmod>2013-10-27T13:50:37+08:00</lastmod></url><url>
+			<loc>http://lizheming.github.io/PMBlog/category/程序日志/4.html</loc>
 			<priority>0.8</priority>
 			<changefreq>daily</changefreq>
-			<lastmod>2013-09-21T16:45:51+08:00</lastmod>
-		</url><url><loc>http://lizheming.github.io/PMBlog/category/程序日志/index.html</loc><priority>0.8</priority><changefreq>daily</changefreq><lastmod>2013-09-21T16:45:51+08:00</lastmod></url><url>
-			<loc>http://lizheming.github.io/PMBlog/category/未分类/1.html</loc>
+			<lastmod>2013-10-27T13:50:37+08:00</lastmod>
+		</url><url><loc>http://lizheming.github.io/PMBlog/category/程序日志/index.html</loc><priority>0.8</priority><changefreq>daily</changefreq><lastmod>2013-10-27T13:50:37+08:00</lastmod></url><url>
+			<loc>http://lizheming.github.io/PMBlog/category/PMBLOG/4.html</loc>
 			<priority>0.8</priority>
 			<changefreq>daily</changefreq>
-			<lastmod>2013-09-21T16:45:51+08:00</lastmod>
-		</url><url><loc>http://lizheming.github.io/PMBlog/category/未分类/index.html</loc><priority>0.8</priority><changefreq>daily</changefreq><lastmod>2013-09-21T16:45:51+08:00</lastmod></url><url>
-			<loc>http://lizheming.github.io/PMBlog/tag/project/1.html</loc>
+			<lastmod>2013-10-27T13:50:37+08:00</lastmod>
+		</url><url><loc>http://lizheming.github.io/PMBlog/category/PMBLOG/index.html</loc><priority>0.8</priority><changefreq>daily</changefreq><lastmod>2013-10-27T13:50:37+08:00</lastmod></url><url>
+			<loc>http://lizheming.github.io/PMBlog/category/PROJECT/4.html</loc>
 			<priority>0.8</priority>
 			<changefreq>daily</changefreq>
-			<lastmod>2013-09-21T16:45:51+08:00</lastmod>
-		</url><url><loc>http://lizheming.github.io/PMBlog/tag/project/index.html</loc><priority>0.8</priority><changefreq>daily</changefreq><lastmod>2013-09-21T16:45:51+08:00</lastmod></url><url>
-			<loc>http://lizheming.github.io/PMBlog/tag/PMBlog/1.html</loc>
+			<lastmod>2013-10-27T13:50:37+08:00</lastmod>
+		</url><url><loc>http://lizheming.github.io/PMBlog/category/PROJECT/index.html</loc><priority>0.8</priority><changefreq>daily</changefreq><lastmod>2013-10-27T13:50:37+08:00</lastmod></url><url>
+			<loc>http://lizheming.github.io/PMBlog/category/PHP/4.html</loc>
 			<priority>0.8</priority>
 			<changefreq>daily</changefreq>
-			<lastmod>2013-09-21T16:45:51+08:00</lastmod>
-		</url><url><loc>http://lizheming.github.io/PMBlog/tag/PMBlog/index.html</loc><priority>0.8</priority><changefreq>daily</changefreq><lastmod>2013-09-21T16:45:51+08:00</lastmod></url><url>
-			<loc>http://lizheming.github.io/PMBlog/tag/update/1.html</loc>
+			<lastmod>2013-10-27T13:50:37+08:00</lastmod>
+		</url><url><loc>http://lizheming.github.io/PMBlog/category/PHP/index.html</loc><priority>0.8</priority><changefreq>daily</changefreq><lastmod>2013-10-27T13:50:37+08:00</lastmod></url><url>
+			<loc>http://lizheming.github.io/PMBlog/category/未分类/4.html</loc>
 			<priority>0.8</priority>
 			<changefreq>daily</changefreq>
-			<lastmod>2013-09-21T16:45:51+08:00</lastmod>
-		</url><url><loc>http://lizheming.github.io/PMBlog/tag/update/index.html</loc><priority>0.8</priority><changefreq>daily</changefreq><lastmod>2013-09-21T16:45:51+08:00</lastmod></url></urlset>
+			<lastmod>2013-10-27T13:50:37+08:00</lastmod>
+		</url><url><loc>http://lizheming.github.io/PMBlog/category/未分类/index.html</loc><priority>0.8</priority><changefreq>daily</changefreq><lastmod>2013-10-27T13:50:37+08:00</lastmod></url><url>
+			<loc>http://lizheming.github.io/PMBlog/tag/project/4.html</loc>
+			<priority>0.8</priority>
+			<changefreq>daily</changefreq>
+			<lastmod>2013-10-27T13:50:37+08:00</lastmod>
+		</url><url><loc>http://lizheming.github.io/PMBlog/tag/project/index.html</loc><priority>0.8</priority><changefreq>daily</changefreq><lastmod>2013-10-27T13:50:37+08:00</lastmod></url><url>
+			<loc>http://lizheming.github.io/PMBlog/tag/PMBlog/4.html</loc>
+			<priority>0.8</priority>
+			<changefreq>daily</changefreq>
+			<lastmod>2013-10-27T13:50:37+08:00</lastmod>
+		</url><url><loc>http://lizheming.github.io/PMBlog/tag/PMBlog/index.html</loc><priority>0.8</priority><changefreq>daily</changefreq><lastmod>2013-10-27T13:50:37+08:00</lastmod></url><url>
+			<loc>http://lizheming.github.io/PMBlog/tag/update/4.html</loc>
+			<priority>0.8</priority>
+			<changefreq>daily</changefreq>
+			<lastmod>2013-10-27T13:50:37+08:00</lastmod>
+		</url><url><loc>http://lizheming.github.io/PMBlog/tag/update/index.html</loc><priority>0.8</priority><changefreq>daily</changefreq><lastmod>2013-10-27T13:50:37+08:00</lastmod></url></urlset>
