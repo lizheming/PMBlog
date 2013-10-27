@@ -6,7 +6,7 @@ set_time_limit(0);
 //check update!
 if(extension_loaded('cURL'))
 {
-	$version = 3.2;
+	$version = 3.3;
 	$curl = curl_init('https://rawgithub.com/lizheming/PMBlog/master/version.json');
 	curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
 	curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
