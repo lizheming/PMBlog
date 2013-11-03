@@ -18,23 +18,9 @@
 	{% endfor %}
     </div>
     <div class="pager">
-        <a class="round pre" id="pre" href="">上一页</a>
-        <a class="round next" id="next" href="">下一页</a>
+        <a class="round pre" id="pre" href="{{paginator.pre_page_url}}">上一页</a>
+        <a class="round next" id="next" href="{{paginator.next_page_url}}">下一页</a>
     </div>
-    <script>
-	//navigator
-    var pre = document.getElementById('pre'), next = document.getElementById('next');
-    var l = window.location.href.split('/').slice(-1)[0].split('.')[0];
-    if(l == '' || l == 'index') l=1,pre.style.display = 'none';
-    else r=Number(l)-1, pre.href = ((r==1) ? 'index' : r)+'.html';
-    next.href = (Number(l)+1)+'.html';
-	//duoshuo
-	var d = $('.ds-thread'), c = $('.ds-thread-count');
-	$.each(c, function(i, item) {
-		k = item.attributes[1].nodeValue;
-		item.attributes[1].nodeValue = k.split('/').slice(-1)[0].split('.')[0];
-	});
-    </script>
 
 </div>
 {% include 'footer.html' %}
