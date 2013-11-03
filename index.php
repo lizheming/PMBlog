@@ -56,7 +56,6 @@ foreach(daily($dir['md'].'*') as $item) {
 	$date = $post->date();
 	//if post's status is draft and post's date is lower than time now, then skip
 	if(!$status or $date >= time()) continue;
-	$post->image();
 	//get post's other infomations
 	$log['type'] = $post->type();
 	$log['filename'] = $post->doc_title();
@@ -76,6 +75,7 @@ foreach(daily($dir['md'].'*') as $item) {
 
 	//pages haven't abstract and tag category's access
 	if($log['type'] == 'post') {
+		$log['cover'] = $post->image();
 		$abstract = explode('<!--more-->', $log['content']);
 		
 		$log['read_more'] = false;
