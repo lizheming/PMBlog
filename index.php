@@ -45,8 +45,8 @@ foreach(glob($dir['html'].'*.html') as $html_doc) {
 }
 
 */
-DDir($dir['html'].'/tag');
-DDir($dir['html'].'/category');
+removeDir($dir['html'].'/tag');
+removeDir($dir['html'].'/category');
 
 $data = $tags = $categories = array();
 
@@ -349,22 +349,22 @@ endforeach;
 }
 
 //index
-foreach(paginator($data['post'],'','') as $paginator) {
+foreach(paginator($data['post']) as $paginator) {
 	$posts = $paginator['object_list'];
+	$paginator['previous_page_url'] = $paginator['pre_page_url'] = $site['url'].'/'.$paginator['pre_page_url'];
 	$template = $twig->loadTemplate('index.html');
 	$html = $template->render(compact('site','menu','link','comment','RecentPost','Archive','TagCloud','CategoryCloud','posts','paginator'));
-	$folder = $dir['html'].'page/'.$paginator['page'];
+	$folder = $dir['html'].'/page/'.$paginator['page'];
 	mkfolder($folder);
 	file_put_contents($folder.'/index.html', $html);
 	$sitemap .= "<url>
-		<loc>".$paginator['page_url'].".html</loc>
+		<loc>".$site['url']."/".$paginator['page'].".html</loc>
 		<priority>0.8</priority>
 		<changefreq>daily</changefreq>
 		<lastmod>".date('c')."</lastmod>
 	</url>";
-	echo $paginator['page_url'].'<br>';
 }
-copy($dir['html'].'page/1/index.html', $dir['html'].'index.html');
+copy($dir['html'].'/page/1/index.html', $dir['html'].'/index.html');
 $sitemap .= "<url><loc>".$site['url']."/index.html</loc><priority>0.8</priority><changefreq>daily</changefreq><lastmod>".date('c')."</lastmod></url>";
 
 //output category
@@ -372,23 +372,22 @@ if($site['config']['category'])
 {
 foreach($categories as $key => $category) :
 	if(DIRECTORY_SEPARATOR == '\\')	$key = iconv('utf-8', 'gbk', $key);
-	$folder = $dir['html'].'category/'.$key;
-	mkfolder($folder);
-	foreach(paginator($category, 'category', $key) as $paginator) :
+	mkfolder($dir['html'].'/category/'.$key);
+	foreach(paginator($category) as $paginator) :
 		$posts = $paginator['object_list'];
-		$template = $twig->loadTemplate('index.html');
+		$paginator['previous_page_url'] = $paginator['pre_page_url'] = $site['url'].'/category/'.$key.'/'.$paginator['pre_page_url'];
+		$file = file_exists($dir['tmp'].'category.html') ? 'category.html' : 'index.html';
+		$template = $twig->loadTemplate($file);
 		$html = $template->render(compact('site','menu','link','comment','RecentPost','Archive','TagCloud','CategoryCloud','posts','paginator'));
-		mkfolder($folder.'/page/'.$paginator['page']);
-		file_put_contents($folder.'/page/'.$paginator['page'].'/index.html', $html);
+		file_put_contents($dir['html'].'/category/'.$key.'/'.$paginator['page'].'.html', $html);
 		$sitemap .= "<url>
-			<loc>".$paginator['page_url']."</loc>
+			<loc>".$site['url']."/category/".$key."/".($i+1).".html</loc>
 			<priority>0.8</priority>
 			<changefreq>daily</changefreq>
 			<lastmod>".date('c')."</lastmod>
 		</url>";
-		echo $paginator['page_url'].'<br>';
 	endforeach;
-	copy("$folder/page/1/index.html", "$folder/index.html");
+	copy($dir['html'].'/category/'.$key.'/1.html', $dir['html'].'/category/'.$key.'/index.html');
 	$sitemap .= "<url><loc>".$site['url']."/category/".$key."/index.html</loc><priority>0.8</priority><changefreq>daily</changefreq><lastmod>".date('c')."</lastmod></url>";
 endforeach;
 }
@@ -398,23 +397,22 @@ if($site['config']['tag'])
 {
 foreach($tags as $key => $tag):
 	if(DIRECTORY_SEPARATOR == '\\')	$key = iconv('utf-8', 'gbk', $key);
-	$folder = $dir['html'].'tag/'.$key;
-	mkfolder($folder);
-	foreach(paginator($tag, 'tag', $key) as $paginator):
+	mkfolder($dir['html'].'/tag/'.$key);
+	foreach(paginator($tag) as $paginator):
 		$posts = $paginator['object_list'];
-		$template = $twig->loadTemplate('index.html');
+		$paginator['previous_page_url'] = $paginator['pre_page_url'] = $site['url'].'/tag/'.$key.'/'.$paginator['pre_page_url'];
+		$file = file_exists($dir['tmp'].'tag.html') ? 'tag.html' : 'index.html';
+		$template = $twig->loadTemplate($file);
 		$html = $template->render(compact('site','menu','link','comment','RecentPost','Archive','TagCloud','CategoryCloud','posts','paginator'));
-		mkfolder($folder.'/page/'.$paginator['page']);
-		file_put_contents($folder.'/page/'.$paginator['page'].'/index.html', $html);
+		file_put_contents($dir['html'].'/tag/'.$key.'/'.$paginator['page'].'.html', $html);
 		$sitemap .= "<url>
-			<loc>".$paginator['page_url']."</loc>
+			<loc>".$site['url']."/tag/".$key."/".($i+1).".html</loc>
 			<priority>0.8</priority>
 			<changefreq>daily</changefreq>
 			<lastmod>".date('c')."</lastmod>
 		</url>";
-		echo $paginator['page_url'].'<br>';
 	endforeach;
-	copy("$folder/page/1/index.html", "$folder/index.html");
+	copy($dir['html'].'/tag/'.$key.'/1.html', $dir['html'].'/tag/'.$key.'/index.html');
 	$sitemap .= "<url><loc>".$site['url']."/tag/".$key."/index.html</loc><priority>0.8</priority><changefreq>daily</changefreq><lastmod>".date('c')."</lastmod></url>";
 endforeach;
 }
@@ -442,4 +440,18 @@ $totaltime = $endtime[0]-$starttime[0]+$endtime[1]-$starttime[1];
 $timecost = sprintf("%s",$totaltime); 
 ?>
 页面运行时间:<?php echo $timecost; ?> 秒，<span id="time">3</span>秒后跳转到首页！
-<script type="text/javascript">window.onload = function() {window.setInterval("var _t = document.getElementById('time');_t.innerHTML = _t.innerHTML-1;", 1000);window.setInterval("window.location.href = '<?php echo $dir['html']; ?>'", 3000);}</script>
+<script type="text/javascript">
+
+function cal() {
+	var _t = document.getElementById('time'), t = Number(_t.innerHTML);
+	_t.innerHTML = t-1;
+}
+function skip() {
+	window.location.href = '<?php echo $dir['html']; ?>';
+}
+window.onload = function() {
+	window.setInterval('cal()', 1000);
+	window.setInterval('skip()', 3000);
+}
+
+</script>
