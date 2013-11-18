@@ -283,6 +283,11 @@ foreach($categories as $key =>$category) {
 }
 }
 
+$site['pages'] = $data['page'];
+$site['posts'] = $data['post'];
+$site['categories'] = $categories;
+$iste['tags'] = $tags;
+
 $sitemap = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>
 <urlset xsi:schemaLocation=\"http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">";
 
