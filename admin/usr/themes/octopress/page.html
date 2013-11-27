@@ -1,0 +1,28 @@
+
+{% include 'header.html' %}
+<div>
+    <article class="hentry" role="article">
+        <header>
+            <h1 class="entry-title">{{post.title}}</h1>
+            <p class="meta">
+                <small>{{post.date}}</small>
+            </p>
+        </header>
+		<div class="entry-content" id="postcondiv">
+         {{post.content}}
+        </div>
+        <footer>
+            <p class="meta grey">
+                <span class="categories greyhref">
+                	{% if post.tags %}
+                	{{post.tags | join(',')}}
+                	{% endif %}
+                </span>
+            </p>
+            
+        </footer>
+    	{{comment}}
+    </article>
+</div>
+{% include 'sidebar.html' %}
+{% include 'footer.html' %}
