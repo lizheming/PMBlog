@@ -1,6 +1,7 @@
 /*.html
+/*.xml
 /category
 /page
 /tag
 /admin/config.php
-/admin/usr/contents/*
+/admin/usr/contents/*.md
