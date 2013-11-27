@@ -1,7 +1,8 @@
-/*.html
-/*.xml
-/category
-/page
-/tag
-/admin/config.php
-/admin/usr/contents/*.md
+/*
+!/admin/var
+!/admin/index.php
+!/admin/config.example.php
+!/admin/usr/plugins
+!/admin/usr/themes
+/admin/usr/contents/**/*
+!/admin/usr/contents/.gitignore
