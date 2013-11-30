@@ -44,7 +44,7 @@ class PMBlog {
 		$twig_config = array('autoescape' => false);
 
 		$this->run_hooks('before_create_twig_environment', array(&$this->site['config']['template'], &$twig_config));
-		$loader = new Twig_loader_Filesystem($this->site['config']['template']);
+		$loader = new Twig_Loader_Filesystem($this->site['config']['template']);
 		$twig = new Twig_Environment($loader, $twig_config);
 		$this->run_hooks('twig_loaded', array(&$variables, &$twig));
 
@@ -272,6 +272,8 @@ class PMBlog {
 			$data[$log['type']][] = $log;
 		}
 
+		if(!isset($data['post'])) $data['post'] = array();
+		if(!isset($data['page'])) $data['page'] = array();
 		//$this->run_hooks('before_sort_contents');
 		usort($data['post'], create_function('$a,$b', 'if ($a[\'date\'] == $b[\'date\']) return 0;return ($a[\'date\'] < $b[\'date\']) ? 1 : -1;'));
 		//$this->run_hooks('after_sort_contents', array(&$data['post']));

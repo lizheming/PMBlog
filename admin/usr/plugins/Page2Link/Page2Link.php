@@ -19,7 +19,7 @@ class Page2Link {
 
     public function config_loaded(&$site) {
     	$file = $site['config']['plugins'].'/Page2Link/links.html';
-    	if(!file_exists($file)) return false;
+    	if(!file_exists($file)) die('You must create links.html first in the '.$site['config']['plugins'].'/Page2Link. links.example.html is a example file.');
     	$text = file_get_contents($file);
     	$preg = '/^\[(.*?)\]\((.*?)\)/m';
     	preg_match_all($preg, $text, $match);

@@ -20,7 +20,7 @@ class Page2Menu {
 
     public function config_loaded(&$site) {
     	$file = $site['config']['plugins'].'/Page2Menu/menus.html';
-    	if(!file_exists($file)) return false;
+    	if(!file_exists($file)) die('You must create menus.html first in the '.$site['config']['plugins'].'/Page2Menu. menus.example.html is a example file.');
     	$text = file_get_contents($file);
     	$preg = '/^\[(.*?)\]\((.*?)\)/m';
     	preg_match_all($preg, $text, $match);
