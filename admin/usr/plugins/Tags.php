@@ -46,8 +46,10 @@ class Tags {
 			$tag = urlencode($tag);
 			foreach($this->paginator($tag, $posts, $variables['site']) as $paginator) {
 				$template = 'index.html';
-				$posts = $paginator['object_list'];
-				$html = $twig->render($template, compact($variables, $posts, $paginator));
+				$vars = $variables;
+				$vars['posts'] = $paginator['object_list'];
+				$vars['paginator'] = $paginator;
+				$html = $twig->render($template, $vars);
 				Tags::file_put_contents("{$variables['site']['config']['html']}tag/$tag/page/{$paginator['page']}/index.html", $html);
 			}
 			copy("{$variables['site']['config']['html']}tag/$tag/page/1/index.html", "{$variables['site']['config']['html']}tag/$tag/index.html");

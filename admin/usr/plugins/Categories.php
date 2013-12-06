@@ -47,8 +47,10 @@ class Categories {
 			$category = urlencode($category);
 			foreach($this->paginator($category, $posts, $variables['site']) as $paginator) {
 				$template = 'index.html';
-				$posts = $paginator['object_list'];
-				$html = $twig->render($template, compact($variables, $posts, $paginator));
+				$vars = $variables;
+				$vars['posts'] = $paginator['object_list'];
+				$vars['paginator'] = $paginator;
+				$html = $twig->render($template, $vars);
 				Categories::file_put_contents("{$variables['site']['config']['html']}category/$category/page/{$paginator['page']}/index.html", $html);
 			}
 			copy("{$variables['site']['config']['html']}category/$category/page/1/index.html", "{$variables['site']['config']['html']}category/$category/index.html");
