@@ -18,48 +18,39 @@
  * @version 0.1.0
  */
 class Tags {
-	private $tags;
+	private $tags = array();
 	
 	function after_get_post_meta(&$post) {
-		if(isset($post['tags'])) {
+		if($post['type'] == 'post' && isset($post['tags'])) {
 			foreach($post['tags'] as $tag) {
+				$tag = strtolower($tag);
 				$this->tags[$tag][] = $post;
 			}
 		}
 	}
 
-	function sort($a, $b) {
-		if($a['date'] == $b['date']) {
-			return 0;
-		}
-		return ($a['date'] < $b['date']) ? 1 : -1;
-	}
-	
 	function after_get_variables(&$variables) {
-		$tagcloud = array();
-		foreach(array_keys($this->tags) as $key) {
-			usort($this->tags[$key], create_function('$a,$b', 'if ($a[\'date\'] == $b[\'date\']) return 0;return ($a[\'date\'] < $b[\'date\']) ? 1 : -1;'));
-			$tagcloud[]['title'] = $key;
-			$tagcloud[]['url'] = $variables['site']['url'].'/tag/'.$key;
-			$tagcloud[]['length'] = count($this->tags[$key]);
+		$tagclouds = array();
+		foreach($this->tags as $tag => $posts) {
+			usort($posts, 'tag_sort');
+			$tagcloud = array('title'=> $tag, 'url'=> $variables['site']['url'].'/tag/'.urlencode($tag), 'length'=> count($posts));
+			$tagclouds[] = $tagcloud;
+			$this->tags[$tag] = $posts;
 		}
 		$variables['site']['tags'] = $this->tags;
-		$variables['TagCloud'] = $tagcloud;
+		$variables['TagCloud'] = $tagclouds;
 	}
 
-	function before_render(&$variables, &$twig) {
-		foreach($this->tags as $key => $tag) {
-			$key = urlencode($key);
-			foreach($this->paginator($key, $tag, $variables['site']) as $paginator) {
+	function twig_loaded($variables, $twig) {	
+		foreach($this->tags as $tag => $posts) {
+			$tag = urlencode($tag);
+			foreach($this->paginator($tag, $posts, $variables['site']) as $paginator) {
 				$template = 'index.html';
-				$twig_vars = array_merge(array('posts'=>$paginator['object_list'], 'paginator' => $paginator), $variables);
-				$html = $twig->render($template, $twig_vars);
-
-				$index_path = "{$twig_vars['site']['config']['html']}tag/$key/page/{$paginator['page']}";
-				Tags::mkdir($index_path);
-				file_put_contents("$index_path/index.html", $html);
+				$posts = $paginator['object_list'];
+				$html = $twig->render($template, compact($variables, $posts, $paginator));
+				Tags::file_put_contents("{$variables['site']['config']['html']}tag/$tag/page/{$paginator['page']}/index.html", $html);
 			}
-			//copy("{$twig_vars['site']['config']['html']}tag/$key/page/1/index.html", "{$twig_vars['site']['config']['html']}tag/$key/index.html");
+			copy("{$variables['site']['config']['html']}tag/$tag/page/1/index.html", "{$variables['site']['config']['html']}tag/$tag/index.html");
 		}
 	}
 
@@ -92,10 +83,18 @@ class Tags {
 		}
 		return $paginator;
 	}
-	
-	public function mkdir($path)
+
+	public function file_put_contents($file, $data)
 	{
-		return is_writeable($path) || mkdir($path, 0777, true);
+		$path = dirname($file);
+		is_writeable($path) || mkdir($path, 0777, true);
+		return file_put_contents($file, $data);
 	}
+}
+
+function tag_sort($a, $b) 
+{
+	if ($a['date'] == $b['date']) return 0;
+	return ($a['date'] < $b['date']) ? 1 : -1;
 }
 ?>

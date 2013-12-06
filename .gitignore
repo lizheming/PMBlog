@@ -1,10 +1,8 @@
-/*
-!/admin/var
-!/admin/index.php
-!/admin/config.example.php
-!/admin/usr/plugins
-/admin/usr/plugins/Page2Menu/menus.html
-/admin/usr/plugins/Page2Link/links.html
-!/admin/usr/themes
-/admin/usr/contents/**/*
+/*.html
+/*.xml
+/category/*
+/page/*
+/tag/*
+/admin/usr/contents/*.md
 !/admin/usr/contents/hello-world.md
+/admin/config.php

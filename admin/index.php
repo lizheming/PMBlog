@@ -274,6 +274,7 @@ class PMBlog {
 
 		if(!isset($data['post'])) $data['post'] = array();
 		if(!isset($data['page'])) $data['page'] = array();
+		
 		//$this->run_hooks('before_sort_contents');
 		usort($data['post'], create_function('$a,$b', 'if ($a[\'date\'] == $b[\'date\']) return 0;return ($a[\'date\'] < $b[\'date\']) ? 1 : -1;'));
 		//$this->run_hooks('after_sort_contents', array(&$data['post']));

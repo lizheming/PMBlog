@@ -17,49 +17,41 @@
  * @link http://github.com/lizheming
  * @version 0.1.0
  */
-class Categories {
-	private $Categories;
 
+class Categories {
+	private $categories = array();
+	
 	function after_get_post_meta(&$post) {
-		if(isset($post['categories'])) {
+		if($post['type'] == 'post' && isset($post['categories'])) {
 			foreach($post['categories'] as $category) {
-				$this->Categories[$category][] = $post;
+				$category = strtolower($category);
+				$this->categories[$category][] = $post;
 			}
 		}
-	}
-
-	function sort($a, $b) {
-		if($a['date'] == $b['date']) {
-			return 0;
-		}
-		return ($a['date'] < $b['date']) ? 1 : -1;
 	}
 
 	function after_get_variables(&$variables) {
-		$categorycloud = array();
-		foreach(array_keys($this->Categories) as $key) {
-			usort($this->Categories[$key], create_function('$a,$b', 'if ($a[\'date\'] == $b[\'date\']) return 0;return ($a[\'date\'] < $b[\'date\']) ? 1 : -1;'));
-			$categorycloud[]['title'] = $key;
-			$categorycloud[]['url'] = $variables['site']['url'].'/category/'.$key;
-			$categorycloud[]['length'] = count($this->Categories[$key]);
+		$categoryclouds = array();
+		foreach($this->categories as $category => $posts) {
+			usort($posts, 'category_sort');
+			$categorycloud = array('title'=> $category, 'url'=> $variables['site']['url'].'/category/'.urlencode($category), 'length'=> count($posts));
+			$categoryclouds[] = $categorycloud;
+			$this->categories[$category] = $posts;
 		}
-		$variables['site']['Categories'] = $this->Categories;
-		$variables['categoryCloud'] = $categorycloud;
+		$variables['site']['categories'] = $this->categories;
+		$variables['categoryCloud'] = $categoryclouds;
 	}
 
-	function twig_loaded(&$variables, &$twig) {
-		foreach($this->Categories as $key => $category) {
-			$key = urlencode($key);
-			foreach($this->paginator($key, $category, $variables['site']) as $paginator) {
+	function twig_loaded($variables, $twig) {	
+		foreach($this->categories as $category => $posts) {
+			$category = urlencode($category);
+			foreach($this->paginator($category, $posts, $variables['site']) as $paginator) {
 				$template = 'index.html';
-				$twig_vars = array_merge(array('posts'=>$paginator['object_list'], 'paginator' => $paginator), $variables);
-				$html = $twig->render($template, $twig_vars);
-				
-				$index_path = "{$twig_vars['site']['config']['html']}/category/$key/page/{$paginator['page']}";
-				Categories::mkdir($index_path);
-				file_put_contents("$index_path/index.html", $html);
+				$posts = $paginator['object_list'];
+				$html = $twig->render($template, compact($variables, $posts, $paginator));
+				Categories::file_put_contents("{$variables['site']['config']['html']}category/$category/page/{$paginator['page']}/index.html", $html);
 			}
-			copy("{$twig_vars['site']['config']['html']}/category/$key/page/1/index.html", "{$twig_vars['site']['config']['html']}/category/$key/index.html");
+			copy("{$variables['site']['config']['html']}category/$category/page/1/index.html", "{$variables['site']['config']['html']}category/$category/index.html");
 		}
 	}
 
@@ -93,8 +85,17 @@ class Categories {
 		return $paginator;
 	}
 	
-	public function mkdir($path) {
-		return is_writeable($path) || mkdir($path, 0777, true);
+	public function file_put_contents($file, $data)
+	{
+		$path = dirname($file);
+		is_writeable($path) || mkdir($path, 0777, true);
+		return file_put_contents($file, $data);
 	}
+
+}
+function category_sort($a, $b) 
+{
+	if ($a['date'] == $b['date']) return 0;
+	return ($a['date'] < $b['date']) ? 1 : -1;
 }
 ?>
