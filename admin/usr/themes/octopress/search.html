@@ -1,0 +1,28 @@
+
+{% include 'header.html' %}
+<div id="tag">
+{% for tag in TagCloud %}
+	<span>{{tag.title}}</span>
+{% endfor %}
+</div>
+<ul id="post">
+{% for post in site.posts %}
+<li tag="{{post.tags | join(' ')}}">{{post.title}}</li>
+{% endfor %}
+</ul>
+<style type="text/css">
+.display {display:none;}
+.selected {color:green;}
+</style>
+<script>
+$('#tag span').click(function() {
+	$(this).hasClass('selected') ? $(this).removeClass('selected') : $(this).addClass('selected');
+	$('#post .display').removeClass('display');
+	$.each($('#post li'), function(i, li) {
+		var show = true;
+		$.each($('#tag .selected'), function(i, text) {if($(li).attr('tag').split(text.innerText).length < 2 ) show = false;});
+		if(!show) $(this).addClass('display');
+	});
+});
+</script>
+{% include 'footer.html' %}
