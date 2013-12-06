@@ -1,0 +1,9 @@
+/*.html
+/*.xml
+/category/*
+/page/*
+/tag/*
+/admin/usr/contents/*.md
+!/admin/usr/contents/hello-world.md
+/admin/config.php
+/admin/usr/themes/octopress

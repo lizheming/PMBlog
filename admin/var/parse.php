@@ -1,6 +1,5 @@
 <?php
 include_once 'markdown.php';
-include_once dirname(__FILE__).'/Twig/Autoloader.php';
 include_once 'function.php';
 
 class parse {
@@ -77,10 +76,10 @@ class parse {
 				$categories = explode(',', $match[1][0]);
 				foreach($categories as $k => $category) $categories[$k] = trim($category);
 			} else {
-				$categories[] = '未分类';
+				$categories[] = 'unclassified';
 			}
 		} else {
-			$categories[] = '未分类';
+			$categories[] = 'unclassified';
 		}
 		return $categories;
 	}

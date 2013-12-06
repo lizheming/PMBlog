@@ -1,0 +1,57 @@
+
+{% include 'header.html' %}
+<div id="content">
+	<div id="content_box">
+	{% for post in posts %}
+        <div class="post">
+            <h2 class="title"><a href="{{post.url}}">{{post.title}}</a></h2>
+            <div class="post_body">{{post.content}}</div>
+            <span class="date">{{post.date}}</span>
+            <div style="clear:both;"></div>
+            <div class="tags" style="float:left;">{{post.tags | join(', ')}}</div>
+            <!--<div class="ds-thread-count" data-thread-key="{{post.filename}}" style="float:right;line-height:2.5em;"></div>-->
+        </div>
+	{% endfor %}
+  </div>
+
+  <nav role="pagination" class="pager">
+    <ul>
+      {% set total = paginator.total_pages %}
+      {% set current = paginator.page %}
+      {% if paginator.has_pre %}
+        <li><a href="index.html">First</a></li>
+        <li><a href="{{paginator.pre_page_url}}">Previous</a></li>
+        {% if current < 6 %}
+          {% for page in 1..(current-1) %}
+            <li><a href="page/{{page}}">{{page}}</a></li>
+          {% endfor %}
+        {% else %}
+          <li><a href="index.html">1</a></li>
+          <li>...</li>
+          {% for page in (current-3)..(current-1) %}
+            <li><a href="page/{{page}}">{{page}}</a></li>
+          {% endfor %}
+        {% endif %}
+      {% endif %} 
+      <li class="current"><a href="page/{{current}}">{{current}}</a></li>
+      {% if paginator.has_next %}
+        {% if current > (total - 5) %}
+          {% for page in (current+1)..total %}
+            <li><a href="page/{{page}}">{{page}}</a></li>
+          {% endfor %}
+        {% else %}
+          {% for page in (current+1)..(current+3) %}
+            <li><a href="page/{{page}}">{{page}}</a></li>
+          {% endfor %}
+          <li>...</li>
+          <li><a href="page/{{total}}">{{total}}</a></li>
+        {% endif %}
+        <li><a href="{{paginator.next_page_url}}">Next</a></li>
+        <li><a href="page/{{total}}">Last</a></li>
+      {% endif %} 
+    </ul>
+  </nav>
+
+
+</div>
+{% include 'footer.html' %}
