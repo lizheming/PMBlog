@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[{{ site.title }}]]></title>
+  <link href="{{ site.url }}/atom.xml" rel="self"/>
+  <link href="{{ site.url }}/"/>
+  <updated>{{"now" | date('c')}}</updated>
+  <id>{{ site.url }}/</id>
+  <generator uri="http://gitcafe.com/lizheming/pmblog">PMBlog</generator>
+
+  {% for post in posts %}
+  <entry>
+    <title type="html"><![CDATA[{{ post.title }}]]></title>
+    <link href="{{ post.url }}"/>
+    <id>{{post.url}}</id>
+    <updated>{{ post.date | date('c') }}</updated>
+    <content type="html"><![CDATA[{{ post.content}}]]></content>
+  </entry>
+  {% endfor %}
+</feed>
