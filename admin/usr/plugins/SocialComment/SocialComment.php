@@ -25,7 +25,7 @@ class SocialComment {
 			$this->id = $disqus_shortname;
 			$this->type = 'disqus';
 		} else {
-			
+			die('It seems you have lanuched SocialComment Plugin but not set your SocialComment Id, please tell us your SocialComment Id in SocialComment/config.php before you run the program.');
 		}
 	}
 

@@ -25,9 +25,12 @@ class PMBlog {
 		$this->site = $this->get_config();
 		$this->run_hooks('config_loaded', array(&$this->site));
 
-		//!Clean site
+		/**
+		 *Clean Site
+		 *It may be supported in the future!
+		 */
 
-		//Get contents
+		//get_contents
 		$this->run_hooks('before_get_contents');
 		$data = $this->get_contents();
 		$this->run_hooks('after_get_contents', array(&$data));
@@ -48,7 +51,7 @@ class PMBlog {
 		$twig = new Twig_Environment($loader, $twig_config);
 		$this->run_hooks('twig_loaded', array(&$variables, &$twig));
 
-		//Output post
+		//generate post
 		$this->run_hooks('before_output_post', array(&$data['post']));
 		if(!empty($data['post']))
 		{
@@ -69,7 +72,7 @@ class PMBlog {
 		}
 		$this->run_hooks('after_output_post');
 
-		//Output page
+		//generate page
 		$this->run_hooks('before_output_page', array(&$data['page']));
 		if(!empty($data['page'])) 
 		{
@@ -88,7 +91,7 @@ class PMBlog {
 		}
 		$this->run_hooks('after_output_page');
 
-		//Output index
+		//generate index
 		$this->run_hooks('before_output_index', array(&$data['post']));
 		foreach($this->paginator($data['post']) as $paginator) 
 		{
@@ -154,6 +157,7 @@ class PMBlog {
 		$this->run_hooks('paginator_loaded', array(&$paginator));
 		return $paginator;
 	}
+
 	/**
 	 * mkdir if dir doesn't exist.
 	 *
@@ -175,58 +179,25 @@ class PMBlog {
 			$this->run_hooks('before_get_post_meta');
 
 			$post = new parse($item);
-	
-			//$this->run_hooks('before_get_post_status');
-			$status = $post->status();
-			//$this->run_hooks('after_get_post_status', array(&$status));
 
-			//$this->run_hooks('before_get_post_date');
+			$status = $post->status();
 			$date = $post->date();
 			$log['date'] = date($this->site['config']['dateformat'], $date);
-			//$this->run_hooks('after_get_post_date', array(&$log['date']));
 
 			if(!$status || $date >= time())	continue;
-
-			//$this->run_hooks('before_get_post_type');
 			$log['type'] = $post->type();
-			//$this->run_hooks('after_get_post_type', array(&$log['type']));
-
-			//$this->run_hooks('before_get_post_filename');
 			$log['filename'] = $post->doc_title();
-			//$this->run_hooks('after_get_post_filename', array(&$log['filename']));
-
-			//$this->run_hooks('before_get_post_title');
 			$log['title'] = $post->title();
-			//$this->run_hooks('after_get_post_title', array(&$log['title']));
-
-			//$this->run_hooks('before_get_post_content');
 			$log['content'] = $post->text();
-			//$this->run_hooks('after_get_post_content', array(&$log['content']));
-
-			//$this->run_hooks('before_get_post_template');
 			$log['template'] = $post->tmp();
-			//$this->run_hooks('after_get_post_template', array(&$log['template']));
-
-			//$this->run_hooks('before_get_post_tags');
 			$log['tags'] = $post->tags();
-			//$this->run_hooks('after_get_post_tags', array(&$log['tags']));
-
-			//$this->run_hooks('before_get_post_custom');
 			$log['custom'] = $post->custom();
-			//$this->run_hooks('after_get_post_custom', array(&$log['custom']));
-		
 			if($log['type'] == 'post') {
-				//$this->run_hooks('before_get_post_cover');
 				$log['cover'] = $post->image();
-				//$this->run_hooks('after_get_post_cover', array(&$log['cover']));
-
-				//$this->run_hooks('before_get_post_abstract');
 				$abstract = explode('<!--more-->', $log['content']);
 				$log['read_more'] = isset($abstract[1]) ? true : false;
 				$log['opening'] = $abstract[0];
-				//$this->run_hooks('after_get_post_abstract', array(&$log['read_more'], &$log['opening']));
 
-				//$this->run_hooks('before_get_post_categories');
 				$dirname = dirname($item).'/';
 				$dirname = str_replace($this->site['config']['doc'], '', $dirname);
 				$dirname = explode('/', $dirname);
@@ -238,7 +209,6 @@ class PMBlog {
 					if(!empty($dirname))
 						$log['categories'] = $dirname;
 				}
-				//$this->run_hooks('after_get_post_categories', array(&$log['categories']));
 			} else {
 				unset($log['read_more']);
 				unset($log['opening']);
@@ -246,8 +216,6 @@ class PMBlog {
 				unset($log['tags']);
 			}
 
-
-			//$this->run_hooks('before_get_post_filepath');
 			$router = str_replace(
 				array('{year}', '{month}', '{day}'),
 				array(date('Y', $date), date('m', $date), date('d', $date)),
@@ -261,11 +229,8 @@ class PMBlog {
 			} else {
 				$log['filepath'] = array("$router/{$log['filename']}.html");
 			}
-			//$this->run_hooks('after_get_post_filepath', array(&$log['filepath']));
 
-			//$this->run_hooks('before_get_post_url');
 			$log['url'] = $this->site['url'].$log['filepath'][0];
-			//$this->run_hooks('after_get_post_url', array(&$log['url']));
 
 
 			$this->run_hooks('after_get_post_meta', array(&$log));
@@ -370,7 +335,7 @@ class PMBlog {
 	protected function get_config()
 	{	
 		global $config;
-		@include_once "config.php";
+
 		$site['title'] = $config['site_title'];
 		$site['url'] = $config['base_url'];
 		$site['config'] = array(
@@ -391,10 +356,22 @@ class PMBlog {
 }
 
 $StartTime = microtime(true); 
-include_once "config.php";
+/**
+ * Check the config file
+ */
+if(file_exists("config.php"))
+	include_once "config.php";
+else 
+	die("It seems you haven't create config.php, please set your config in the config.php linke the config.example.php file before you run this program.");
+
+/**
+ *Run the program
+ */
 $PMBlog = new PMBlog();
 
-//Check Update
+/**
+ *Check update
+ */
 if(extension_loaded('cURL')) {
 	$curl = curl_init('https://rawgithub.com/lizheming/PMBlog/master/version.json');
     curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
@@ -407,5 +384,9 @@ if(extension_loaded('cURL')) {
         die('PMBlog has new version! <a href="http://github.com/lizheming/PMBlog" title="PMBlog">Click Here</a>to get it!<p>What\'s someting new： </p>'.$check[0]['description']);
     }        
 }
+
+/**
+ *Output Runtime
+ */
 $EndTime = microtime(true); 
 printf('It costs %.2fs to generate your <a href="'.SITE_DIR.'">blog</a>.',$EndTime - $StartTime);
