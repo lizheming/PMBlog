@@ -6,4 +6,5 @@
 /admin/usr/contents/*.md
 !/admin/usr/contents/hello-world.md
 /admin/config.php
-/admin/usr/themes/octopress
+/admin/usr/plugins/Page2Link/links.html
+/admin/usr/plugins/Page2Menu/menus.html
