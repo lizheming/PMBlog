@@ -1,6 +1,13 @@
 <?php
+/**
+ * A online editor plugin for PMBlog
+ *
+ * @author 公子
+ * @version 0.0.1
+ * @link http://github.com/lizheming
+ */
 class Editor {
-	function plugins_loaded() {
+	function config_loaded($config) {
 		if(isset($_GET['edit'])) {
 			/* show editor */
 			include_once PLUGINS_DIR."/Editor/Editor.html";
