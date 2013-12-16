@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+
+<html>
+
+    <head>
+        <title>撰写文章</title>
+        
+        <link rel="stylesheet" type="text/css" href="<?php echo PLUGINS_DIR; ?>/Editor/res/style.css" />
+        <link rel="stylesheet" tyle="text/css" href="<?php echo PLUGINS_DIR; ?>/Editor/res/code.css" />
+        
+        <script type="text/javascript" src="<?php echo PLUGINS_DIR; ?>/Editor/res/Markdown.Converter.js"></script>
+        <script type="text/javascript" src="<?php echo PLUGINS_DIR; ?>/Editor/res/Markdown.Sanitizer.js"></script>
+        <script type="text/javascript" src="<?php echo PLUGINS_DIR; ?>/Editor/res/Markdown.Editor.js"></script>
+        <script type="text/javascript" src="<?php echo PLUGINS_DIR; ?>/Editor/res/prettify.js"></script>
+    </head>
+    
+    <body>
+        <div class="wmd-panel">
+            <div id="wmd-button-bar"></div>
+            <form name="form" method="POST" action="index.php">
+            <textarea class="wmd-input" id="wmd-input" name="editortext">date: <?php echo date('Y-m-d H:i:s')."  ".PHP_EOL; ?>title: </textarea>
+            <input type="hidden" id="editorname" name="editorname" value="" />
+            </form>
+        </div>
+        <div id="wmd-preview" class="wmd-panel wmd-preview"></div>
+        <div id="autosave"></div>
+        <button type="submit" class="primary" id="btn-submit" onclick="prom()">发布文章</button>
+
+        <script type="text/javascript">
+			function prom() {
+			    var name=prompt("请输入文件名（不推荐使用中文名称）","");
+			    if(!name) return false;
+
+			    document.getElementById('editorname').value = name;
+			    form.submit();
+
+			}
+            function prettify() {
+                var pre = document.getElementsByTagName('pre');
+                for(i=0,l=pre.length;i<l;i++) {
+                    if(pre[i].className.indexOf('prettyprint') == -1) 
+                        pre[i].className += ' prettyprint';
+                }
+                prettyPrint();
+            }
+            function autosave() {
+	            var text = document.getElementById('wmd-input');
+	            localStorage.text = text.value;
+	            document.getElementById('autosave').innerHTML = "文章已自动保存";
+	            setTimeout(function() {
+					document.getElementById('autosave').innerHTML = "";
+		        }, 1000);
+            }
+            (function () {
+                var converter = Markdown.getSanitizingConverter();
+                
+                converter.hooks.chain("preBlockGamut", function (text, rbg) {
+                    return text.replace(/^ {0,3}""" *\n((?:.*?\n)+?) {0,3}""" *$/gm, function (whole, inner) {
+                        return "<blockquote>" + rbg(inner) + "</blockquote>\n";
+                    });
+                });
+                
+                var editor = new Markdown.Editor(converter);
+                
+                editor.run();
+				if(localStorage.text) document.getElementById('wmd-input').value = localStorage.text;
+                setInterval("prettify()", 10);
+				setInterval("autosave()", 10000);
+
+            })();
+        </script>
+    </body>
+</html>

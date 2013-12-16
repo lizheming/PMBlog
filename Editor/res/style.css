@@ -1,0 +1,178 @@
+html, body 
+{ 
+	padding:0;
+	margin:0;
+	width:100%;
+	height:100%;
+	background-color: White;
+    font-family: sans-serif;
+}
+
+blockquote {
+	border-left: 5px solid #CCC;
+	padding: 1px 5px;
+	background: #EEE;
+	margin: 20px 0 20px 40px;
+}
+
+pre {
+	padding:2px;
+}
+
+form {
+	width:100%;
+	height:100%;
+}
+
+.wmd-panel
+{
+	margin-left:2%;
+	margin-right:1%;
+	width: 47%;
+	min-width: 500px;
+	float:left;
+	height: 70%;
+}
+
+.wmd-button-bar 
+{
+	width: 100%;
+	background-color: Silver; 
+}
+
+.wmd-input 
+{ 
+	height: 99%;
+	width: 99%;
+	background: #FFF;
+	border: 1px solid #D9D9D6;
+	padding: 7px;
+	border-radius: 2px;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	font-size:14px;
+	line-height:1.5;
+	font-family:Menlo, Monaco, Consolas, "Courier New", monospace;
+	resize:none;
+}
+
+.wmd-preview 
+{ 
+	margin-left:1%;
+	margin-right:2%;
+	margin-top:35px;
+	padding:0 1%;
+	width: 45%;
+	overflow-y:auto;
+	background: #FFF;
+	word-wrap: break-word;
+	-webkit-border-radius: 2px;
+	-moz-border-radius: 2px;
+	-ms-border-radius: 2px;
+	-o-border-radius: 2px;
+	border-radius: 2px;
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	color: #444;
+	font-size: 87.5%;
+	line-height: 1.5;
+}
+
+.wmd-button-row 
+{
+	position: relative; 
+	margin-left: 5px;
+	margin-right: 5px;
+	margin-bottom: 5px;
+	margin-top: 10px;
+	padding: 0px;  
+	height: 20px;
+}
+
+.wmd-spacer
+{
+	width: 1px; 
+	height: 20px; 
+	margin-left: 14px;
+	
+	position: absolute;
+	background-color: Silver;
+	display: inline-block; 
+	list-style: none;
+}
+
+.wmd-button {
+    width: 20px;
+    height: 20px;
+    padding-left: 2px;
+    padding-right: 3px;
+    position: absolute;
+    display: inline-block;
+    list-style: none;
+    cursor: pointer;
+}
+
+.wmd-button > span {
+    background-image: url(wmd-buttons.png);
+    background-repeat: no-repeat;
+    background-position: 0px 0px;
+    width: 20px;
+    height: 20px;
+    display: inline-block;
+}
+
+.wmd-spacer1
+{
+    left: 50px;
+}
+.wmd-spacer2
+{
+    left: 175px;
+}
+.wmd-spacer3
+{
+    left: 300px;
+}
+
+
+
+
+.wmd-prompt-background
+{
+	background-color: Black;
+}
+
+.wmd-prompt-dialog
+{
+	border: 1px solid #999999;
+	background-color: #F5F5F5;
+}
+
+.wmd-prompt-dialog > div {
+	font-size: 0.8em;
+	font-family: arial, helvetica, sans-serif;
+}
+
+
+.wmd-prompt-dialog > form > input[type="text"] {
+	border: 1px solid #999999;
+	color: black;
+}
+
+.wmd-prompt-dialog > form > input[type="button"]{
+	border: 1px solid #888888;
+	font-family: trebuchet MS, helvetica, sans-serif;
+	font-size: 0.8em;
+	font-weight: bold;
+}
+
+#btn-submit {
+	width: 20%;
+	height: 10%;
+	line-height:10%;
+	margin:3% 40% 0 40%;
+}
+
+#autosave {
+	margin-left:2%;
+}
