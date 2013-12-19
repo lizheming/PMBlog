@@ -336,6 +336,7 @@ class PMBlog {
 	{	
 		global $config;
 
+		define('SITE_DIR', $config['site_dir']);
 		$site['title'] = $config['site_title'];
 		$site['url'] = $config['base_url'];
 		$site['config'] = array(
