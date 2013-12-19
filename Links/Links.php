@@ -22,7 +22,7 @@ class Links {
 
     public function config_loaded(&$site) {
     	$file = $site['config']['plugins'].'/Links/links.md';
-    	if(!file_exists($file)) die('You must create links.html first in the '.$site['config']['plugins'].'/Links. links.example.md is a example file.');
+    	if(!file_exists($file)) die('You must create links.md first in the '.$site['config']['plugins'].'/Links. links.example.md is a example file.');
 
 		$groupname = 'default';
 		$group = array();
