@@ -1,20 +1,31 @@
 ## PMBlog ##
 
-PMBlog是一个类似Jekyll的PHP版静态博客生成程序，当然没有Jekyll那么强大就是。目前能够实现发布文章和页面，自定义模板等基本功能。
+PMBlog是一个类似Jekyll/Octopress的PHP版静态博客生成程序。  
+具有文章/页面的生成，自定义主题，自定义插件等基本功能。
 
-之前采用的是自己写的模板引擎，不仅自己麻烦，而且做主题也很麻烦，因为又需要记一套语法。这个版本是新版本，采用了开源的Twig模板引擎，语法来自Django和Jinjia，和Jekyll，Octopress的语法是类似的。原来的模板只要稍加修改就能转换到PMBlog上来了。
+关于自定义主题，这里想要感谢Twig。之前采用的是自己写的模板引擎，不仅自己麻烦，而且做主题也很麻烦，因为又需要记一套语法。采用了开源的Twig模板引（语法来自Django和Jinjia，和Jekyll，Octopress的语法是类似的）擎之后，开发主题就变得非常的得心应手了。
 
-## 站点示例 ##
+关于自定义插件，这里想要感谢Pico。Pico是一款静态CMS程序，参考了它的代码，我才能将PMBlog的插件系统给开发出来，这里真是非常感谢！
 
-[PMBlog - http://lizheming.github.io/PMBlog](http://lizheming.github.io/PMBlog)
+## 必要条件 ##
 
-[Phenoland - http://Phenoland.com](http://Phenoland.com)
-
-[怡红院落 - http://blog.imnerd.org](http://blog.imnerd.org)
+安装前请确保你的PHP >= 5.2.4 
 
 ## 安装方法 ##
 
+复制`config.example.php`为`config.php`并按照注释修改里面的配置变量，随后运行`index.php`即可实现博客生成。
+
+由于有些插件也需要配置文件，所以你要看一下页面的提示信息，都会有相应的提示的。
+
 [Installation](https://github.com/lizheming/PMBlog/wiki#installation)
+
+## 站点示例 ##
+
+[怡红院落 - http://blog.imnerd.org](http://blog.imnerd.org)
+
+[Phenoland - http://Phenoland.com](http://Phenoland.com)
+
+[PMBlog - http://lizheming.github.io/PMBlog](http://lizheming.github.io/PMBlog)
 
 ## WIKI ##
 
