@@ -26,8 +26,7 @@ form {
 
 .wmd-panel
 {
-	margin-left:2%;
-	margin-right:1%;
+	margin:1% 1% 0 1%;
 	width: 47%;
 	min-width: 500px;
 	float:left;
@@ -42,7 +41,7 @@ form {
 
 .wmd-input 
 { 
-	height: 99%;
+	height: 100%;
 	width: 99%;
 	background: #FFF;
 	border: 1px solid #D9D9D6;
@@ -59,14 +58,14 @@ form {
 
 .wmd-preview 
 { 
-	margin-left:1%;
-	margin-right:2%;
-	margin-top:35px;
+	margin:1%;
+	margin-top:72px;
 	padding:0 1%;
 	width: 45%;
 	overflow-y:auto;
 	background: #FFF;
 	word-wrap: break-word;
+	border: 1px dashed #999;
 	-webkit-border-radius: 2px;
 	-moz-border-radius: 2px;
 	-ms-border-radius: 2px;
@@ -167,12 +166,25 @@ form {
 }
 
 #btn-submit {
-	width: 20%;
-	height: 10%;
-	line-height:10%;
-	margin:3% 40% 0 40%;
+	height: 5em;
+	line-height:120%;
+	margin:0 1%;
+	width: 12em;
 }
 
 #autosave {
-	margin-left:2%;
+	position: fixed;
+	width:20em;
+	height:2em;
+	line-height:2em;
+	right:0;
+	top:0;
+	background-color: Silver;
+	text-align: center;
+	display: none;
 }
+#name[readonly]{
+	color: Silver;
+	border:1px Silver solid;
+}
+
