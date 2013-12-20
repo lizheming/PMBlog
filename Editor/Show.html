@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>管理</title>
+<style type="text/css">
+
+* {color:black;}
+.display {display:none;}
+h3 a{cursor:pointer;}
+h3 a:hover {text-decoration:underline;}
+a.h4 {font-size:14px;padding:5px 10px;text-decoration:none;}
+thead {line-height:3em;}
+thead tr td {border-bottom:2px solid black;}
+tbody {line-height:2em;}
+ul, li {display:inline-block;cursor:pointer;}
+li {height:28px;line-height:28px;border:1px solid black;width:28px;text-align:center;}
+a.h4:hover, li:hover, li#current {background:black;color:#FFF;}
+</style>
+</head>
+<body onload="init()">
+<h3>管理[<a onclick="show('post');">文章</a>|<a onclick="show('page')">页面</a>]<a class="h4" href="?edit">新增</a></h3>
+<table>
+	<thead>
+		<tr>
+			<td>文章标题</td>
+			<td>文件名</td>
+			<td>创建时间</td>
+		</tr>
+	</thead>
+	<?php foreach($data as $type => $posts): ?>
+	<tbody id="<?php echo $type; ?>">
+		<?php foreach($posts as $n => $post): ?>
+		<tr id="<?php echo $type.'-'.($n+1); ?>" class="">
+			<td>
+				<a href="?edit=<?php echo $post['filename']; ?>"><?php echo $post['title']; ?></a>
+				<?php if(!$post['status']) { ?>
+					<em>草稿</em>
+				<?php } else { ?>
+					<a style="font-size:12px" href="<?php echo $post['url']; ?>">[#]</a>
+				<?php } ?>
+			</td>
+			<td><?php echo $post['filename']; ?></td>
+			<td><?php echo $post['date']; ?></td>
+		</tr> 
+		<?php endforeach; ?>
+	</tbody>
+	<?php endforeach; ?>
+</table>
+<?php foreach($data as $type => $posts): ?>
+<ul id="<?php echo $type; ?>-navi" class="display">
+	<?php foreach(range(1, ceil(count($posts)/20)) as $navi): ?>
+	<li class="<?php echo $type; ?>"><?php echo $navi; ?></li>
+	<?php endforeach; ?>
+</ul>
+<?php endforeach; ?>
+<script type="text/javascript">
+var foreach = function(arr,call) {for(var i=0,l=arr.length;i<l;i++) call(arr[i]);}
+var $=function(q,o) {
+	if(q instanceof HTMLElement) return new Array(q);
+	res = new Array(), o=o||new Array(document);
+	foreach(o,function(i){
+		foreach(i.querySelectorAll(q), function(item) {res.push(item);})
+	});
+	return res;
+}
+var init = function() {show('post');$('li')[0].onclick();}
+var show = function(t) {
+	foreach($('tbody'), function(item){item.className = "display";});
+	foreach($('ul'), function(item){item.className = "display";});
+	$('#'+t)[0].className="";
+	$('#'+t+'-navi')[0].className="";
+	$('#'+t+'-navi li')[0].onclick();
+}
+foreach($('li'), function(item) {
+	item.onclick = function() {
+		var type = this.className, page = this.innerText, start = (page - 1) * 20 + 1, end = page * 20;
+		foreach($('tbody tr'), function(item) {item.className = 'display';});
+		for(var i=start;i<end;i++) {
+			$('tr#'+type+'-'+i)[0].className = '';
+		}
+		if($('li#current').length>0) $('li#current')[0].setAttribute('id', '');
+		this.setAttribute('id', 'current');
+	}
+})
+</script>
+</body>
+</html>
