@@ -22,7 +22,7 @@ class Editor {
 				echo "<meta http-equiv=\"content-type\" content=\"text/html; charset=utf-8\"><script>alert('已经有一篇名为 “".$name."” 的文章了，还请换个名字保存！');window.location.href='?edit';</script>";
 				die();
 			}else{
-				$res = file_put_contents(CONTENTS_DIR.'/'.$name.'.md', $_POST['editortext']);
+				$res = file_put_contents($file, $_POST['editortext']);
 				echo "<script>localStorage.text='';</script>";
 				if(!$res) die('文章保存失败');
 			}
