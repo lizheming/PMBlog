@@ -13,7 +13,7 @@ class Authlogin {
 	 * Change default username and password by yourself.
 	 */
 	private $username = "admin";
-	private $password = "lizheming.com";
+	private $password = "admin";
 
 	public function plugins_loaded() {
 		/* Check user's name and password is default */
