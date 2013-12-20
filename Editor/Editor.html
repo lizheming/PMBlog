@@ -30,10 +30,13 @@
 			function prom() {
 			    var name=prompt("请输入文件名（不推荐使用中文名称）","");
 			    if(!name) return false;
-
+			    if(/[\/\\\<\>\*\?]/gi.test(name)){
+				    alert('文件名使用了非法字符，请重新填写！');
+				    prom();
+				    return false
+				}
 			    document.getElementById('editorname').value = name;
 			    form.submit();
-
 			}
             function prettify() {
                 var pre = document.getElementsByTagName('pre');
