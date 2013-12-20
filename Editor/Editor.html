@@ -16,26 +16,34 @@
     
     <body>
         <div class="wmd-panel">
-            <div id="wmd-button-bar"></div>
-            <form name="form" method="POST" action="index.php">
-            <textarea class="wmd-input" id="wmd-input" name="editortext">date: <?php echo date('Y-m-d H:i:s')."  ".PHP_EOL; ?>title: </textarea>
-            <input type="hidden" id="editorname" name="editorname" value="" />
+	        <form name="form" method="POST" action="index.php">
+		        <label for="name">保存文件名称：<input type="text" id="name" name="name" value="<?php echo $name; ?>" required <?php echo $newfile?'':'readonly'; ?>></label>（不推荐使用中文名称）
+			    <input type="hidden" id="newfile" name="newfile" value="<?php echo $newfile?'true':'false'; ?>" />
+	            <div id="wmd-button-bar"></div>
+	            <textarea class="wmd-input" id="wmd-input" name="editortext"><?php echo $content; ?></textarea>
+	            
             </form>
         </div>
         <div id="wmd-preview" class="wmd-panel wmd-preview"></div>
         <div id="autosave"></div>
-        <button type="submit" class="primary" id="btn-submit" onclick="prom()">发布文章</button>
+        <button type="submit" class="primary" id="btn-submit" onclick="prom()"><?php echo $newfile?'发布':'更新'; ?></button>
 
         <script type="text/javascript">
+	        var isNew = !document.getElementById('name').readOnly,	        
+	        lsKey = 'text' + (isNew ? '' : ('_' + document.getElementById('name').value));
+
+	        
+			console.log(document.getElementById('name').readOnly);
+			console.log(isNew);
+
+			
 			function prom() {
-			    var name=prompt("请输入文件名（不推荐使用中文名称）","");
-			    if(!name) return false;
-			    if(/[\/\\\<\>\*\?]/gi.test(name)){
-				    alert('文件名使用了非法字符，请重新填写！');
-				    prom();
+			    var name = document.getElementById('name').value;
+			    if(!name || /[\/\\\<\>\*\?]/gi.test(name)){
+				    alert('文件名留空或者使用了非法字符，请重新填写！');
+				    document.getElementById('name').focus();
 				    return false
 				}
-			    document.getElementById('editorname').value = name;
 			    form.submit();
 			}
             function prettify() {
@@ -48,11 +56,13 @@
             }
             function autosave() {
 	            var text = document.getElementById('wmd-input');
-	            localStorage.text = text.value;
-	            document.getElementById('autosave').innerHTML = "文章已自动保存";
+	            localStorage[lsKey] = text.value;
+	            var as = document.getElementById('autosave');
+	            as.innerHTML = isNew ? "新文章已自动保存" : "“" + document.getElementById('name').value + "”已自动保存";
+	            as.style.display = 'block';
 	            setTimeout(function() {
-					document.getElementById('autosave').innerHTML = "";
-		        }, 1000);
+					as.style.display = 'none';
+		        }, 1500);
             }
             (function () {
                 var converter = Markdown.getSanitizingConverter();
@@ -66,9 +76,9 @@
                 var editor = new Markdown.Editor(converter);
                 
                 editor.run();
-				if(localStorage.text) document.getElementById('wmd-input').value = localStorage.text;
+				if(localStorage[lsKey]) document.getElementById('wmd-input').value = localStorage[lsKey];
                 setInterval("prettify()", 10);
-				setInterval("autosave()", 10000);
+				setInterval("autosave()", 15000);
 
             })();
         </script>
