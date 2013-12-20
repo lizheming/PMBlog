@@ -31,12 +31,6 @@
         <script type="text/javascript">
 	        var isNew = !document.getElementById('name').readOnly,	        
 	        lsKey = 'text' + (isNew ? '' : ('_' + document.getElementById('name').value));
-
-	        
-			console.log(document.getElementById('name').readOnly);
-			console.log(isNew);
-
-			
 			function prom() {
 			    var name = document.getElementById('name').value;
 			    if(!name || /[\/\\\<\>\*\?]/gi.test(name)){
