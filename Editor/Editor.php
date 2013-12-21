@@ -41,7 +41,7 @@ class Editor {
 
 	function after_get_contents($data) {
 		if(isset($_GET['show'])) {
-			include_once "show.html";
+			include_once "Show.html";
 			die();
 		}
 	}

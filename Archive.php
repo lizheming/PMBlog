@@ -1,94 +1,93 @@
 <?php
 /**
  * PMBlog plugin to show a Archive in your blog
- * How To Use It?
- * After Add this plugin you can use {{Archive}} in the template to use it.
- * 
+ * How To Use It? Here is an example:
+ *
+ *    	<div class="car-container car-collapse">
+ *   		<ul class="car-list">
+ *  		{% for year in get_archive_years() %}
+ *   			{% for month in get_archive_months(year) %}
+ *				<li>
+ *					<span class="car-yearmonth">{{year}}年{{month}}月</span>
+ *    				<ul class="car-monthlisting">
+ *    				{% for day in get_archive_days(year, month) %}
+ *    					{% for post in get_archive(year, month, day) %}
+ *    					<li>{{day}}: <a href="{{post.url}}">{{post.title}}</a></li>
+ *    					{% endfor %}
+ *    				{% endfor %}
+ *    				</ul>
+ *    			</li>
+ *    			{% endfor %}
+ *    		{% endfor %}
+ *    		</ul>
+ *    	</div>
+ *
  * @author lizheming
  * @link http://github.com/lizheming
- * @version 0.1.0
+ * @version 0.1.1
  */
  
 class Archive {
 	private $archive;
 	public function after_get_contents(&$data) {
+		$archive = array();
 		foreach($data['post'] as $key => $post) {
 			$date = strtotime($post['date']);
 			$title = $post['title'];
 			$url = $post['url'];
-			$arch[date('Y',$date)][date('n', $date)][date('j', $date)][] = array('title' => $title, 'url' => $url);	
+			$archive[date('Y',$date)][date('n', $date)][date('j', $date)][] = array('title' => $title, 'url' => $url);	
 		}
-		$Archive = '<div class="car-container car-collapse"><a href="#" class="car-toggler">展开全部</a><ul class="car-list">';
-		foreach($arch as $kyear => $year) {
-			foreach($year as $kmonth => $month) {
-				$Archive .= '<li><span class="car-yearmonth">'.$kmonth.'月 '.$kyear.' <span title="Post Count">('.$this->count($month).')</span></span>';
-				$Archive .= '<ul class="car-monthlisting">';
-				foreach($month as $kday => $day) {
-					foreach($day as $item) {
-						$Archive .= '<li>'.$kday.': <a href="'.$item['url'].'">'.$item['title'].'</a></li>';
-					}
-				}
-				$Archive .= '</ul>';
-				$Archive .= '</li>';
-			}
-		}
-		$Archive .= "</ul></div>
-		<style type=\"text/css\">.car-collapse .car-yearmonth { cursor: s-resize; }.car-monthlisting {overflow:hidden;} </style>
-		<script type=\"text/javascript\">
-		window.onload = function() {
-			var collapse = document.getElementsByClassName('car-collapse')[0];
-			var monthlisting = collapse.getElementsByClassName('car-monthlisting');
-			var yearmonth = collapse.getElementsByClassName('car-yearmonth');
-			for(i=1,l=monthlisting.length;i<l;i++)	monthlisting[i].style.display = 'none';
-			monthlisting[0].style.display = 'block';
-			for(i=0,l=yearmonth.length;i<l;i++) {
-				yearmonth[i].onclick = function() {
-					var obj = this.nextSibling, display = obj.style.display;
-					if(display == 'block') {
-						obj.style.height = obj.scrollHeight;
-						var hide = setInterval(function() {
-							obj.style.height = (parseInt(obj.style.height) - 10)+'px';
-							if(parseInt(obj.style.height) <= 10) {
-								obj.style.height = 'auto';
-								obj.style.display = 'none';
-								clearInterval(hide);
-							}
-						}, 10);
-					} else {
-						obj.style.height = '0';
-						obj.style.display = 'block';
-						var items = obj.getElementsByTagName('li'), Height = items.length*items[0].scrollHeight;
-						var show = setInterval(function(){
-							obj.style.height = (parseInt(obj.style.height) + 10)+'px';
-							if(parseInt(obj.style.height)>Height) {
-								clearInterval(show);
-							}
-						}, 10);
-					}
-				}
-			}
-			
-			document.getElementsByClassName('car-toggler')[0].onclick = function() {
-				if(this.innerText == '展开全部') {
-					this.innerText = '折叠全部';
-					for(i=0,l=monthlisting.length;i<l;i++)	monthlisting[i].style.display = 'block';
-				} else {
-					this.innerText = '展开全部';
-					for(i=0,l=monthlisting.length;i<l;i++)	monthlisting[i].style.display = 'none';
-				}
-			}	
-		}
-		</script>";
+		$this->archive = $archive;
 
-		$this->archive = $Archive;
 	}
-	public function after_get_variables(&$variables) {
-		$variables['Archive'] = $this->archive;
-	}
-	public function count($array) {
-		$count = 0;
-		foreach($array as $item)
-			$count += count($item);
-		return $count;
+	public function twig_loaded(&$variables, &$twig) {
+		/**
+		 * 返回日志所有年数
+		 *
+		 * @return array()
+		 */
+		$years = new Twig_SimpleFunction("get_archive_years", function() {
+			return array_keys($this->archive);
+		});
+
+		/**
+		 * 返回某年的日志所有的月份
+		 *
+		 * @param string 具体某年
+		 * @return array()
+		 */
+		$month = new Twig_SimpleFunction("get_archive_months", function($year) {
+			$archive = $this->archive;
+			return isset($archive[$year]) ? array_keys($archive[$year]) : array();
+		});
+
+		/**
+		 * 返回某年某月的所有日志的天
+		 *
+		 * @param string 具体某年
+		 * @param string 具体某月
+		 * @return array()
+		 */
+		$days = new Twig_SimpleFunction("get_archive_days", function($year, $month) {
+			$archive = $this->archive;
+			return isset($archive[$year][$month]) ? array_keys($archive[$year][$month]) : array();
+		});
+
+		/**
+		 * 返回某年某月某日的所有日志
+		 * 
+		 * @param string 具体某年
+		 * @param string 具体某月
+		 * @param string 具体某日
+		 * @return array()
+		 */
+		$posts = new Twig_SimpleFunction("get_archive", function($year, $month, $day) {
+			$archive = $this->archive;
+			return isset($archive[$year][$month][$day]) ? $archive[$year][$month][$day] : array();
+		});
+		$twig->addFunction($years);
+		$twig->addFunction($month);
+		$twig->addFunction($days);
+		$twig->addFunction($posts);
 	}
 }
