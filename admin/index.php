@@ -180,11 +180,11 @@ class PMBlog {
 
 			$post = new parse($item);
 
-			$status = $post->status();
+			$log['status'] = $post->status();
 			$date = $post->date();
 			$log['date'] = date($this->site['config']['dateformat'], $date);
 
-			if(!$status || $date >= time())	continue;
+			if(!$log['status'] || $date >= time())	continue;
 			$log['type'] = $post->type();
 			$log['filename'] = $post->doc_title();
 			$log['title'] = $post->title();
