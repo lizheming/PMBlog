@@ -26,6 +26,7 @@ a.h4:hover, li:hover, li#current {background:black;color:#FFF;}
 			<td>文章标题</td>
 			<td>文件名</td>
 			<td>创建时间</td>
+			<td>操作</td>
 		</tr>
 	</thead>
 	<?php foreach($data as $type => $posts): ?>
@@ -42,6 +43,7 @@ a.h4:hover, li:hover, li#current {background:black;color:#FFF;}
 			</td>
 			<td><?php echo $post['filename']; ?></td>
 			<td><?php echo $post['date']; ?></td>
+			<td><a style="font-size:12px" onclick="var res = confirm('确定要删除这篇日志么？');if(!res) return false;" href="?rm=<?php echo $post['filename']; ?>">[删]</a></td>
 		</tr> 
 		<?php endforeach; ?>
 	</tbody>

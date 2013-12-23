@@ -11,7 +11,7 @@ class Editor {
 		if(isset($_GET['edit'])) {
 			/* show editor */
 			$name = trim($_GET['edit']);
-			$file = CONTENTS_DIR.'/'.$name.'.md';
+			$file = CONTENTS_DIR."/$name.md";
 			$content = 'date:' . date('Y-m-d H:i:s').PHP_EOL.'title:';
 			$newfile = true;
 			if($name != '' && file_exists($file)){
@@ -21,6 +21,13 @@ class Editor {
 			include_once PLUGINS_DIR."/Editor/Editor.html";
 			die();
 		}
+
+		if(isset($_GET['rm'])) {
+			$name = trim($_GET['rm']);
+			$file = CONTENTS_DIR."/$name.md";
+			if(!unlink($file)) die('删除出错请重新删除');
+		}
+
 
 		if(isset($_POST['name']) && isset($_POST['editortext'])) {
 			$newfile = $_POST['newfile'] == 'true';
