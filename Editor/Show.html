@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <title>管理</title>
 <style type="text/css">
-
 * {color:black;}
 .display {display:none;}
 h3 a{cursor:pointer;}
@@ -35,8 +34,10 @@ a.h4:hover, li:hover, li#current {background:black;color:#FFF;}
 		<tr id="<?php echo $type.'-'.($n+1); ?>" class="">
 			<td>
 				<a href="?edit=<?php echo $post['filename']; ?>"><?php echo $post['title']; ?></a>
-				<?php if(!$post['status']) { ?>
+				<?php if($post['status'] === 1) { ?>
 					<em>草稿</em>
+				<?php } else if($post['status'] === 2) { ?>
+					<em>预约</em>
 				<?php } else { ?>
 					<a style="font-size:12px" href="<?php echo $post['url']; ?>">[#]</a>
 				<?php } ?>

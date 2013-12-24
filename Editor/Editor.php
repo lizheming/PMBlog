@@ -7,7 +7,16 @@
  * @link http://github.com/lizheming
  */
 class Editor {
+	private $config, $hidden_posts;
+
+	function __construct() {
+		$hidden_posts = array('post' => array(), 'page'=>array());
+		$this->hidden_posts = $hidden_posts;
+	}
+
 	function config_loaded($config) {
+		$this->config = $config;
+
 		if(isset($_GET['edit'])) {
 			/* show editor */
 			$name = trim($_GET['edit']);
@@ -47,9 +56,25 @@ class Editor {
 	}
 
 	function after_get_contents($data) {
+		$data['post'] = array_merge($data['post'], $this->hidden_posts['post']);
+		$data['page'] = array_merge($data['page'], $this->hidden_posts['page']);
+
+		usort($data['post'], create_function('$a,$b', 'if ($a[\'date\'] == $b[\'date\']) return 0;return ($a[\'date\'] < $b[\'date\']) ? 1 : -1;'));
 		if(isset($_GET['show'])) {
 			include_once "Show.html";
 			die();
 		}
+	}
+
+	function get_hidden_post_meta(&$post) {
+		$hidden = array(
+			'type'=>$post->type(),
+			'filename'=>$post->doc_title(),
+			'title'=>$post->title(),
+			'status'=>$post->status(),
+			'url'=>$post->url(),
+			'date'=>date($this->config['config']['dateformat'], $post->date()));
+		
+		$this->hidden_posts[$hidden['type']][] = $hidden;
 	}
 }
