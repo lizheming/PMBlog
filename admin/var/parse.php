@@ -48,13 +48,22 @@ class parse {
 		file_put_contents($this->doc, 'date: '.date('Y-m-d H:i:s', $date).PHP_EOL.PHP_EOL.$this->text);
 		return $date; //返回文件创建的时间
 	}
+
+	/**
+	 * 文章状态
+	 *
+	 * @return string 0:发布 1:草稿 2:预约
+	 */
 	function status() {
 		$preg = '/^status\:(.*)/im';
 		$n = preg_match_all($preg, $this->text, $match);
-		if($n!=0 && @trim($match[1][0]) == 'draft') {
-			return false;
+
+		if($n!=0 && @trim($match[1][0]) == 'draft') return 1;
+		
+		if($this->date() < time())	{
+			return 0;
 		} else {
-			return true;
+			return 2;
 		}
 	}
 	function tags() {

@@ -13,10 +13,7 @@ class PMBlog {
 	public $version = 4.0;
 
 	public function __construct() 
-	{
-
-		$this->run_hooks('start');
-		
+	{	
 		//Load Plugins
 		$this->load_plugins();
 		$this->run_hooks('plugins_loaded');
@@ -93,6 +90,8 @@ class PMBlog {
 
 		//generate index
 		$this->run_hooks('before_output_index', array(&$data['post']));
+		if(!empty($data['post']))
+		{
 		foreach($this->paginator($data['post']) as $paginator) 
 		{
 			$template = 'index.html';
@@ -107,6 +106,7 @@ class PMBlog {
 			$this->run_hooks('after_file_put_contents', array(&$paginator, &$index_path));
 		}
 		copy("{$this->site['config']['html']}/page/1/index.html", "{$this->site['config']['html']}/index.html");
+		}
 		$this->run_hooks('after_output_post');
 
 		//RSS
@@ -183,8 +183,11 @@ class PMBlog {
 			$log['status'] = $post->status();
 			$date = $post->date();
 			$log['date'] = date($this->site['config']['dateformat'], $date);
-
-			if(!$log['status'] || $date >= time())	continue;
+			
+			if($log['status']) {
+				$this->run_hooks('get_hidden_post_meta', array(&$post));
+				continue;
+			}
 			$log['type'] = $post->type();
 			$log['filename'] = $post->doc_title();
 			$log['title'] = $post->title();
