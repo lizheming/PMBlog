@@ -53,7 +53,7 @@ a.h4:hover, li:hover, li#current {background:black;color:#FFF;}
 <?php foreach($data as $type => $posts): ?>
 <ul id="<?php echo $type; ?>-navi" class="display">
 	<?php foreach(range(1, ceil(count($posts)/20)) as $navi): ?>
-	<li class="<?php echo $type; ?>"><?php echo $navi; ?></li>
+	<li class="<?php echo $type; ?>" data="<?php echo $navi; ?>"><?php echo $navi; ?></li>
 	<?php endforeach; ?>
 </ul>
 <?php endforeach; ?>
@@ -77,10 +77,12 @@ var show = function(t) {
 }
 foreach($('li'), function(item) {
 	item.onclick = function() {
-		var type = this.className, page = this.innerText, start = (page - 1) * 20 + 1, end = page * 20;
+		var type = this.className, page = this.getAttribute('data'), start = (page - 1) * 20 + 1, end = page * 20;
 		foreach($('tbody tr'), function(item) {item.className = 'display';});
 		for(var i=start;i<end;i++) {
-			$('tr#'+type+'-'+i)[0].className = '';
+			var obj = 'tr#'+type+'-'+i;
+			if($(obj).length>0)
+				$(obj)[0].className = '';
 		}
 		if($('li#current').length>0) $('li#current')[0].setAttribute('id', '');
 		this.setAttribute('id', 'current');
