@@ -55,11 +55,12 @@ class Editor {
 		}
 	}
 
-	function after_get_contents($data) {
-		$data['post'] = array_merge($data['post'], $this->hidden_posts['post']);
-		$data['page'] = array_merge($data['page'], $this->hidden_posts['page']);
+	function after_get_contents(&$data) {
+		$post = array_merge($data['post'], $this->hidden_posts['post']);
+		$page = array_merge($data['page'], $this->hidden_posts['page']);
+		usort($post, create_function('$a,$b', 'if ($a[\'date\'] == $b[\'date\']) return 0;return ($a[\'date\'] < $b[\'date\']) ? 1 : -1;'));
+		$all = compact('post', 'page');
 
-		usort($data['post'], create_function('$a,$b', 'if ($a[\'date\'] == $b[\'date\']) return 0;return ($a[\'date\'] < $b[\'date\']) ? 1 : -1;'));
 		if(isset($_GET['show'])) {
 			include_once "Show.html";
 			die();
