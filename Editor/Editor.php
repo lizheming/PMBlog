@@ -70,7 +70,9 @@ class Editor {
 	function get_hidden_post_meta(&$post) {
 		$hidden = array(
 			'type'=>$post->type(),
+			'docpath'=>$post->doc(),
 			'filename'=>$post->doc_title(),
+			'extension'=>$post->doc_extension(),
 			'title'=>$post->title(),
 			'status'=>$post->status(),
 			'url'=>$post->url(),

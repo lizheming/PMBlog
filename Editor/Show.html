@@ -28,12 +28,12 @@ a.h4:hover, li:hover, li#current {background:black;color:#FFF;}
 			<td>操作</td>
 		</tr>
 	</thead>
-	<?php foreach($data as $type => $posts): ?>
+	<?php foreach($all as $type => $posts): ?>
 	<tbody id="<?php echo $type; ?>">
 		<?php foreach($posts as $n => $post): ?>
 		<tr id="<?php echo $type.'-'.($n+1); ?>" class="">
 			<td>
-				<a href="?edit=<?php echo $post['filename']; ?>"><?php echo $post['title']; ?></a>
+				<a href="?edit=<?php echo urlencode($post['docpath']); ?>"><?php echo $post['title']; ?></a>
 				<?php if($post['status'] === 1) { ?>
 					<em>草稿</em>
 				<?php } else if($post['status'] === 2) { ?>
@@ -44,13 +44,13 @@ a.h4:hover, li:hover, li#current {background:black;color:#FFF;}
 			</td>
 			<td><?php echo $post['filename']; ?></td>
 			<td><?php echo $post['date']; ?></td>
-			<td><a style="font-size:12px" onclick="var res = confirm('确定要删除这篇日志么？');if(!res) return false;" href="?rm=<?php echo $post['filename']; ?>">[删]</a></td>
+			<td><a style="font-size:12px" onclick="var res = confirm('确定要删除这篇日志么？');if(!res) return false;" href="?rm=<?php echo urlencode($post['docpath']); ?>">[删]</a></td>
 		</tr> 
 		<?php endforeach; ?>
 	</tbody>
 	<?php endforeach; ?>
 </table>
-<?php foreach($data as $type => $posts): ?>
+<?php foreach($all as $type => $posts): ?>
 <ul id="<?php echo $type; ?>-navi" class="display">
 	<?php foreach(range(1, ceil(count($posts)/20)) as $navi): ?>
 	<li class="<?php echo $type; ?>" data="<?php echo $navi; ?>"><?php echo $navi; ?></li>
