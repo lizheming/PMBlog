@@ -189,6 +189,7 @@ class PMBlog {
 				continue;
 			}
 			$log['type'] = $post->type();
+			$log['docpath'] = $post->doc();
 			$log['filename'] = $post->doc_title();
 			$log['extension'] = $post->doc_extension();
 			$log['title'] = $post->title();

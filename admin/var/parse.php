@@ -31,6 +31,9 @@ class parse {
 			return date('Ymd', $this->date());
 		}
 	}
+	function doc() {
+		return $this->doc;
+	}
 	function doc_title() {
 		return pathinfo($this->doc, PATHINFO_FILENAME);
 	}
