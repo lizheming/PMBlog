@@ -19,11 +19,10 @@ class Editor {
 
 		if(isset($_GET['edit'])) {
 			/* show editor */
-			$name = trim($_GET['edit']);
-			$file = CONTENTS_DIR."/$name.md";
-			$content = 'date:' . date('Y-m-d H:i:s').PHP_EOL.'title:';
+			$file = urldecode($_GET['edit']);
+			$content = 'date:' . date('Y-m-d H:i:s').PHP_EOL.PHP_EOL.'title:';
 			$newfile = true;
-			if($name != '' && file_exists($file)){
+			if(file_exists($file)){
 				$content = file_get_contents($file);
 				$newfile = false;
 			}
@@ -32,8 +31,7 @@ class Editor {
 		}
 
 		if(isset($_GET['rm'])) {
-			$name = trim($_GET['rm']);
-			$file = CONTENTS_DIR."/$name.md";
+			$file = urldecode($_GET['rm']);
 			if(!unlink($file)) die('删除出错请重新删除');
 		}
 
