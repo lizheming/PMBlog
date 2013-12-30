@@ -190,6 +190,7 @@ class PMBlog {
 			}
 			$log['type'] = $post->type();
 			$log['filename'] = $post->doc_title();
+			$log['extension'] = $post->doc_extension();
 			$log['title'] = $post->title();
 			$log['content'] = $post->text();
 			$log['template'] = $post->tmp();

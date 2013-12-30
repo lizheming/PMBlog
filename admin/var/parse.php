@@ -34,6 +34,9 @@ class parse {
 	function doc_title() {
 		return pathinfo($this->doc, PATHINFO_FILENAME);
 	}
+	function doc_extension() {
+		return pathinfo($this->doc, PATHINFO_EXTENSION);
+	}
 	function date() {
 		$preg = '/^date\:(.*)/im';
 		$n = preg_match_all($preg, $this->text, $match);
