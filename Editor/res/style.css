@@ -1,90 +1,168 @@
-html, body 
-{ 
-	padding:0;
-	margin:0;
-	width:100%;
-	height:100%;
-	background-color: White;
-    font-family: sans-serif;
-}
-
-blockquote {
-	border-left: 5px solid #CCC;
-	padding: 1px 5px;
-	background: #EEE;
-	margin: 20px 0 20px 40px;
-}
-
-pre {
-	padding:2px;
-}
-
-form {
-	width:100%;
-	height:100%;
-}
-
-.wmd-panel
-{
-	margin:1% 1% 0 1%;
-	width: 47%;
-	min-width: 500px;
-	float:left;
-	height: 70%;
-}
-
-.wmd-button-bar 
-{
-	width: 100%;
-	background-color: Silver; 
-}
-
-.wmd-input 
-{ 
+html {
 	height: 100%;
-	width: 99%;
-	background: #FFF;
-	border: 1px solid #D9D9D6;
-	padding: 7px;
-	border-radius: 2px;
-	-webkit-box-sizing: border-box;
-	-moz-box-sizing: border-box;
+}
+body{
+	margin:0 auto;
+	height: 100%;
+	font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+	background: whitesmoke;
+}
+h1{
+	font-size:1.5em;
+	margin: 0;
+	padding:0;
+}
+label{
+	font-size:75%;
+	font-weight: bold;
+	margin: 1em 0 -0.5em;
+	vertical-align: middle;
+}
+
+input[type="text"], textarea {
 	box-sizing: border-box;
-	font-size:14px;
-	line-height:1.5;
+	-moz-box-sizing:border-box;
+	-webkit-box-sizing:border-box;
+	border: 0.1em solid Gainsboro;
+	border-radius: 0.2em;
+	margin: 0;
+	padding: 0.5em;
+	width: 100%;
 	font-family:Menlo, Monaco, Consolas, "Courier New", monospace;
-	resize:none;
+}
+textarea{
+	height:32em; 
+	overflow: auto;
+	vertical-align: top;
 }
 
-.wmd-preview 
-{ 
-	margin:1%;
-	margin-top:72px;
-	padding:0 1%;
-	width: 45%;
-	overflow-y:auto;
-	background: #FFF;
-	word-wrap: break-word;
-	border: 1px dashed #999;
-	-webkit-border-radius: 2px;
-	-moz-border-radius: 2px;
-	-ms-border-radius: 2px;
-	-o-border-radius: 2px;
-	border-radius: 2px;
-	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-	color: #444;
-	font-size: 87.5%;
-	line-height: 1.5;
+input[type="submit"], input[type="button"] {
+	border: medium none;
+	border-radius: 0.2em;
+	cursor: pointer;
+	display: inline-block;
+	height: 3em;
+	padding: 0 1em;
+	vertical-align: middle;
+	width:8em;
+	background-color: gainsboro ;
+	color: gray;	
+}
+input[type="submit"]:hover, input[type="button"]:hover {
+	background-color: cadetblue;
+	color: white;	
 }
 
+#main{
+	margin:0 auto;
+	padding: 2em 0 0 2em;
+	width:96%;
+	min-width:40em;
+	max-width:120em;
+	display: table;
+}
+#mainGroup, #previewGroup, #metaGroup{
+	margin: 0;
+	padding:0 1em;
+	box-sizing: border-box;
+	-moz-box-sizing:border-box;
+	-webkit-box-sizing:border-box;
+}
+#mainGroup{
+	float: left;
+	width:50%;
+}
+#mainGroup>*{
+	clear: both;
+}
+
+label[for="name"]{
+	color: gray;
+}
+#docpath{
+	display: inline;
+	width:10em;
+	background: none repeat scroll 0 0 PapayaWhip;
+	border: medium none;
+	padding: 0.2em;
+	color: gray;
+}
+#docpath[readonly]{
+	background-color:transparent;
+}
+
+
+#autosave{
+	float: left;
+}
+#saveButton{
+	float: right;
+	line-height:2em;
+}
+
+#previewGroup{
+	width:50%;
+	padding-top: .5em;
+	float: right;
+	background-color: white;
+	border: 0.1em dashed Gainsboro;
+	border-radius: 0.2em;
+	overflow: auto;
+	height:45em;
+	max-width:60em;
+}
+#metaGroup{
+	border-right: 0.1em solid Gainsboro;
+	background-color: white;
+	position: fixed;
+	width:20em;
+	top:0;
+	bottom:0;
+	left:-20em;
+	transition:0.1s;
+}
+#metaGroup:before{
+	background-color: white;
+	border-right: 0.1em solid Gainsboro;
+	content:'属性';
+	position: fixed;
+	width:1em;
+	top:0;
+	left:0;
+	bottom:0;
+	padding:2em 0.5em;
+}
+#metaGroup:hover{
+	left:0;	
+}
+#metaGroup:hover:before{
+	display: none;	
+}
+section{
+	margin:0 0 1em 0;
+}
+section>label{
+	display: block;
+}
+section>p.border{
+	border: 0.1em solid Gainsboro;
+	border-radius: 0.2em;
+	background-color:white;
+	padding: 0.5em;
+}
+#editortext{
+	display: none;
+}
+
+
+#wmd-button-bar{
+	margin:0 0 -1em 0;
+}
 .wmd-button-row 
 {
 	position: relative; 
-	margin-left: 5px;
-	margin-right: 5px;
-	margin-bottom: 5px;
-	margin-top: 10px;
-	padding: 0px;  
+	margin:0;
+	padding: 0px;
 	height: 20px;
 }
 
@@ -92,99 +170,47 @@ form {
 {
 	width: 1px; 
 	height: 20px; 
-	margin-left: 14px;
-	
+	margin-left: 14px;	
 	position: absolute;
-	background-color: Silver;
 	display: inline-block; 
 	list-style: none;
 }
 
 .wmd-button {
-    width: 20px;
-    height: 20px;
-    padding-left: 2px;
-    padding-right: 3px;
-    position: absolute;
-    display: inline-block;
-    list-style: none;
-    cursor: pointer;
+	width: 20px;
+	height: 20px;
+	position: absolute;
+	display: inline-block;
+	list-style: none;
+	cursor: pointer;
+	margin: 0;
 }
 
 .wmd-button > span {
-    background-image: url(wmd-buttons.png);
-    background-repeat: no-repeat;
-    background-position: 0px 0px;
-    width: 20px;
-    height: 20px;
-    display: inline-block;
+	background-image: url(editor.png);
+	background-repeat: no-repeat;
+	background-position: 0px 0px;
+	width: 20px;
+	height: 20px;
+	display: inline-block;
 }
 
 .wmd-spacer1
 {
-    left: 50px;
+	left: 50px;
 }
 .wmd-spacer2
 {
-    left: 175px;
+	left: 175px;
 }
 .wmd-spacer3
 {
-    left: 300px;
+	left: 300px;
+}
+
+#wmd-preview pre{
 }
 
 
 
-
-.wmd-prompt-background
-{
-	background-color: Black;
-}
-
-.wmd-prompt-dialog
-{
-	border: 1px solid #999999;
-	background-color: #F5F5F5;
-}
-
-.wmd-prompt-dialog > div {
-	font-size: 0.8em;
-	font-family: arial, helvetica, sans-serif;
-}
-
-
-.wmd-prompt-dialog > form > input[type="text"] {
-	border: 1px solid #999999;
-	color: black;
-}
-
-.wmd-prompt-dialog > form > input[type="button"]{
-	border: 1px solid #888888;
-	font-family: trebuchet MS, helvetica, sans-serif;
-	font-size: 0.8em;
-	font-weight: bold;
-}
-
-#btn-submit {
-	height: 5em;
-	line-height:120%;
-	margin:0 1%;
-	width: 12em;
-}
-
-#autosave {
-	position: fixed;
-	width:20em;
-	height:2em;
-	line-height:2em;
-	right:0;
-	top:0;
-	background-color: Silver;
-	text-align: center;
-	display: none;
-}
-#name[readonly]{
-	color: Silver;
-	border:1px Silver solid;
-}
 

@@ -33,7 +33,7 @@ a.h4:hover, li:hover, li#current {background:black;color:#FFF;}
 		<?php foreach($posts as $n => $post): ?>
 		<tr id="<?php echo $type.'-'.($n+1); ?>" class="">
 			<td>
-				<a href="?edit=<?php echo urlencode($post['docpath']); ?>"><?php echo $post['title']; ?></a>
+				<a href="?edit=<?php echo urlencode(substr($post['docpath'], strlen(ROOT_DIR.CONTENTS_DIR.'/'))); ?>"><?php echo $post['title']; ?></a>
 				<?php if($post['status'] === 1) { ?>
 					<em>草稿</em>
 				<?php } else if($post['status'] === 2) { ?>

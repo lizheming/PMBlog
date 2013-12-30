@@ -19,12 +19,16 @@ class Editor {
 
 		if(isset($_GET['edit'])) {
 			/* show editor */
-			$file = urldecode($_GET['edit']);
-			$content = 'date:' . date('Y-m-d H:i:s').PHP_EOL.PHP_EOL.'title:';
+			$docpath = urldecode($_GET['edit']);
+			$file = ROOT_DIR.CONTENTS_DIR.'/'.$docpath;
+			$content = 'title:新文章';
 			$newfile = true;
-			if(file_exists($file)){
+			if($docpath && file_exists($file)){
 				$content = file_get_contents($file);
 				$newfile = false;
+			}
+			if(!$docpath){
+				$docpath = '?set a new file name?.md';
 			}
 			include_once PLUGINS_DIR."/Editor/Editor.html";
 			die();
@@ -36,20 +40,21 @@ class Editor {
 		}
 
 
-		if(isset($_POST['name']) && isset($_POST['editortext'])) {
+		if(isset($_POST['docpath']) && isset($_POST['editortext'])) {
 			$newfile = $_POST['newfile'] == 'true';
-			$name = DIRECTORY_SEPARATOR == '\\' ? iconv('utf-8', 'gbk', $_POST['name']) : $_POST['name'];
-			$name = preg_replace('/[\/\\\<\>\*\?]/m','_',$name);
-			$file = CONTENTS_DIR.'/'.$name.'.md';
-			if($newfile && file_exists($file)){
-				echo "<meta http-equiv=\"content-type\" content=\"text/html; charset=utf-8\"><script>alert('已经有一篇名为 “".$name."” 的文章了，还请换个名字保存！');window.location.href='?edit';</script>";
-				die();
-			}else{
-				$res = file_put_contents($file, $_POST['editortext']);
-				echo "<script>localStorage.text='';</script>";
-				if(!$res) die('文章保存失败');
+			$name = DIRECTORY_SEPARATOR == '\\' ? iconv('utf-8', 'gbk', $_POST['docpath']) : $_POST['docpath'];
+			$name = preg_replace('/[\<\>\*\?]/m','_',$name);
+			$file = ROOT_DIR.CONTENTS_DIR.'/'.$name;
+			$dirname = dirname($file);
+			if($newfile){
+				if(file_exists($file)){
+					$this->DieInfo("<script>alert(\'已经有同名文档 “".$name."” 了，请换个名字保存！\');window.location.href=\'?edit\';</script>");
+				}
+				$this->mkdir($dirname);
 			}
-			
+			$res = file_put_contents($file, $_POST['editortext']);
+			echo "<script>localStorage.text='';</script>";
+			if(!$res) $this->DieInfo('文章保存失败');
 		}
 	}
 
@@ -77,5 +82,14 @@ class Editor {
 			'date'=>date($this->config['config']['dateformat'], $post->date()));
 		
 		$this->hidden_posts[$hidden['type']][] = $hidden;
+	}
+	function DieInfo ( $value='')
+	{
+		$html = "<!DOCTYPE html><html><head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"/></head><body><div>{$value}</div></body></html>";
+		die($html);
+	}
+	function mkdir($path)
+	{
+		return is_writeable($path) || mkdir($path, 0777, true);
 	}
 }
