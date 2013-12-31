@@ -25,6 +25,9 @@ class Editor {
 			$newfile = true;
 			if($docpath && file_exists($file)){
 				$content = file_get_contents($file);
+				if(json_encode($content) == 'null'){
+					$content = mb_convert_encoding($content, 'utf-8', 'gbk');
+				}
 				$newfile = false;
 			}
 			if(!$docpath){
@@ -35,7 +38,7 @@ class Editor {
 		}
 
 		if(isset($_GET['rm'])) {
-			$file = urldecode($_GET['rm']);
+			$file = ROOT_DIR.CONTENTS_DIR.'/'.urldecode($_GET['rm']);
 			if(!unlink($file)) die('删除出错请重新删除');
 		}
 
