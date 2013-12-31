@@ -7,12 +7,12 @@ class parse {
 	var $text;
 	function __construct($doc) {
 		$this->doc = $doc;	
+		
 		$f = file_get_contents($doc);
-		if($f) {
-			$this->text = $f;
-		} else {
-			$this->text = '';
-		}
+		if(json_encode($f) == 'null') 
+			$f = mb_convert_encoding($f, 'UTF-8', array('GBK', 'BIG-5'));
+		
+		$this->text = $f ? $f : '';
 	}
 	function title() {
 		$preg = '/^title\:(.*)/im';
