@@ -219,10 +219,13 @@ function splitText() {
 	}
 	var retval = {};
 	//retval.text = article.replace(/[\n]*(title|status|tags|date|type|template|category|custom-.*):[^\n]*\n+/ig, '');
-	retval.text = trim(article.replace(/[\n]*(title|status|tags|date|type|template|category):[^\n]*\n*/ig, ''));
+	retval.text = trim(article.replace(/[\n]*(title|status|tags|date|type|template|category):[^\n]*\n*/ig, '').replace(/[\n]+#([^#\n]*)\s*/ig, ''));
 	retval.title = trim(r(/^title\:(.*)\s*/im));
 	if(!retval.title){
-		retval.title = trim(r(/^#([^#]*)\s*/im));
+		if((article.match(/^#([^#\n]+)/img)||[]).length===1){
+			retval.title = trim(r(/^#([^#\n]+)\s*/im));
+			retval.text = retval.text.replace(/^#([^#\n]+)\s*/im, '');
+		}
 	}
 	retval.date = trim(r(/^date\:(.*)\s*/im));
 	retval.status = trim(r(/^status\:(.*)\s*/im)) !== 'draft';
