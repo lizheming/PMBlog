@@ -67,7 +67,7 @@ class PMBlog {
                 $this->run_hooks('after_file_put_contents', array(&$post, $this->site['config']['html'].$post['filepath'][0]));
             }
         }
-        $this->run_hooks('after_output_post');
+        $this->run_hooks('after_output_post', array(&$variables, &$twig));
 
         //generate page
         $this->run_hooks('before_output_page', array(&$data['page']));
@@ -86,7 +86,7 @@ class PMBlog {
                 $this->run_hooks('after_file_put_contents', array(&$post, $this->site['config']['html'].$post['filepath'][0]));
             }
         }
-        $this->run_hooks('after_output_page');
+        $this->run_hooks('after_output_page', array(&$variables, &$twig));
 
         //generate index
         $this->run_hooks('before_output_index', array(&$data['post']));
@@ -107,7 +107,7 @@ class PMBlog {
         }
         copy("{$this->site['config']['html']}/page/1/index.html", "{$this->site['config']['html']}/index.html");
         }
-        $this->run_hooks('after_output_post');
+        $this->run_hooks('after_output_index', array(&$variables, &$twig));
 
         //RSS
         $loader = new Twig_Loader_Filesystem($this->site['config']['root'].'var');
