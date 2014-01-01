@@ -32,7 +32,7 @@ class Tags {
 	function after_get_variables(&$variables) {
 		$tagclouds = array();
 		foreach($this->tags as $tag => $posts) {
-			usort($posts, 'tag_sort');
+			usort($posts, array($this, 'tag_sort'));
 			$tagcloud = array('title'=> $tag, 'url'=> $variables['site']['url'].'/tag/'.urlencode($tag), 'length'=> count($posts));
 			$tagclouds[] = $tagcloud;
 			$this->tags[$tag] = $posts;
@@ -41,7 +41,7 @@ class Tags {
 		$variables['TagCloud'] = $tagclouds;
 	}
 
-	function twig_loaded($variables, $twig) {	
+	function after_output_index($variables, $twig) {	
 		foreach($this->tags as $tag => $posts) {
 			$tag = urlencode($tag);
 			foreach($this->paginator($tag, $posts, $variables['site']) as $paginator) {
@@ -92,11 +92,12 @@ class Tags {
 		is_writeable($path) || mkdir($path, 0777, true);
 		return file_put_contents($file, $data);
 	}
+
+	public function tag_sort($a, $b) 
+	{
+		if ($a['date'] == $b['date']) return 0;
+		return ($a['date'] < $b['date']) ? 1 : -1;
+	}
 }
 
-function tag_sort($a, $b) 
-{
-	if ($a['date'] == $b['date']) return 0;
-	return ($a['date'] < $b['date']) ? 1 : -1;
-}
 ?>

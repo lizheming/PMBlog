@@ -33,7 +33,7 @@ class Categories {
 	function after_get_variables(&$variables) {
 		$categoryclouds = array();
 		foreach($this->categories as $category => $posts) {
-			usort($posts, 'category_sort');
+			usort($posts, array($this, 'category_sort'));
 			$categorycloud = array('title'=> $category, 'url'=> $variables['site']['url'].'/category/'.urlencode($category), 'length'=> count($posts));
 			$categoryclouds[] = $categorycloud;
 			$this->categories[$category] = $posts;
@@ -42,7 +42,7 @@ class Categories {
 		$variables['categoryCloud'] = $categoryclouds;
 	}
 
-	function twig_loaded($variables, $twig) {	
+	function after_output_index($variables, $twig) {	
 		foreach($this->categories as $category => $posts) {
 			$category = urlencode($category);
 			foreach($this->paginator($category, $posts, $variables['site']) as $paginator) {
@@ -94,10 +94,10 @@ class Categories {
 		return file_put_contents($file, $data);
 	}
 
-}
-function category_sort($a, $b) 
-{
-	if ($a['date'] == $b['date']) return 0;
-	return ($a['date'] < $b['date']) ? 1 : -1;
+	public function category_sort($a, $b) 
+	{
+		if ($a['date'] == $b['date']) return 0;
+		return ($a['date'] < $b['date']) ? 1 : -1;
+	}
 }
 ?>
