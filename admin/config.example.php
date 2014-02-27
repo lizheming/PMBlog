@@ -10,6 +10,7 @@ $config['date_format'] = 'Y-m-d H:i:s';					//Set the PHP date format
 $config['posts_per_page'] = 5;							//Set the contents' number display in per index page
 $config['post_router'] = '';							//Set URL style for post, it supports four parameters: {year}, {month}, {day}, {category}
 $config['page_router'] = '';							//Set URL style for page, it supports three parameters: {year}, {month}, {day}
+$config['actived_plugins'] = '*';						//Set Plugins those're actived, It supports a name list splited by semicolon, or just a asterisk for active all plugins
 define('ROOT_DIR', realpath(dirname(__FILE__)).'/');	//Set ROOT Dir, please don't modify!
 define('CONTENTS_DIR', 'usr/contents');					//Set name for Markdown document
 define('THEMES_DIR', 'usr/themes');						//Set name for Theme document
