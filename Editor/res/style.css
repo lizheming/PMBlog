@@ -133,10 +133,9 @@ label[for="name"]{
 	padding:2em 0.5em;
 }
 #metaGroup:hover{
-	left:0;	
+	left:2em;	
 }
 #metaGroup:hover:before{
-	display: none;	
 }
 section{
 	margin:0 0 1em 0;
@@ -210,7 +209,116 @@ section>p.border{
 
 #wmd-preview pre{
 }
+.wmd-prompt-dialog{
+	background: white;
+	border:0.1em solid Gainsboro;
+	margin: 0;
+	padding:.5em 1em;
+}
 
 
 
+
+#previewGroup{
+    margin: 0 auto;
+    font-family: Georgia, Palatino, serif;
+    color: #444444;
+    line-height: 1;
+    max-width: 960px;
+    padding: 30px;
+}
+#previewGroup h1, #previewGroup h2, #previewGroup h3, #previewGroup h4 {
+    color: #111111;
+    font-weight: 400;
+}
+#previewGroup h1, #previewGroup h2, #previewGroup h3, #previewGroup h4, #previewGroup h5, #previewGroup p {
+    margin-bottom: 24px;
+    padding: 0;
+}
+#previewGroup h1 {
+    font-size: 48px;
+}
+#previewGroup h2 {
+    font-size: 36px;
+    /* The bottom margin is small. It's designed to be used with gray meta text
+     * below a post title. */
+    margin: 24px 0 6px;
+}
+#previewGroup h3 {
+    font-size: 24px;
+}
+#previewGroup h4 {
+    font-size: 21px;
+}
+#previewGroup h5 {
+    font-size: 18px;
+}
+#previewGroup a {
+    color: #0099ff;
+    margin: 0;
+    padding: 0;
+    vertical-align: baseline;
+}
+#previewGroup a:hover {
+    text-decoration: none;
+    color: #ff6600;
+}
+#previewGroup a:visited {
+    color: purple;
+}
+#previewGroup ul, #previewGroup ol {
+    padding: 0;
+    margin: 0;
+}
+#previewGroup li {
+    line-height: 24px;
+}
+#previewGroup li ul, #previewGroup li ol {
+    margin-left: 24px;
+}
+#previewGroup p, #previewGroup ul, #previewGroup ol {
+    font-size: 16px;
+    line-height: 24px;
+    max-width: 540px;
+}
+#previewGroup pre {
+    padding: 0px 24px;
+    max-width: 800px;
+    white-space: pre-wrap;
+}
+#previewGroup code {
+    font-family: Consolas, Monaco, Andale Mono, monospace;
+    line-height: 1.5;
+    font-size: 13px;
+}
+#previewGroup aside {
+    display: block;
+    float: right;
+    width: 390px;
+}
+#previewGroup blockquote {
+    border-left:.5em solid #eee;
+    padding: 0 2em;
+    margin-left:0;
+    max-width: 476px;
+}
+#previewGroup blockquote  cite {
+    font-size:14px;
+    line-height:20px;
+    color:#bfbfbf;
+}
+#previewGroup blockquote cite:before {
+    content: '\2014 \00A0';
+}
+
+#previewGroup blockquote p {  
+    color: #666;
+    max-width: 460px;
+}
+#previewGroup hr {
+    width: 540px;
+    text-align: left;
+    margin: 0 auto 0 0;
+    color: #999;
+}
 
