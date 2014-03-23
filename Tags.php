@@ -5,23 +5,23 @@
  * site.tags.TAG : It stores all post include TAG, its structor is same as posts.
  * TagCloud : It stores all tagnames. How to use it?
  * Example: 
- * 	{% for tag in TagCloud %}
- *		{{tag.title}}		{# Show Tagname #}
- *		{{tag.url}}			{# show TagURL #}
- *		{{tag.length}}			{# show TagPostLength #}
- *	{% endfor %}
+ *     {% for tag in TagCloud %}
+ *        {{tag.title}}        {# Show Tagname #}
+ *        {{tag.url}}            {# show TagURL #}
+ *        {{tag.length}}            {# show TagPostLength #}
+ *    {% endfor %}
  *
- *	And this plugin add tag index page for your blog. All index pages save in the directory named 'tag'
+ *    And this plugin add tag index page for your blog. All index pages save in the directory named 'tag'
  *
  * @author lizheming
  * @link http://github.com/lizheming
  * @version 0.1.1
  */
 class Tags {
-	private $tags = array();
-	private $_dict;
+    private $tags = array();
+    private $_dict;
 
-	function __construct() {
+    function __construct() {
         /** 设置字典库 */
         $this->_dict = array(
             'A' => array(59371,41648,50400,33157,41392,18661,47599),
@@ -531,90 +531,90 @@ class Tags {
             'Zui' => array(21646,25753,29623,27033,61143,60631,37511,29357,60045,30912,35205,57752,24783,60887,39062,37301,61399,59542,36245,21437,17889,26334),
             'Zun' => array(50322,19159,34531,40895,36089,33255,64909,55273,42207,61911,44791,26503,22263,38394,61655,38592),
             'Zuo' => array(61932,53739,33225,18050,25788,31432,63191,35536,63959,63703,27065,38882,39606,32182,62167,62423,62679,62860,59610,63447,38591,63116)
-        );	
-	}
-	
-	function after_get_post_meta(&$post) {
-		if($post['type'] == 'post' && isset($post['tags'])) {
-			foreach($post['tags'] as $tag) {
-				$tag = strtolower($tag);
-				$this->tags[$tag][] = $post;
-			}
-		}
-	}
+        );    
+    }
+    
+    function after_get_post_meta(&$post) {
+        if($post['type'] == 'post' && isset($post['tags'])) {
+            foreach($post['tags'] as $tag) {
+                $tag = strtolower($tag);
+                $this->tags[$tag][] = $post;
+            }
+        }
+    }
 
-	function after_get_variables(&$variables) {
-		$tagclouds = array();
-		foreach($this->tags as $tag => $posts) {
-			usort($posts, array($this, 'tag_sort'));
-			$tagcloud = array('title'=> $tag, 'url'=> $variables['site']['url'].'/tag/'.urlencode($tag), 'length'=> count($posts));
-			$tagclouds[] = $tagcloud;
-			$this->tags[$tag] = $posts;
-		}
-		$variables['site']['tags'] = $this->tags;
-		$variables['TagCloud'] = $tagclouds;
-	}
+    function after_get_variables(&$variables) {
+        $tagclouds = array();
+        foreach($this->tags as $tag => $posts) {
+            usort($posts, array($this, 'tag_sort'));
+            $tagcloud = array('title'=> $tag, 'url'=> $variables['site']['url'].'/tag/'.urlencode($tag), 'length'=> count($posts));
+            $tagclouds[] = $tagcloud;
+            $this->tags[$tag] = $posts;
+        }
+        $variables['site']['tags'] = $this->tags;
+        $variables['TagCloud'] = $tagclouds;
+    }
 
-	function after_output_index($variables, $twig) {	
-		foreach($this->tags as $tag => $posts) {
-			$variables['site']['tag'] = $tag;
-			$tag = $this->stringToPinyin($tag, '-');
-			foreach($this->paginator($tag, $posts, $variables['site']) as $paginator) {
-				$template = 'index.html';
-				$vars = $variables;
-				$vars['posts'] = $paginator['object_list'];
-				$vars['paginator'] = $paginator;
-				$html = $twig->render($template, $vars);
-				Tags::file_put_contents("{$variables['site']['config']['html']}tag/$tag/page/{$paginator['page']}/index.html", $html);
-			}
-			copy("{$variables['site']['config']['html']}tag/$tag/page/1/index.html", "{$variables['site']['config']['html']}tag/$tag/index.html");
-		}
-	}
+    function after_output_index($variables, $twig) {    
+        foreach($this->tags as $tag => $posts) {
+            $variables['site']['tag'] = $tag;
+            $tag = $this->stringToPinyin($tag, '-');
+            foreach($this->paginator($tag, $posts, $variables['site']) as $paginator) {
+                $template = 'index.html';
+                $vars = $variables;
+                $vars['posts'] = $paginator['object_list'];
+                $vars['paginator'] = $paginator;
+                $html = $twig->render($template, $vars);
+                Tags::file_put_contents("{$variables['site']['config']['html']}tag/$tag/page/{$paginator['page']}/index.html", $html);
+            }
+            copy("{$variables['site']['config']['html']}tag/$tag/page/1/index.html", "{$variables['site']['config']['html']}tag/$tag/index.html");
+        }
+    }
 
-	function paginator($key, $post, $site) {
-		$perpage = $site['config']['posts_per_page'];
-		$total_pages = ceil(count($post)/$perpage);
-		$paginator = array();
-		for($i=0;$i<$total_pages;$i++) 
-		{
-			$has_next = $has_previous = true;
-			if(($i+2) > $total_pages) $has_next = false;
-			if($i<1) $has_previous = false; 
-			$pagpost = array_slice($post, $i*$perpage, $perpage);
+    function paginator($key, $post, $site) {
+        $perpage = $site['config']['posts_per_page'];
+        $total_pages = ceil(count($post)/$perpage);
+        $paginator = array();
+        for($i=0;$i<$total_pages;$i++) 
+        {
+            $has_next = $has_previous = true;
+            if(($i+2) > $total_pages) $has_next = false;
+            if($i<1) $has_previous = false; 
+            $pagpost = array_slice($post, $i*$perpage, $perpage);
             $prefix_url = "{$site['url']}/tag/$key";
-			$paginator[$i+1] =  array(
-				'per_page' => $perpage,
-				'object_list'=>$pagpost, 
-				'total_pages'=> $total_pages, 
-				'page' => $i+1, 
+            $paginator[$i+1] =  array(
+                'per_page' => $perpage,
+                'object_list'=>$pagpost, 
+                'total_pages'=> $total_pages, 
+                'page' => $i+1, 
                 'prefix_url' => $prefix_url,
-				'page_url' => $prefix_url.'/page/'.($i+1),
-				'previous_page' => $i,
-				'pre_page' => $i, 
-				'previous_page_url' => $prefix_url.'/page/'.$i,
-				'pre_page_url' => $prefix_url.'/page/'.$i, 
-				'next_page' => $i+2, 
-				'next_page_url' => $prefix_url.'/page/'.($i+2), 
-				'has_next' => $has_next, 
-				'has_previous' => $has_previous,
-				'has_pre' => $has_previous
-			);
-		}
-		return $paginator;
-	}
+                'page_url' => $prefix_url.'/page/'.($i+1),
+                'previous_page' => $i,
+                'pre_page' => $i, 
+                'previous_page_url' => $prefix_url.'/page/'.$i,
+                'pre_page_url' => $prefix_url.'/page/'.$i, 
+                'next_page' => $i+2, 
+                'next_page_url' => $prefix_url.'/page/'.($i+2), 
+                'has_next' => $has_next, 
+                'has_previous' => $has_previous,
+                'has_pre' => $has_previous
+            );
+        }
+        return $paginator;
+    }
 
-	public function file_put_contents($file, $data)
-	{
-		$path = dirname($file);
-		is_writeable($path) || mkdir($path, 0777, true);
-		return file_put_contents($file, $data);
-	}
+    public function file_put_contents($file, $data)
+    {
+        $path = dirname($file);
+        is_writeable($path) || mkdir($path, 0777, true);
+        return file_put_contents($file, $data);
+    }
 
-	public function tag_sort($a, $b) 
-	{
-		if ($a['date'] == $b['date']) return 0;
-		return ($a['date'] < $b['date']) ? 1 : -1;
-	}
+    public function tag_sort($a, $b) 
+    {
+        if ($a['date'] == $b['date']) return 0;
+        return ($a['date'] < $b['date']) ? 1 : -1;
+    }
 
     /**
      * 中文字符转拼音
