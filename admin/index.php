@@ -326,14 +326,11 @@ class PMBlog {
      * @param string $hook_id the ID of the hook
      * @param array $args optional arguments
      */
-    protected function run_hooks($hook_id, $args = array())
-    {
-        if(!empty($this->plugins)){
-            foreach($this->plugins as $plugin){
-                if(is_callable(array($plugin, $hook_id))){
-                    call_user_func_array(array($plugin, $hook_id), $args);
-                }
-            }
+    protected function run_hooks($hook_id, $args = array()) {
+        if(empty($this->plugins)) return false;
+        foreach($this->plugins as $plugin) {
+            if(!is_callable(array($plugin, $hook_id))) continue;
+            call_user_func_array(array($plugin, $hook_id), $args);
         }
     }
 
@@ -366,37 +363,27 @@ class PMBlog {
 }
 
 $StartTime = microtime(true); 
-/**
- * Check the config file
- */
-if(file_exists("config.php"))
-    include_once "config.php";
-else 
-    die("It seems you haven't create config.php, please set your config in the config.php linke the config.example.php file before you run this program.");
 
-/**
- *Run the program
- */
+/** check the config file **/
+if(!file_exists("config.php")) 
+    die("It seems you haven't create config.php, please set your config in the config.php linke the config.example.php file before you run this program.");
+include "config.php";
+
+/** run program **/
 $PMBlog = new PMBlog();
 
-/**
- *Check update
- */
-if(extension_loaded('cURL')) {
-    $curl = curl_init('https://rawgithub.com/lizheming/PMBlog/master/version.json');
-    curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
-    curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
-    curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-    $check = curl_exec($curl);
-    curl_close($curl);
-    $check = json_decode($check, true);
-    if($check[0]['version'] > $PMBlog->version) {
-    die('PMBlog has new version! <a href="http://github.com/lizheming/PMBlog" title="PMBlog">Click Here</a>to get it!<p>What\'s someting new： </p>'.$check[0]['description']);
-    }    
-}
-
-/**
- *Output Runtime
- */
+/** output runtime **/
 $EndTime = microtime(true); 
 printf('It costs %.2fs to generate your <a href="'.SITE_DIR.'">blog</a>.',$EndTime - $StartTime);
+
+/** check update **/
+if(!extension_loaded('cURL')) die();
+$curl = curl_init('https://rawgithub.com/lizheming/PMBlog/master/version.json');
+curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
+curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+$check = curl_exec($curl);
+curl_close($curl);
+$check = json_decode($check, true);
+if($check[0]['version'] > $PMBlog->version) 
+    die('PMBlog has new version! <a href="http://github.com/lizheming/PMBlog" title="PMBlog">Click Here</a>to get it!<p>What\'s someting new： </p>'.$check[0]['description']);
