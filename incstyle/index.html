@@ -1,0 +1,56 @@
+{% include "header.html" %}
+            <div id="blog-main" class="col-xs-12 col-md-8">
+                {% for post in posts %}
+                <!-- post-article -->
+                 <article class="post">
+                    <h2 class="post-title"><a href="{{post.url}}">{{post.title}}</a></h2>
+                    <div class="post-summary">
+                    {{post.content}}
+                    </div>
+                    <div class="post-meta">
+                        <span class="datetime">{{post.date}}</span>
+                        <span>{{post.tags | join(', ')}}</span>
+                    </div>
+                </article>
+                <!-- post-article -->
+                {% endfor %}
+                <div class="page-nav">
+                    <ul class="pagination">
+                    {% set total = paginator.total_pages %}
+                        {% set current = paginator.page %}
+                        {% set current_url = paginator.page_url %}
+                        {% if paginator.has_pre %}
+                            <li><a href="{{paginator.prefix_url}}/index.html">First</a></li>
+                            <li><a href="{{paginator.pre_page_url}}">Previous</a></li>
+                            {% if current < 6 %}
+                                {% for page in 1..(current-1) %}
+                                    <li><a href="{{paginator.prefix_url}}/page/{{page}}">{{page}}</a></li>
+                                {% endfor %}
+                            {% else %}
+                                <li><a href="index.html">1</a></li>
+                                <li>...</li>
+                                {% for page in (current-3)..(current-1) %}
+                                   <li><a href="{{paginator.prefix_url}}/page/{{page}}">{{page}}</a></li>
+                                {% endfor %}
+                            {% endif %}
+                        {% endif %} 
+                        <li class="active"><a href="{{current_url}}">{{current}}</a></li>
+                        {% if paginator.has_next %}
+                            {% if current > (total - 5) %}
+                                {% for page in (current+1)..total %}
+                                    <li><a href="{{paginator.prefix_url}}/page/{{page}}">{{page}}</a></li>
+                                {% endfor %}
+                            {% else %}
+                                {% for page in (current+1)..(current+3) %}
+                                    <li><a href="{{paginator.prefix_url}}/page/{{page}}">{{page}}</a></li>
+                                {% endfor %}
+                                <li>...</li>
+                                <li><a href="{{paginator.prefix_url}}/page/{{total}}">{{total}}</a></li>
+                            {% endif %}
+                            <li><a href="{{paginator.next_page_url}}">Next</a></li>
+                            <li><a href="{{paginator.prefix_url}}/page/{{total}}">Last</a></li>
+                       {% endif %} 
+                    </ul>
+                </div>
+            </div>
+{% include "footer.html" %}

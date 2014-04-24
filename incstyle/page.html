@@ -1,0 +1,17 @@
+{% include "header.html" %}
+<div id="blog-main">
+    <article class="post-detail">
+        <h1 class="post-title"><a href="{{post.url}}">{{post.title}}</a></h1>
+        <div class="post-content fmt">{{post.content}}</div>
+        <div class="post-meta clearfix">
+            <div class="pull-right">
+                <span class="datetime">{{post.date}}</span>
+                <span>{{post.tags | join(', ')}}</span>
+            </div>
+        </div>
+    </article><!-- end .post-detail -->
+
+    <div id="comments">
+    </div>
+</div>
+{% include "footer.html" %}
