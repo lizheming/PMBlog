@@ -29,8 +29,10 @@ class Page2Menu {
 		{
 			if(preg_match('/\'/', $v)) {
 				$t = explode(' \'', $v);
+				$t[1] = str_replace("'", "", $t[1]);
 			} elseif(preg_match('/ "/', $v)) {
 				$t = explode(' "', $v);
+				$t[1] = str_replace("\"", "", $t[1]);
 			} else {
 				$t = array($v, '');
 			}
