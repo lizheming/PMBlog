@@ -15,7 +15,7 @@
  *
  * @author lizheming
  * @link http://github.com/lizheming
- * @version 0.1.1
+ * @version 0.1.2
  */
 
 class Categories {
@@ -547,7 +547,7 @@ class Categories {
         $categoryclouds = array();
         foreach($this->categories as $category => $posts) {
             usort($posts, array($this, 'category_sort'));
-            $categorycloud = array('title'=> $category, 'url'=> $variables['site']['url'].'/category/'.urlencode($category), 'length'=> count($posts));
+            $categorycloud = array('title'=> $category, 'url'=> $variables['site']['url'].'/category/'.$this->stringToPinyin($category, '-'), 'length'=> count($posts));
             $categoryclouds[] = $categorycloud;
             $this->categories[$category] = $posts;
         }

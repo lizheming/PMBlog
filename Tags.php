@@ -15,7 +15,7 @@
  *
  * @author lizheming
  * @link http://github.com/lizheming
- * @version 0.1.1
+ * @version 0.1.2
  */
 class Tags {
     private $tags = array();
@@ -547,7 +547,7 @@ class Tags {
         $tagclouds = array();
         foreach($this->tags as $tag => $posts) {
             usort($posts, array($this, 'tag_sort'));
-            $tagcloud = array('title'=> $tag, 'url'=> $variables['site']['url'].'/tag/'.urlencode($tag), 'length'=> count($posts));
+            $tagcloud = array('title'=> $tag, 'url'=> $variables['site']['url'].'/tag/'.$this->stringToPinyin($tag, '-'), 'length'=> count($posts));
             $tagclouds[] = $tagcloud;
             $this->tags[$tag] = $posts;
         }
