@@ -1,9 +1,5 @@
-/*.html
-/*.xml
+/generate
 /PMBlog.wiki
-/category/*
-/page/*
-/tag/*
 /admin/usr/contents/*.md
 !/admin/usr/contents/hello-world.md
 /admin/usr/themes/octopress

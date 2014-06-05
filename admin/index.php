@@ -192,6 +192,7 @@ class PMBlog {
             $log['type'] = $post->type();
             $log['docpath'] = $post->doc();
             $log['filename'] = $post->doc_title();
+            $log['slug'] = $post->url();
             $log['extension'] = $post->doc_extension();
             $log['title'] = $post->title();
             $log['content'] = $post->text();
@@ -204,6 +205,7 @@ class PMBlog {
                 $log['read_more'] = isset($abstract[1]) ? true : false;
                 $log['opening'] = $abstract[0];
 
+                if(json_encode($item)=='null') $item = mb_convert_encoding($item, 'UTF-8', array('GBK', 'BIG-5'));
                 $dirname = dirname($item).'/';
                 $dirname = str_replace($this->site['config']['doc'], '', $dirname);
                 $dirname = explode('/', $dirname);
@@ -230,10 +232,10 @@ class PMBlog {
             if($log['type'] == 'post' && preg_match('/{category}/', $router)) {
                 $log['filepath'] = array();
                 foreach($log['categories'] as $category) {
-                    $log['filepath'][] = str_replace('{category}', $category, $router) . "/{$log['filename']}.html";
+                    $log['filepath'][] = str_replace('{category}', $category, $router) . "/{$log['slug']}";
                 }
             } else {
-                $log['filepath'] = array("$router/{$log['filename']}.html");
+                $log['filepath'] = array("$router/{$log['slug']}");
             }
 
             $log['url'] = $this->site['url'].$log['filepath'][0];
