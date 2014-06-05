@@ -380,12 +380,14 @@ printf('It costs %.2fs to generate your <a href="'.SITE_DIR.'">blog</a>.',$EndTi
 
 /** check update **/
 if(!extension_loaded('cURL')) die();
-$curl = curl_init('https://rawgithub.com/lizheming/PMBlog/master/version.json');
+$url = "https://raw.githubusercontent.com/wiki/lizheming/PMBlog/Changelog.md";
+$curl = curl_init($url);
 curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
 curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
 curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 $check = curl_exec($curl);
 curl_close($curl);
-$check = json_decode($check, true);
-if($check[0]['version'] > $PMBlog->version) 
-    die('PMBlog has new version! <a href="http://github.com/lizheming/PMBlog" title="PMBlog">Click Here</a>to get it!<p>What\'s someting new： </p>'.$check[0]['description']);
+preg_match_all('/^(.*?)$/m', $check, $m);
+$temp = explode(' ', $m[1][0]);
+if((float)$temp[1] > $PMBlog->version) 
+    die('PMBlog has new version! <a href="http://github.com/lizheming/PMBlog" title="PMBlog">Click Here</a>to get it!');
