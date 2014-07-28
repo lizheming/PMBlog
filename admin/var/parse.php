@@ -600,9 +600,8 @@ class parse {
 		$n = preg_match_all($preg, $this->text, $match);
 		$categories = array();
 		if($n!=0 && trim($match[1][0])!='') {
-			$categories = array_map(function($item){ 
-				return trim($item);
-			}, explode(',', $match[1][0]));
+            $trim = create_function('$item', 'return trim($item);');
+			$categories = array_map($trim, explode(',', $match[1][0]));
 		} else $categories[] = 'unclassified';
 		return $categories;
 	}
