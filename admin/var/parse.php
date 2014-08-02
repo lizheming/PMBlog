@@ -5,20 +5,7 @@ include_once 'function.php';
 class parse {
 	var $doc;
 	var $text;
-	private $_dict;
-
-	function __construct($doc) {
-		$this->doc = $doc;	
-		
-		$f = file_get_contents($doc);
-		if(json_encode($f) == 'null') 
-			$f = mb_convert_encoding($f, 'UTF-8', array('GBK', 'BIG-5'));
-		
-		$this->text = $f ? $f : '';
-
-
-        /** 设置字典库 */
-        $this->_dict = array(
+	public static $dict = array(
             'A' => array(59371,41648,50400,33157,41392,18661,47599),
             'Ai' => array(19697,32178,35504,36856,20712,25068,28663,26608,29399,19381,17099,47497,30339,43240,54250,56459,45201,25005,57749,17131,36057,28596,49375,29162,55685,31713,27114,64665,19190,56536,37508,22145,59104,42373,18930,17311,30185,29599,54922,60552,35971,19670,27069,47505,56476,52365,63875,43184,17031,45460,45466,43440,32176,44464,57310,36230,41904,42672,42928,42416,42160,18330,22758,52719,58012,27797,45716,44208,44720,23788,45302,25559,49645,30387,51430,56208,24969,51680,44976,16588,46209,43696,43952,18334,57994,29916,51424,34439),
             'An' => array(63223,39405,58764,17125,31621,34691,56712,18059,46512,33240,42376,22239,20462,39914,36586,64753,21940,18566,20963,29912,29649,37368,23685,26617,22193,47024,25589,19441,40169,36845,45488,29099,29640,37881,24205,61928,55010,17352,50928,36553,22468,30127,32968,27275,22997,20438,53210,20913,45232,38124,35051,45446,41371,18887,47280,46256,40328,16612,60897,46768,20417,38293,64475,34438,46000,62337,45744,61150,16619,42991),
@@ -526,8 +513,18 @@ class parse {
             'Zui' => array(21646,25753,29623,27033,61143,60631,37511,29357,60045,30912,35205,57752,24783,60887,39062,37301,61399,59542,36245,21437,17889,26334),
             'Zun' => array(50322,19159,34531,40895,36089,33255,64909,55273,42207,61911,44791,26503,22263,38394,61655,38592),
             'Zuo' => array(61932,53739,33225,18050,25788,31432,63191,35536,63959,63703,27065,38882,39606,32182,62167,62423,62679,62860,59610,63447,38591,63116)
-        );
+      );
+
+	function __construct($doc) {
+		$this->doc = $doc;	
+		
+		$f = file_get_contents($doc);
+		if(json_encode($f) == 'null') 
+			$f = mb_convert_encoding($f, 'UTF-8', array('GBK', 'BIG-5'));
+		
+		$this->text = $f ? $f : '';
 	}
+
 	function title() {
 		$preg = '/^title\:(.*)/im';
 		preg_match_all($preg, $this->text, $match);
@@ -588,11 +585,13 @@ class parse {
 	function tags() {
 		$preg = '/^tags:(.*)/im';
 		$n = preg_match_all($preg, $this->text, $match);
-		$tags = array();
-		if($n!=0)	{
-			$tags = explode(',',$match[1][0]);
-			foreach($tags as $k => $tag) $tags[$k] = trim($tag);
-		}
+            if($n == 0) return array();
+
+            $tags = array();
+            foreach(explode(",", $match[1][0]) as $tag) {
+                  $tag = trim($tag);
+                  $tags[self::stringToPinyin($tag)] = $tag;
+            }
 		return $tags;
 	}
 	function categories() {
@@ -600,7 +599,7 @@ class parse {
 		$n = preg_match_all($preg, $this->text, $match);
 		$categories = array();
 		if($n!=0 && trim($match[1][0])!='') {
-            $trim = create_function('$item', 'return trim($item);');
+                  $trim = create_function('$item', 'return trim($item);');
 			$categories = array_map($trim, explode(',', $match[1][0]));
 		} else $categories[] = 'unclassified';
 		return $categories;
@@ -662,46 +661,47 @@ class parse {
 		}
 		return false;
 	}
+
  	/**
-    * 中文字符转拼音
-    *
-    * @access public
-    * @param string $word
-    * @return string
-    */
-    public function stringToPinyin($word, $join = ' ')
-    {
+      * 中文字符转拼音
+      *
+      * @access public
+      * @param string $word
+      * @return string
+      */
+      public static function stringToPinyin($word, $join = '-')
+      {
         $word = preg_replace('/\s/is', '_', $word);
         $pinyin = '';
- 
+
         /** 转换为非 utf-8 字符 */
         if (json_encode($word) != 'null') 
             $word = iconv('UTF-8', 'GBK', $word);
- 
+
         for ($i = 0, $l = strlen($word); $i < $l; $i++) {
             if (ord($word[$i]) > 128) {
-                $pinyin .= $this->ascToPinyin(ord($word[$i]) + ord($word[$i + 1]) * 256);
+                $pinyin .= self::ascToPinyin(ord($word[$i]) + ord($word[$i + 1]) * 256);
                 if($i<$l-2) $pinyin .= $join;
                 $i++;
             } else $pinyin .= $word[$i];
         }
         return strtolower($pinyin);
-    }
- 
-    /**
-    * ASCII 转拼音
-    *
-    * @access public
-    * @param string $asc ASCII 编码的字符
-    * @return string
-    */
-    public function ascToPinyin($asc)
-    {
-        $dict = $this->_dict;
+      }
+
+      /**
+      * ASCII 转拼音
+      *
+      * @access public
+      * @param string $asc ASCII 编码的字符
+      * @return string
+      */
+      public static function ascToPinyin($asc)
+      {
+        $dict = self::$dict;
         foreach ($dict as $key => $value) {
             if (array_search($asc, $value) === false) {
             } else return key($dict);
             next($dict);
         }
-    }
+      }
 }

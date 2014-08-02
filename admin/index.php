@@ -279,16 +279,15 @@ class PMBlog {
     protected function load_plugins()
     {
         global $config;
-        $actived_plugins = trim($config['actived_plugins']);
-        $active_all = $actived_plugins == '*';
-        $actived_plugins = array_filter(explode(',', $actived_plugins));
+        $actived_plugins = $config['actived_plugins'];
+
         $this->plugins = array();
         $plugins = $this->get_files(ROOT_DIR.PLUGINS_DIR, '.php');
         if(!empty($plugins)) {
             foreach($plugins as $plugin) {
                 include_once "$plugin";
                 $plugin_name = preg_replace("/\\.[^.\\s]{3}$/", '', basename($plugin));
-                if(($active_all || in_array($plugin_name,$actived_plugins)) && class_exists($plugin_name)) {
+                if((empty($actived_plugins) || in_array($plugin_name,$actived_plugins)) && class_exists($plugin_name)) {
                     $obj = new $plugin_name;
                     $this->plugins[] = $obj;
                 }

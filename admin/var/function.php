@@ -8,4 +8,5 @@ function daily($dir) {
 	}
 	return $doc;
 }
+
 ?>
