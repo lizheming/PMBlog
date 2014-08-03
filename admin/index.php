@@ -110,6 +110,7 @@ class PMBlog {
         $this->run_hooks('after_output_index', array(&$variables, &$twig));
 
         //RSS
+        $this->run_hooks('before_output_rss', array(&$data['post']));
         $loader = new Twig_Loader_Filesystem($this->site['config']['root'].'var');
         $twig = new Twig_Environment($loader, array('autoescape' =>false));
         $atom = $twig->loadTemplate('atom.xml');
@@ -117,6 +118,7 @@ class PMBlog {
         file_put_contents($this->site['config']['html'].'atom.xml', $atom->render(compact('posts', $variables)));
         $rss = $twig->loadTemplate('rss.xml');
         file_put_contents($this->site['config']['html'].'rss.xml', $rss->render(compact('posts', 'site')));
+        $this->run_hooks('after_output_index', array(&$variables, &$twig));
 
         $this->run_hooks('end');
     }
