@@ -9,7 +9,7 @@
  *
  * @author lizheming
  * @link http://github.com/lizheming
- * @version 0.0.1
+ * @version 0.0.2
  */
 
 class Upyun {
@@ -58,7 +58,7 @@ class Upyun {
      *
      * @return none;
      */
-    function end() {
+    function after_output_rss($variable, $twig) {
         $arr = array('index.html', 'rss.xml', 'atom.xml');
         foreach($arr as $item) {
             $this->upyun->writeFile("/$item", file_get_contents($this->directory."/$item"), true);

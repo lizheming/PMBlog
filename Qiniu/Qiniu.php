@@ -9,7 +9,7 @@
  *
  * @author lizheming
  * @link http://github.com/lizheming
- * @version 0.0.1
+ * @version 0.0.2
  */
 
 class Qiniu {
@@ -48,7 +48,7 @@ class Qiniu {
         }
     }
 
-    public function end() {
+    public function after_output_rss($variable, $twig) {
         $arr = array('index.html', 'rss.xml', 'atom.xml');
         foreach($arr as $item) $this->push($item, $this->directory."/$item");
 
