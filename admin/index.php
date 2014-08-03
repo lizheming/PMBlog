@@ -14,6 +14,8 @@ class PMBlog {
 
     public function __construct() 
     {    
+        $this->run_hooks('start');
+        
         //Load Plugins
         $this->load_plugins();
         $this->run_hooks('plugins_loaded');
@@ -365,8 +367,6 @@ class PMBlog {
     }
 }
 
-$StartTime = microtime(true); 
-
 /** check the config file **/
 if(!file_exists("config.php")) 
     die("It seems you haven't create config.php, please set your config in the config.php linke the config.example.php file before you run this program.");
@@ -374,21 +374,3 @@ include "config.php";
 
 /** run program **/
 $PMBlog = new PMBlog();
-
-/** output runtime **/
-$EndTime = microtime(true); 
-printf('It costs %.2fs to generate your <a href="'.SITE_DIR.'">blog</a>.',$EndTime - $StartTime);
-
-/** check update **/
-if(!extension_loaded('cURL')) die();
-$url = "https://raw.githubusercontent.com/wiki/lizheming/PMBlog/Changelog.md";
-$curl = curl_init($url);
-curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
-curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
-curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-$check = curl_exec($curl);
-curl_close($curl);
-preg_match_all('/^(.*?)$/m', $check, $m);
-$temp = explode(' ', $m[1][0]);
-if((float)$temp[1] > PMBlog::$version) 
-    die('PMBlog has new version! <a href="http://github.com/lizheming/PMBlog" title="PMBlog">Click Here</a>to get it!');
