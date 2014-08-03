@@ -10,7 +10,7 @@ date_default_timezone_set('Asia/Shanghai');
  */
 class PMBlog {
     private $plugins, $site;
-    public $version = 4.0;
+    public static $version = 4.0;
 
     public function __construct() 
     {    
@@ -388,5 +388,5 @@ $check = curl_exec($curl);
 curl_close($curl);
 preg_match_all('/^(.*?)$/m', $check, $m);
 $temp = explode(' ', $m[1][0]);
-if((float)$temp[1] > $PMBlog->version) 
+if((float)$temp[1] > PMBlog::$version) 
     die('PMBlog has new version! <a href="http://github.com/lizheming/PMBlog" title="PMBlog">Click Here</a>to get it!');
