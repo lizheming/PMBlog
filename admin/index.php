@@ -180,7 +180,7 @@ class PMBlog {
      */
     protected function get_contents() {
         include $this->site['config']['root']."/var/parse.php";
-        foreach($this->get_files($this->site['config']['doc']) as $item) {
+        foreach(self::get_files($this->site['config']['doc']) as $item) {
             $this->run_hooks('before_get_post_meta');
 
             $post = new parse($item);
@@ -286,7 +286,7 @@ class PMBlog {
         $actived_plugins = $config['actived_plugins'];
 
         $this->plugins = array();
-        $plugins = $this->get_files(ROOT_DIR.PLUGINS_DIR, '.php');
+        $plugins = self::get_files(ROOT_DIR.PLUGINS_DIR, '.php');
         if(!empty($plugins)) {
             foreach($plugins as $plugin) {
                 include_once "$plugin";
@@ -306,14 +306,14 @@ class PMBlog {
      * @param string $ext optional limit to file extensions
      * @return array the matched files
      */ 
-    public function get_files($directory, $ext = '')
+    public static function get_files($directory, $ext = '')
     {
         $array_items = array();
         if($handle = opendir($directory)){
         while(false !== ($file = readdir($handle))){
             if(preg_match("/^(^\.)/", $file) === 0){
             if(is_dir($directory. "/" . $file)){
-                $array_items = array_merge($array_items, $this->get_files("$directory/$file", $ext));
+                $array_items = array_merge($array_items, self::get_files("$directory/$file", $ext));
             } else {
                 $file = "$directory/$file";
                 if(!$ext || strstr($file, $ext)) $array_items[] = preg_replace("/\/\//si", "/", $file);
