@@ -7,7 +7,7 @@ class Hello {
 
     function end() {
         $time = microtime(true) - $this->time;
-        printf('耗时 %.2fs', $time);
+        printf('Generation costs %.2fs', $time);
     }
 }
 ?>
