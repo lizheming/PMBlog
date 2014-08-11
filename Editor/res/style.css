@@ -49,6 +49,26 @@ input:focus {
     background-color:#eee;
     cursor: pointer;
 }
+.add-btn {
+    border: none;
+    cursor: pointer;
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    -ms-border-radius: 2px;
+    -o-border-radius: 2px;
+    border-radius: 2px;
+    display: inline-block;
+    padding: 0 12px;
+    height: 32px;
+    line-height: 32px;
+    color: #666;
+    float:right;
+    background-color: #E9E9E6;
+    vertical-align: middle;
+}
+.add-btn:hover {
+    background-color: #DBDBD6;
+}
 a.i-cancel, a.i-cancel:visited {
     color:#ccc;
     text-decoration:none;
@@ -58,6 +78,7 @@ a.i-cancel:hover {
 }
 #writer-header .write-tags .add-tag, .write-categories .add-category {
     padding: 5px 11px;
+    width:160px;
 }
 #writer-header .write-tags input#tags, .write-categories input#categories{
     width:60% !important;

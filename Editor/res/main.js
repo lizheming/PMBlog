@@ -113,6 +113,11 @@ function prettify() {
     prettyPrint();
 }
 setInterval(prettify, 10);
+function slugSelect() {
+    this.select();
+    this.removeEventListener("focus", slugSelect, false);
+}
+document.querySelector("#slug").addEventListener("focus", slugSelect, false);
 document.querySelector(".tag-list").addEventListener("click", function(e) {
     if(e.target.className.indexOf("i-cancel")!=-1) e.target.parentNode.remove();
 }, false);
@@ -122,9 +127,15 @@ document.querySelector(".category-list").addEventListener("click", function(e) {
 document.querySelector("#tags").addEventListener("keypress", function(e) {
     if(e.keyCode == 13) return e.preventDefault() || addTag(this);
 }, false);
+document.querySelector(".tag-list .add-btn").addEventListener("click", function(e) {
+    return e.preventDefault() || addTag(this.previousElementSibling);
+})
 document.querySelector("#categories").addEventListener("keypress", function(e) {
     if(e.keyCode == 13) return e.preventDefault() || addCategory(this);
 }, false);
+document.querySelector(".category-list .add-btn").addEventListener("click", function(e) {
+    return e.preventDefault() || addCategory(this.previousElementSibling);
+})
 window.onresize = function() {
     var nh = window.innerHeight - [].slice.call(document.querySelectorAll('.row')).filter(function(item){return item.id.indexOf("writer-body")==-1}).reduce(function(a,b){return a + b.clientHeight}, 0);
     document.querySelector("#wmd-preview").style.height = nh+"px";

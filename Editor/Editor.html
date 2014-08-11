@@ -19,15 +19,10 @@
             currentText     :   '现在',
             prevText        :   '上一月',
             nextText        :   '下一月',
-            monthNames      :   ['一月', '二月', '三月', '四月',
-                '五月', '六月', '七月', '八月',
-                '九月', '十月', '十一月', '十二月'],
-            dayNames        :   ['星期日', '星期一', '星期二',
-                '星期三', '星期四', '星期五', '星期六'],
-            dayNamesShort   :   ['周日', '周一', '周二', '周三',
-                '周四', '周五', '周六'],
-            dayNamesMin     :   ['日', '一', '二', '三',
-                '四', '五', '六'],
+            monthNames      :   ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月'],
+            dayNames        :   ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'],
+            dayNamesShort   :   ['周日', '周一', '周二', '周三', '周四', '周五', '周六'],
+            dayNamesMin     :   ['日', '一', '二', '三', '四', '五', '六'],
             closeText       :   '完成',
             timeOnlyTitle   :   '选择时间',
             timeText        :   '时间',
@@ -65,6 +60,7 @@
                     <?php endif; ?>
                     <li class="add-tag">
                         <input name="" type="text" class="input-lg" id="tags" autocomplete="off">
+                        <a class="add-btn">添加</a>
                     </li>
                 </ul>
             </div>
@@ -87,6 +83,7 @@
                     <?php endif; ?>
                     <li class="add-category">
                         <input name="" type="text" class="input-lg" id="categories" autocomplete="off">
+                        <a class="add-btn">添加</a>
                     </li>
                 </ul>
             </div>
@@ -121,7 +118,8 @@
             <div class="column">
                 <section class="option post page">
                     <label for="date">发布日期</label>
-                    <input type="text" value="<?php if(isset($post['date'])) echo date('Y-m-d H:i:s', $post['date']); ?>" id="date" name="date" role="form-date">
+                    <?php $date = isset($post['date']) ? date("Y-m-d H:i", $post['date']) : date("Y-m-d H:i"); ?>
+                    <input type="text" value="<?php echo $date; ?>" id="date" name="date" role="form-date">
                 </section>
                 <span class="btns">
                     <?php $status = isset($post['status']) ? $post['status'] : 'public'; ?>
