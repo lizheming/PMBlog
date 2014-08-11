@@ -629,15 +629,11 @@ class parse {
 	function tmp() {
 		$preg = '/^template:(.*)/im';
 		$n = preg_match_all($preg, $this->text, $match);
-		if($n!=0):
-			return trim($match[1][0]).'.html';
-		else:
-			if($this->type() != 'page'):
-				return 'post.html';
-			else:
-				return 'page.html';
-			endif;
-		endif;
+            if($n != 0) {
+                  $template = trim($match[1][0]);
+                  if(substr($template, -5, 5) != '.html') $template .= ".html";
+                  return $template;
+            } else return $this->type().".html";
 	}
 	function image() {
 		$preg = "/<img src=\"(.+?)\".*?>/";
