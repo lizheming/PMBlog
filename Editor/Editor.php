@@ -3,62 +3,86 @@
  * A online editor plugin for PMBlog
  *
  * @author 公子
- * @version 0.1.1
+ * @version 0.0.2
  * @link http://github.com/lizheming
  */
 class Editor {
 	private $config, $hidden_posts;
 
 	function __construct() {
-		$hidden_posts = array('post' => array(), 'page'=>array());
-		$this->hidden_posts = $hidden_posts;
+		$this->hidden_posts = array('post' => array(), 'page'=>array());
 	}
 
 	function config_loaded($config) {
 		$this->config = $config;
-		if(isset($_GET['edit'])) {
-			/* show editor */
-			$docpath = urldecode($_GET['edit']);
-			$file = ROOT_DIR.CONTENTS_DIR.'/'.$docpath;
-			$content = 'title:新文章';
-			$newfile = true;
-			if($docpath && file_exists($file)){
-				$content = file_get_contents($file);
-				if(json_encode($content) == 'null'){
-					$content = mb_convert_encoding($content, 'utf-8', 'gbk');
-				}
-				$newfile = false;
-			}
-			if(!$docpath){
-				$docpath = '?set a new file name?.md';
-			}
-			include_once PLUGINS_DIR."/Editor/Editor.html";
-			die();
-		}
 
-		if(isset($_GET['rm'])) {
-			$file = urldecode($_GET['rm']);
-			
-			if(!unlink($file)) $this->die_info('删除出错，请重新删除或手动删除');
-		}
-
-		if(isset($_POST['docpath']) && isset($_POST['editortext'])) {
-			$newfile = $_POST['newfile'] == 'true';
-			$name = DIRECTORY_SEPARATOR == '\\' ? iconv('utf-8', 'gbk', $_POST['docpath']) : $_POST['docpath'];
-			$name = preg_replace('/[\<\>\*\?]/m','_',$name);
-			$file = ROOT_DIR.CONTENTS_DIR.'/'.$name;
-			$dirname = dirname($file);
-			if($newfile){
-				if(file_exists($file)){
-					$this->die_info("<script>alert(\'已经有同名文档 “".$name."” 了，请换个名字保存！\');window.location.href=\'?edit\';</script>");
-				}
-				$this->mkdir($dirname);
-			}
-			$res = file_put_contents($file, $_POST['editortext']);
-			echo "<script>localStorage.text='';</script>";
-			if(!$res) $this->die_info('文章保存失败');
-		}
+        if(isset($_GET['edit']))
+            return $this->editor($_GET['edit']);
+        else if(isset($_GET['rm']))
+            return $this->remove(urldecode($_GET['rm']));
+        else if(isset($_POST['slug']) && isset($_POST['content']))
+            return $this->save($_POST);
 	}
+    function save($post) {
+        $filepath = $post['file'];
+        unset($post['file']);
+        if($post['template'] == "") $post['template'] = $post['type'].".html";
+
+        $text = "";
+        foreach($post as $k => $v) {
+            if(is_array($v)) $v = implode(', ', $v);
+            if($k != 'content') $text .= "$k: $v  ".PHP_EOL;
+        }
+        $text .= $post['content'];
+
+        if($filepath == "") {
+            $filename = DIRECTORY_SEPARATOR == '\\' ? iconv('utf-8', 'gbk', $post['slug']) : $post['slug'];
+            $filename = preg_replace('/[\<\>\*\?]/m','_', $filename);
+            $filepath = ROOT_DIR.CONTENTS_DIR."/$filename.md";
+            $this->mkdir(dirname($filepath));   
+        } else {
+            $filepath = DIRECTORY_SEPARATOR == '\\' ? iconv('utf-8', 'gbk', $filepath) : $filepath;
+            $filepath = ROOT_DIR.CONTENTS_DIR."/$filepath";
+        }
+        $res = file_put_contents($filepath, $text);  
+        if($res) echo "<script>localStorage.PMBLOG_POST='';</script>";
+        else die("save faile, please try again!");
+    }
+    function remove($file) {
+        $path = ROOT_DIR.CONTENTS_DIR."/$file";
+        if(!unlink($file)) die("删除出错请重新删除");
+    }
+    function editor($file = "") {
+        $path = ROOT_DIR.CONTENTS_DIR.'/'.urldecode($file);
+        if($file != "" && file_exists($path)) {
+            include ROOT_DIR."/var/parse.php";
+            $content = new parse($path);
+            $post = array(
+                "title" => $content->title(),
+                "tags" => $content->tags(),
+                "slug" => str_replace(".html", "", $content->url()),
+                "categories" => $this->category($file, $content->categories()),
+                "content" => trim(preg_replace('/^(slug|title|tags|status|date|type|template|category):.*/im', '', $content->text)),
+                "type" => $content->type(),
+                "template" => $content->tmp(),
+                "date" => $content->date(),
+                "status" => $content->status()!=1?'public':'draft'
+            );
+        }
+        include PLUGINS_DIR."/Editor/Editor.html";
+        die();
+    }
+    function category($path, $categories){
+        if(json_encode($path) == null) 
+            $path = mb_convert_encoding($path, 'utf-8', 'gbk');
+        $dirname = str_replace(ROOT_DIR.CONTENTS_DIR, '', dirname($path).'/');
+        $dirname = explode('/', $dirname);
+        $dirname = array_filter($dirname);
+        if($categories[0] != 'unclassified') {
+            $categories = array_merge($categories, $dirname);
+        } else if(!empty($dirname)) $categories = $dirname;
+        return $categories;
+    }
 
 	function after_get_contents(&$data) {
 		$post = array_merge($data['post'], $this->hidden_posts['post']);
@@ -72,7 +96,8 @@ class Editor {
 		}
 	}
 
-	function get_hidden_post_meta(&$post) {
+	function get_hidden_post_meta(&$post) 
+	{
 		$hidden = array(
 			'type'=>$post->type(),
 			'docpath'=>$post->doc(),
@@ -85,11 +110,13 @@ class Editor {
 		
 		$this->hidden_posts[$hidden['type']][] = $hidden;
 	}
-	function die_info ( $value='')
+
+	function DieInfo ( $value='')
 	{
 		$html = "<!DOCTYPE html><html><head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"/></head><body><div>{$value}</div></body></html>";
 		die($html);
 	}
+
 	function mkdir($path)
 	{
 		return is_writeable($path) || mkdir($path, 0777, true);

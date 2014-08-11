@@ -1,281 +1,140 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<title>撰写文档</title>
-		<meta http-equiv="content-type" content="text/html; charset=utf-8">
-		<link rel="stylesheet" type="text/css" href="<?php echo PLUGINS_DIR; ?>/Editor/res/style.css" />
-		<link rel="stylesheet" tyle="text/css" href="<?php echo PLUGINS_DIR; ?>/Editor/res/code.css" />		
-		<script type="text/javascript" src="<?php echo PLUGINS_DIR; ?>/Editor/res/Markdown.Converter.js"></script>
-		<script type="text/javascript" src="<?php echo PLUGINS_DIR; ?>/Editor/res/Markdown.Sanitizer.js"></script>
-		<script type="text/javascript" src="<?php echo PLUGINS_DIR; ?>/Editor/res/Markdown.Editor.js"></script>
-		<script type="text/javascript" src="<?php echo PLUGINS_DIR; ?>/Editor/res/prettify.js"></script>
-	</head>
-	<body>
-		<div id="main">			
-			<form id="form" name="form" method="POST" action="index.php">
-				<div id="mainGroup">
-					<h1>撰写文档</h1>
-					<p><input type="text" id="title" name="title" value="" required /></p>
-					<p>
-						<label for="name" title="保存文件名不建议使用中文">文件名不建议使用中文:
-						<input type="text" title="保存文件名不建议使用中文" id="docpath" name="docpath" pattern="[^\<\>\*\?]+" value="<?php echo $docpath; ?>" required <?php echo $newfile?'':'readonly'; ?> />（不得使用部分半角符号如?<>*）</label>
-					</p>
-					<div id="wmd-button-bar"></div>
-					<p><textarea class="wmd-input" id="wmd-input" name="content"></textarea></p>
-					<div>
-						<span id="autosave"></span>
-						<span id="saveButton">
-							<label for="draft" >草稿</label>
-							<input type="checkbox" id="draft" name="draft" value="draft" />
-							<input type="button" id="cancel" name="cancel" value="回档" />
-							<input type="submit" id="submitPublish" name="submitPublish" value="保存" />
-							<input type="hidden" id="newfile" name="newfile" value="<?php echo $newfile?'true':'false'; ?>" />
-						</span>
-					</div>
-				</div>
-				<div id="previewGroup">
-					<div id="wmd-preview" class="wmd-preview"></div>
-				</div>
-				<div id="metaGroup">
-					<section class="option post page">
-						<label>类型</label>
-						<p class="border">
-							<label for="type_post">文章</label>
-							<input type="radio" value="post" id="type_post" name="type" />
-							<label for="type_page">页面</label>
-							<input type="radio" value="page" id="type_page" name="type" />
-						</p>
-					</section>
-					<section class="option post page">
-						<label for="date">发布日期</label>
-						<p><input type="text" value="" id="date" name="date" /></p>
-					</section>
-					<section class="option post">
-						<label for="categories">分类（请使用英文逗号,分隔）</label>
-						<p><input type="text" value="" id="categories" name="categories" /></p>
-					</section>
-					<section class="option post">
-						<label for="tags">标签（请使用英文逗号,分隔）</label>
-						<p><input type="text" value="" id="tags" name="tags" /></p>
-					</section>
-					<section class="option page post">
-						<label for="template">模板</label>
-						<p><input type="text" value="" id="template" name="template" /></p>
-					</section>
-				</div>
-				<textarea id="editortext" name="editortext"><?php echo $content; ?></textarea>
-			</form>
-		</div>
-<script type="text/javascript">	
-var isNew = !byId('docpath').readOnly,
-source = byId('editortext').value,
-lsKey = 'text' + (isNew ? '' : ('_' + byId('docpath').value));
-if(localStorage[lsKey]) byId('editortext').value = localStorage[lsKey];
-splitText();
-bindEditMode();
-bindMarkdown();
-addListener(byId('form'),'submit',checkName);
-addListener(byId('cancel'),'click',goBack);
-addListener(byId('docpath'),'keydown',inputNameSize);
-each(byName('type'),function (item) {
-	addListener(item,'click',bindTypeClick)
-});
+<head>
+    <title>PMBlog</title>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <link rel="stylesheet" type="text/css" href="<?php echo PLUGINS_DIR; ?>/Editor/res/style.css">
+    <link rel="stylesheet" tyle="text/css" href="<?php echo PLUGINS_DIR; ?>/Editor/res/code.css" />     
+    <script type="text/javascript" src="<?php echo PLUGINS_DIR; ?>/Editor/res/Markdown.Converter.js"></script>
+    <script type="text/javascript" src="<?php echo PLUGINS_DIR; ?>/Editor/res/Markdown.Sanitizer.js"></script>
+    <script type="text/javascript" src="<?php echo PLUGINS_DIR; ?>/Editor/res/Markdown.Editor.js"></script>
+    <script type="text/javascript" src="<?php echo PLUGINS_DIR; ?>/Editor/res/prettify.js"></script>
+    <script src="<?php echo PLUGINS_DIR; ?>/Editor/res/jQuery.js"></script> 
+    <script src="<?php echo PLUGINS_DIR; ?>/Editor/res/jQuery-ui.js"></script>
+    <script src="<?php echo PLUGINS_DIR; ?>/Editor/res/timepicker.js"></script>
+    <script type="text/javascript">
+    $(document).ready(function() {
+        // 日期时间控件
+        $('#date').datetimepicker({
+            currentText     :   '现在',
+            prevText        :   '上一月',
+            nextText        :   '下一月',
+            monthNames      :   ['一月', '二月', '三月', '四月',
+                '五月', '六月', '七月', '八月',
+                '九月', '十月', '十一月', '十二月'],
+            dayNames        :   ['星期日', '星期一', '星期二',
+                '星期三', '星期四', '星期五', '星期六'],
+            dayNamesShort   :   ['周日', '周一', '周二', '周三',
+                '周四', '周五', '周六'],
+            dayNamesMin     :   ['日', '一', '二', '三',
+                '四', '五', '六'],
+            closeText       :   '完成',
+            timeOnlyTitle   :   '选择时间',
+            timeText        :   '时间',
+            hourText        :   '时',
+            amNames         :   ['上午', 'A'],
+            pmNames         :   ['下午', 'P'],
+            minuteText      :   '分',
+            secondText      :   '秒',
 
-
-
-
-//sweet suger...
-function query(name) {
-	return document.querySelector(name);
-}
-function queryAll(name) {
-	return document.querySelectorAll(name);
-}
-function byId(name) {
-	return document.getElementById(name);
-}
-function byName(name) {
-	return document.getElementsByName(name);
-}
-function byTag(name) {
-	return document.getElementsByTagName(name);
-}
-function addListener(element,e,fn){
-	if(element.addEventListener){
-		element.addEventListener(e,fn,false)
-	} else {
-		element.attachEvent("on" + e,fn)
-	}
-}
-function each(obj, iterator, context) {
-	var nativeForEach = Array.prototype.forEach;
-	var breaker = {}
-	if (obj == null) return;
-	if (nativeForEach && obj.forEach === nativeForEach) {
-		obj.forEach(iterator, context);
-	} else if (obj.length === +obj.length) {
-		for (var i = 0, length = obj.length; i < length; i++) {
-			if (iterator.call(context, obj[i], i, obj) === breaker) return;
-		}
-	} else {
-		var keys = _.keys(obj);
-		for (var i = 0, length = keys.length; i < length; i++) {
-			if (iterator.call(context, obj[keys[i]], keys[i], obj) === breaker) return;
-		}
-	}
-}
-function trim(str) {
-	return str.replace(/(^[\s\t\n]*)|([\s\t\n]*$)/g,'');;
-}
-//回到初始数据
-function goBack() {
-	if(confirm('确认放弃本次修改并回档？')){
-		localStorage[lsKey] = '';
-		byId('editortext').value = source;
-		splitText();
-	}
-}
-//输入框长度
-function inputNameSize() {
-	var $name = byId('docpath')
-		$div = document.createElement('div');
-	;
-	
-	$name.style.width = ($name.value.length + 3 )/2*1.06 + 'em';
-}
-
-//自动保存
-function autoSave() {
-	joinText();
-	localStorage[lsKey] = byId('editortext').value;
-	var as = byId('autosave');
-	as.innerHTML = (isNew ? "新" : "当前") + (byId('type_post').checked ? '文章' : '页面') + "已自动保存";
-	as.style.display = 'block';
-	setTimeout(function() {
-		as.style.display = 'none';
-	}, 1500);
-	return true;
-}
-
-//编辑/新建模式
-function bindEditMode() {
-	byTag('h1')[0].innerHTML = (isNew ? "新建" : "编辑") + (byId('type_post').checked ? '文章' : '页面');
-}
-
-//代码高亮
-function prettify() {
-	var pre = byTag('pre');
-	for(i=0,l=pre.length;i<l;i++) {
-		if(pre[i].className.indexOf('prettyprint') == -1) 
-		pre[i].className += ' prettyprint'
-	}
-	prettyPrint()
-}
-
-//markdown功能
-function bindMarkdown() {
-	var converter = Markdown.getSanitizingConverter();
-	converter.hooks.chain("preBlockGamut", function (text, rbg) {
-		return text.replace(/^ {0,3}""" *\n((?:.*?\n)+?) {0,3}""" *$/gm, function (whole, inner) {
-			return "<blockquote>" + rbg(inner) + "</blockquote>\n"
-		})
-	});
-	var editor = new Markdown.Editor(converter);
-	editor.run()
-}
-
-//提交前验证
-function checkName() {
-	var $name = byId('docpath'),name = $name.value;
-	if(!name || /[\<\>\*\?]/gi.test(name)){
-		alert('文件名留空或者使用了非法字符，请重新填写！');
-		$name.focus();
-		return false
-	}
-	joinText();
-	return true
-}
-
-//绑定类型
-function bindTypeClick(first_argument) {
-	var isPost = byId('type_post').checked,
-	value = isPost ? 'post' : 'page';
-	bindEditMode();
-	each(queryAll('section'),function (item) {
-		if(item.className.indexOf(value) > 0){
-			item.style.display = 'block';
-		}else{
-			item.style.display = 'none';
-		}
-	});
-}
-
-//分解文章内容
-function splitText() {
-	var article = byId('editortext').value;
-	function r(re) {
-		var t = re.exec(article);
-		return t?t[1]:'';
-	}
-	var retval = {};
-	//retval.text = article.replace(/[\n]*(title|status|tags|date|type|template|category|custom-.*):[^\n]*\n+/ig, '');
-	retval.text = trim(article.replace(/[\n]*(title|status|tags|date|type|template|category):[^\n]*\n*/ig, '').replace(/[\n]+#([^#\n]*)\s*/ig, ''));
-	retval.title = trim(r(/^title\:(.*)\s*/im));
-	if(!retval.title){
-		if((article.match(/^#([^#\n]+)/img)||[]).length===1){
-			retval.title = trim(r(/^#([^#\n]+)\s*/im));
-			retval.text = retval.text.replace(/^#([^#\n]+)\s*/im, '');
-		}
-	}
-	retval.date = trim(r(/^date\:(.*)\s*/im));
-	retval.status = trim(r(/^status\:(.*)\s*/im)) !== 'draft';
-	retval.categories = trim(r(/^category\:(.*)\s*/im));
-	retval.tags = trim(r(/^tags\:(.*)\s*/im));
-	retval.type = trim(r(/^type\:(.*)\s*/im));
-	if(retval.type !== 'page'){retval.type = 'post'}
-	retval.template = r(/^template\:(.*)\s*/im);
-	/*
-	retval.custom = {};
-	var custom, custom_re = /^custom-(.*?):(.*?)$/igm;
-	while((custom = custom_re.exec(article)) != null){
-		retval.custom[custom[1]] = custom[2]
-	}
-	*/
-	byId('wmd-input').value = retval.text;
-	byId('title').value = retval.title;
-	byId('date').value = retval.date;
-	
-	byId('draft').checked = !retval.status;
-	byId('categories').value = retval.categories;
-	byId('tags').value = retval.tags;
-	byId('template').value = retval.template;
-	var $type = byName('type');
-	each($type,function (value) {
-		value.checked = value.value == retval.type;
-	});
-	bindTypeClick();
-	inputNameSize();
-	this.a=retval;
-	//return retval
-}
-//合并文章内容
-function joinText() {
-	var retval = ['title:' + byId('title').value], t;
-	if(byId('type_page').checked)retval.push('type:page');
-	if(t=trim(byId('date').value))retval.push('date:' + t);
-	if(t=trim(byId('categories').value))retval.push('category:' +t);
-	if(t=trim(byId('tags').value))retval.push('tags:' + t);
-	if(t=trim(byId('template').value))retval.push('template:' + t);
-	if(byId('draft').checked)retval.push('status:draft');
-	retval.push(trim(byId('wmd-input').value));
-	byId('editortext').value =( retval.join('\n'));
-	//return retval
-}
-
-
-setInterval("prettify()", 10);
-setInterval("autoSave()", 15000);
-
-</script>
-	</body>
+            dateFormat      :   'yy-mm-dd',
+            hour            :   (new Date()).getHours(),
+            minute          :   (new Date()).getMinutes()
+        });
+    })
+    </script> 
+</head>
+<body>
+<form method="post" action="?save" id="editor-form" onsubmit="submitCheck();">
+<input type="hidden" name="file" value="<?php if($_GET['edit'] != '') echo DIRECTORY_SEPARATOR == '\\' ? iconv('gbk', 'utf-8', urldecode($_GET['edit'])) : urldecode($_GET['edit']); ?>">
+<div id="writer">
+    <div id="writer-header">
+        <div class="row">
+            <div class="column">
+                <input name="title" type="text" class="input-lg" role="form-title" id="title" value="<?php if(isset($post['title'])) echo $post['title']; ?>" placeholder="标题" autocomplete="off">
+            </div>
+            <div class="column write-tags">
+                <ul class="tag-list">
+                    <li class="label">标签</li>
+                    <?php if(isset($post['tags'])): ?>
+                        <?php foreach($post['tags'] as $tag): ?>
+                            <li class="attached">
+                                <span><?php echo $tag; ?></span><a href="#" class="i-cancel" title="删除">✖</a><input type="hidden" name="tags[]" value="<?php echo $tag; ?>" role="form-tags">
+                            </li>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
+                    <li class="add-tag">
+                        <input name="" type="text" class="input-lg" id="tags" autocomplete="off">
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="row">
+            <div class="column write-url">
+                <span class="base-url">imnerd.org/</span>
+                <input name="slug" type="text" class="input-lg" id="slug" value="<?php if(isset($post['slug'])) echo $post['slug']; ?>" autocomplete="off" role="form-slug">
+                <span class="postfix">.html</span>
+            </div>
+            <div class="column write-categories">
+                <ul class="category-list">
+                    <li class="label">分类</li>
+                    <?php if(isset($post['categories'])): ?>
+                        <?php foreach($post['categories'] as $category): ?>
+                            <li class="attached">
+                                <span><?php echo $category; ?></span><a href="#" class="i-cancel" title="删除">✖</a><input type="hidden" name="category[]" value="<?php echo $category; ?>" role="form-categories">
+                            </li>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
+                    <li class="add-category">
+                        <input name="" type="text" class="input-lg" id="categories" autocomplete="off">
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div id="writer-body" class="row">
+        <div class="column write-content">
+            <div id="wmd-button-bar"></div>
+            <textarea class="wmd-input" role="form-content" id="wmd-input" name="content"><?php if(isset($post['content'])) echo $post['content']; ?></textarea>
+        </div>
+        <div id="wmd-preview" class="column">
+        </div>
+    </div>
+    <div class="row" style="padding-top:5px;">
+        <div id="writer-footer">
+            <div class="column option">
+                <section class="option page post">
+                    <label for="template">模板</label>
+                    <input type="text" value="<?php if(isset($post['template'])) echo $post['template']; ?>" id="template" name="template" role="form-template">
+                </section>
+                <section class="radio-option">
+                    <label>类型</label>
+                    <span class="border">
+                        <?php $type = isset($post['type']) ? $post['type'] : 'post'; ?>
+                        <input type="radio" value="post" id="type_post" role="form-radio" name="type"<?php if($type=="post") echo " checked"; ?>>
+                        <span class="radio-label">文章</span>
+                        <input type="radio" value="page" id="type_page" role="form-radio" name="type"<?php if($type=="page") echo " checked"; ?>>
+                        <span class="radio-label">页面</span>
+                    </span>
+                </section>
+            </div>
+            <div class="column">
+                <section class="option post page">
+                    <label for="date">发布日期</label>
+                    <input type="text" value="<?php if(isset($post['date'])) echo date('Y-m-d H:i:s', $post['date']); ?>" id="date" name="date" role="form-date">
+                </section>
+                <span class="btns">
+                    <?php $status = isset($post['status']) ? $post['status'] : 'public'; ?>
+                    <input type="hidden" name="status" value="<?php echo $status; ?>">
+                    <button onclick="document.querySelector('input[name=status]').value='draft'">保存草稿</button>
+                    <button onclick="document.querySelector('input[name=status]').value='public'">发布文章</button>
+                </span>
+                <span id="auto-save" style="display: none;"></span>
+            </div>
+        </div>
+    </div>
+</div>
+</form>
+<script type="text/javascript" src="<?php echo PLUGINS_DIR; ?>/Editor/res/main.js"></script>
+</body>
 </html>
