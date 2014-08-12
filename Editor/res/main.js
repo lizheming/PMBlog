@@ -144,3 +144,61 @@ window.onresize = function() {
     document.querySelector("#writer-body textarea").style.height = nh - 70 +"px";
 }
 window.onresize();
+// 粘贴上传图片
+document.querySelector("#wmd-input").addEventListener('paste', function(e) {
+    var clipboard = e.clipboardData;
+    for(var i=0,len=clipboard.items.length; i<len; i++) {
+        if(clipboard.items[i].kind == 'file' || clipboard.items[i].type.indexOf('image') > -1) {
+            var imageFile = clipboard.items[i].getAsFile();
+            var form = new FormData;
+            form.append('mypic', imageFile);
+            $.ajax({
+                url: "//iphoto.sinaapp.com/upload.php",
+                type: "POST",
+                data: form,
+                processData: false,
+                contentType: false,
+                success: function(d) {
+                    var url = JSON.parse(d).url;
+                    document.querySelector("#wmd-image-button").click();
+                    setTimeout(function(){
+                        document.querySelector(".wmd-prompt-dialog input[type=text]").value = url;
+                        document.querySelector(".wmd-prompt-dialog input[type=button]").click();
+                    }, 500);
+                }
+            })
+            e.preventDefault();
+        }
+    }
+});
+// 拖拽上传
+document.addEventListener("dragleave", function(e){e.preventDefault()});
+document.addEventListener("drop", function(e){e.preventDefault()});
+document.addEventListener("dragenter", function(e){e.preventDefault()});
+document.addEventListener("dragover", function(e){e.preventDefault()});
+document.querySelector("#wmd-input").addEventListener("drop", function(e) {
+    e.preventDefault();
+    var FileList = e.dataTransfer.files;
+    if(FileList.length != 1) return false;
+    var file = FileList[0];
+    if(file.type.indexOf('image') === -1) return false;
+
+    var form = new FormData;
+    form.append('mypic', file);
+    $.ajax({
+        url: "//iphoto.sinaapp.com/upload.php",
+        type: "POST",
+        data: form,
+        processData: false,
+        contentType: false,
+        success: function(d) {
+            var url = JSON.parse(d).url;
+            document.querySelector("#wmd-image-button").click();
+            setTimeout(function(){
+                document.querySelector(".wmd-prompt-dialog input[type=text]").value = url;
+                document.querySelector(".wmd-prompt-dialog input[type=button]").click();
+            }, 500);
+        }
+    })
+
+})
