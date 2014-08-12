@@ -19,8 +19,8 @@ class Twig_Loader_Filesystem implements Twig_LoaderInterface, Twig_ExistsLoaderI
     /** Identifier of the main namespace. */
     const MAIN_NAMESPACE = '__main__';
 
-    protected $paths;
-    protected $cache;
+    protected $paths = array();
+    protected $cache = array();
     protected $errorCache;
 
     /**
@@ -178,17 +178,9 @@ class Twig_Loader_Filesystem implements Twig_LoaderInterface, Twig_ExistsLoaderI
             return false;
         }
 
-        $namespace = self::MAIN_NAMESPACE;
-        $shortname = $name;
-        if (isset($name[0]) && '@' == $name[0]) {
-            if (false === $pos = strpos($name, '/')) {
-                $this->errorCache[$name] = sprintf('Malformed namespaced template name "%s" (expecting "@namespace/template_name").', $name);
-
-                return false;
-            }
-
-            $namespace = substr($name, 1, $pos - 1);
-            $shortname = substr($name, $pos + 1);
+        list($namespace, $shortname) = $this->parseName($name);
+        if (false === $namespace) {
+            return false;
         }
 
         if (!isset($this->paths[$namespace])) {
@@ -212,7 +204,25 @@ class Twig_Loader_Filesystem implements Twig_LoaderInterface, Twig_ExistsLoaderI
 
     protected function normalizeName($name)
     {
-        return preg_replace('#/{2,}#', '/', strtr((string) $name, '\\', '/'));
+        return preg_replace('#/{2,}#', '/', strtr($name, '\\', '/'));
+    }
+
+    protected function parseName($name, $default = self::MAIN_NAMESPACE)
+    {
+        if (isset($name[0]) && '@' == $name[0]) {
+            if (false === $pos = strpos($name, '/')) {
+                $this->errorCache[$name] = sprintf('Malformed namespaced template name "%s" (expecting "@namespace/template_name").', $name);
+
+                return array(false, false);
+            }
+
+            $namespace = substr($name, 1, $pos - 1);
+            $shortname = substr($name, $pos + 1);
+
+            return array($namespace, $shortname);
+        }
+
+        return array($default, $name);
     }
 
     protected function validateName($name)
