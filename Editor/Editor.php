@@ -80,7 +80,7 @@ class Editor {
         $dirname = array_filter($dirname, create_function('$v', 'return $v && v==".";'));
         if($categories[0] != 'unclassified') {
             $categories = array_merge($categories, $dirname);
-        } else if(!empty($dirname)) $categories = $dirname;
+        } else $categories = empty($dirname) ? array() : $dirname;
         return $categories;
     }
 
