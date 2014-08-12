@@ -16,8 +16,8 @@ function submitCheck() {
     justifySlug.style.width = "auto";
     justifySlug.style.fontSize = "18px";
     slug.parentNode.appendChild(justifySlug);
-    slug.addEventListener("input", justifySlugWidth, false);
     justifySlugWidth();
+    slug.addEventListener("input", justifySlugWidth, false);
 })();
 function justifySlugWidth() {
     var slug = document.querySelector("#slug");
@@ -39,6 +39,7 @@ function justifySlugWidth() {
     slug.style.width = justifySlug.offsetWidth+'px';
     justifySlug.style.display = "none";
 }
+justifySlugWidth();
 function addTag(inp) {
     if(inp.value == "") return false;
     var o = inp.parentNode.outerHTML;

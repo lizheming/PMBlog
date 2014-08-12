@@ -77,7 +77,7 @@ class Editor {
             $path = mb_convert_encoding($path, 'utf-8', 'gbk');
         $dirname = str_replace(ROOT_DIR.CONTENTS_DIR, '', dirname($path).'/');
         $dirname = explode('/', $dirname);
-        $dirname = array_filter($dirname);
+        $dirname = array_filter($dirname, create_function('$v', 'return $v && v==".";'));
         if($categories[0] != 'unclassified') {
             $categories = array_merge($categories, $dirname);
         } else if(!empty($dirname)) $categories = $dirname;
