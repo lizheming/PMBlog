@@ -6,11 +6,11 @@ date_default_timezone_set('Asia/Shanghai');
  * @author lizheming
  * @link http://github.com/lizheming/PMBlog
  * @license http://opensource.org/licenses/MIT
- * @version 4.0
+ * @version 4.1
  */
 class PMBlog {
     private $plugins, $site;
-    public static $version = 4.0;
+    public static $version = 4.1;
 
     public function __construct() 
     {    
