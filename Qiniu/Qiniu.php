@@ -72,7 +72,7 @@ class Qiniu {
         curl_multi_close($mh);
     }
 
-    public function push($fielname, $filepath) {
+    public function push($filename, $filepath) {
         $curl = curl_init('http://upload.qiniu.com/');
         curl_setopt($curl, CURLOPT_POSTFIELDS, array(
             "key" => $filename,
