@@ -52,6 +52,16 @@ class Qiniu {
         $arr = array('index.html', 'rss.xml', 'atom.xml');
         foreach($arr as $item) $this->push($item, $this->directory."/$item");
 
+        if(is_dir($this->directory."/tag")) {
+            foreach(PMBlog::get_files($this->directory."/tag") as $item) {
+                $this->push(str_replace($this->directory, "", $item), $item);
+            }
+        }
+        if(is_dir($this->directory."/category")) {
+            foreach(PMBlog::get_files($this->directory."/category") as $item)
+                $this->push(str_replace($this->directory, "", $item), $item);
+        }
+
         $mh = curl_multi_init();
         foreach($this->requests as $request) curl_multi_add_handle($mh, $request);
         $running = null;
@@ -70,7 +80,7 @@ class Qiniu {
             "file" => $this->curl_file_create(realpath($filepath))
         ));
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($curl, CURLOPT_HTTPHEADER, ["content-type: multipart/form-data"]);
+        curl_setopt($curl, CURLOPT_HTTPHEADER, array("content-type: multipart/form-data"));
         curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
         curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
         $this->requests[] = $curl;
