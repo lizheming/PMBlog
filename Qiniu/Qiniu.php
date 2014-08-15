@@ -41,7 +41,7 @@ class Qiniu {
         if(isset($posts['page_url'])) {
             $filename = $this->filename($posts['page_url']);
             $this->push($filename, $file);
-            $this->push($fielname."/index.html", $file);
+            $this->push($filename."/index.html", $file);
         } else {
             $this->push($this->filename($posts['url']), $file);
             if(is_dir($file)) $this->push($this->filename($posts['url']."/index.html"), $file);
