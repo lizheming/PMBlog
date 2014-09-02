@@ -6,10 +6,12 @@ date_default_timezone_set('Asia/Shanghai');
  * @author lizheming
  * @link http://github.com/lizheming/PMBlog
  * @license http://opensource.org/licenses/MIT
- * @version 4.1
+ * @version 4.2 alpha
  */
 class PMBlog {
+    
     private $plugins, $site;
+    private $configs = array();
     public static $version = 4.1;
 
     public function __construct() 
@@ -18,6 +20,8 @@ class PMBlog {
         
         //Load Plugins
         $this->load_plugins();
+        $this->run_hooks('create_config', array(array($this, 'create_config')));
+        $this->create_config_files();
         $this->run_hooks('plugins_loaded');
 
         //Load the settings
@@ -364,6 +368,43 @@ class PMBlog {
             )
         );
         return $site;
+    }
+    public function create_config($plugin, $name, $def = null, $static = false, $description = ''){
+        if(!array_key_exists($plugin, $this->configs)){
+            $this->configs[$plugin] = array();
+        }
+        if(is_string($static)){
+            $description = $static;
+            $static = false;
+        }
+        $text = '$' . $name . ' = ';
+        if(is_null($def)){
+            $text = $text . 'null';
+        } else if($static){
+            $text = $text . $def;
+        } else if(is_numeric($def)){
+            $text = $text . $def;
+        } else if(is_bool($def)){
+            $text = $text . ($def ? 'true' : 'false');
+        } else {
+            $text = $text . '\'' . $def .  '\'';
+        }
+        $text = $text . ';       // ' . $description;
+        array_push($this->configs[$plugin], $text);
+    }
+    private function create_config_files ()
+    {
+        $configpath = ROOT_DIR.CONFIGS_DIR.'/';
+        is_writeable($configpath) || mkdir($configpath, 0777, true);
+        foreach($this->configs as $name => $config){
+            $file = $configpath . $name . '.php';
+            if(file_exists($file)){
+                continue;
+            }
+            $text = '<?php' .PHP_EOL;
+            $text = $text . implode(PHP_EOL ,$config) . PHP_EOL;
+            file_put_contents($file, $text);
+        }
     }
 }
 

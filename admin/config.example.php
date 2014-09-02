@@ -15,3 +15,4 @@ define('ROOT_DIR', realpath(dirname(__FILE__)).'/');	//Set ROOT Dir, please don'
 define('CONTENTS_DIR', 'usr/contents');					//Set name for Markdown document
 define('THEMES_DIR', 'usr/themes');						//Set name for Theme document
 define('PLUGINS_DIR', 'usr/plugins');					//Set name for Plugin document 
+define('CONFIGS_DIR', 'usr/configs');					//Set name for Plugin document 
