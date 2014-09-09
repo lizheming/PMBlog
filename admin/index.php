@@ -386,6 +386,8 @@ class PMBlog {
             $text = $text . $def;
         } else if(is_bool($def)){
             $text = $text . ($def ? 'true' : 'false');
+        } else if(is_array($def)){
+            $text = $text . str_replace(" ", '', str_replace("\n", '', var_export($def, 1)));
         } else {
             $text = $text . '\'' . $def .  '\'';
         }
